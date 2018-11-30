@@ -23,6 +23,7 @@ The requirements for r-efi are:
 
 ## License
 
-Apache Software License 2.0
-Lesser General Public License 2.1+
+ * Apache Software License 2.0
+ * Lesser General Public License 2.1+
+
 See AUTHORS for details.
