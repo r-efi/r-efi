@@ -122,12 +122,50 @@ compile_error!("The target architecture is not supported.");
 #[cfg(not(any(target_endian = "little")))]
 compile_error!("The target endianness is not supported.");
 
+// eficall_arch!()
+//
+// This macro is the architecture-dependent implementation of eficall!(). See the documentation of
+// the eficall!() macro for a description. We need to split the exported wrapper from the internal
+// backend to make rustdoc attach to the right symbol.
+
+#[cfg(target_arch = "arm")]
+macro_rules! eficall_arch {
+    (fn $in:tt $(-> $out:ty)?) => { extern "aapcs" fn $in $( -> $out )? };
+}
+
+// XXX: Rust does not define aapcs64, yet. Once it does, we should switch to it, rather than
+//      referring to the system default.
+#[cfg(target_arch = "aarch64")]
+macro_rules! eficall_arch {
+    (fn $in:tt $(-> $out:ty)?) => { extern "C" fn $in $( -> $out )? };
+}
+
+#[cfg(target_arch = "x86")]
+macro_rules! eficall_arch {
+    (fn $in:tt $(-> $out:ty)?) => { extern "cdecl" fn $in $( -> $out )? };
+}
+
+#[cfg(target_arch = "x86_64")]
+macro_rules! eficall_arch {
+    (fn $in:tt $(-> $out:ty)?) => { extern "win64" fn $in $( -> $out )? };
+}
+
+#[cfg(not(any(target_arch = "arm",
+              target_arch = "aarch64",
+              target_arch = "x86",
+              target_arch = "x86_64")))]
+macro_rules! eficall_arch {
+    (fn $in:tt $(-> $out:ty)?) => { extern "C" fn $in $( -> $out )? };
+}
+
 /// Annotate function with UEFI calling convention
 ///
 /// This macro takes a function-declaration as argument and produces the same function-declaration
 /// but annotated with the correct calling convention. Since the default `extern "C"` annotation
 /// depends on your compiler defaults, we cannot use it. Instead, this macro selects the default
 /// for your target platform.
+///
+/// # Calling Conventions
 ///
 /// The UEFI specification defines the calling convention for each platform individually. It
 /// usually refers to other standards for details, but adds some restrictions on top. As of this
@@ -170,35 +208,9 @@ compile_error!("The target endianness is not supported.");
 /// target platform. Hence, we do not support variadics so far. Luckily, all of the UEFI functions
 /// that use variadics are wrappers around more low-level accessors, so they are not necessarily
 /// required.
-#[cfg(target_arch = "arm")]
 #[macro_export]
 macro_rules! eficall {
-    (fn $in:tt $(-> $out:ty)?) => { extern "aapcs" fn $in $( -> $out )? };
-}
-// XXX: Rust does not define aapcs64, yet. Once it does, we should switch to it, rather than
-//      referring to the system default.
-#[cfg(target_arch = "aarch64")]
-#[macro_export]
-macro_rules! eficall {
-    (fn $in:tt $(-> $out:ty)?) => { extern "C" fn $in $( -> $out )? };
-}
-#[cfg(target_arch = "x86")]
-#[macro_export]
-macro_rules! eficall {
-    (fn $in:tt $(-> $out:ty)?) => { extern "cdecl" fn $in $( -> $out )? };
-}
-#[cfg(target_arch = "x86_64")]
-#[macro_export]
-macro_rules! eficall {
-    (fn $in:tt $(-> $out:ty)?) => { extern "win64" fn $in $( -> $out )? };
-}
-#[cfg(not(any(target_arch = "arm",
-              target_arch = "aarch64",
-              target_arch = "x86",
-              target_arch = "x86_64")))]
-#[macro_export]
-macro_rules! eficall {
-    (fn $in:tt $(-> $out:ty)?) => { extern "C" fn $in $( -> $out )? };
+    ($($arg:tt)*) => { eficall_arch!($($arg)*) };
 }
 
 /// Boolean Type
