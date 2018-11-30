@@ -47,161 +47,165 @@
 extern crate core;
 
 // Import the different core modules. We separate them into different modules to make it easier to
-// work on them. This separation is private to this implementation. We export all symbols in a
-// global namespace below. The reason for this is that we want this module to be a 1-to-1 mapping
-// to the UEFI specification. We should not apply any policies on top, unless they are hidden in
-// our implementation.
-//
-// Thus, all base types and all symbols from the system definition are exported directly in the
-// crate root. This allows mirroring the entire UEFI namespace as given in the specification.
-//
-// Note that the individual protocols are put into submodules. The specification does this in most
-// parts as well (by prefixing all symbols). This is not true in all cases, as the specification
-// suffers from lack of namespaces in the reference C language. However, we decided to namespace
-// the remaining bits as well, for better consistency throughout the API.
+// work on them and describe what each part implements. This is different to the reference
+// implementation, which uses a flat namespace due to its origins in the C language. For
+// compatibility, we provide this flat namespace as well. See the `UEFI` submodule.
 #[macro_use]
-mod base;
+pub mod base;
 #[macro_use]
-mod system;
+pub mod system;
 
-//
-// Re-export base
-//
+/// Flat EFI Namespace
+///
+/// The EFI namespace re-exports all symbols in a single, flat namespace. This allows mirroring
+/// the entire EFI namespace as given in the specification and makes it easier to refer to them
+/// with the same names as the reference C implementation.
+///
+/// Note that the individual protocols are put into submodules. The specification does this in
+/// most parts as well (by prefixing all symbols). This is not true in all cases, as the
+/// specification suffers from lack of namespaces in the reference C language. However, we decided
+/// to namespace the remaining bits as well, for better consistency throughout the API. This
+/// should be self-explanatory in nearly all cases.
+pub mod efi {
+    //
+    // Re-export base
+    //
 
-pub use self::base::Boolean;
-pub use self::base::Char8;
-pub use self::base::Char16;
-pub use self::base::Guid;
-pub use self::base::Status;
-pub use self::base::Handle;
-pub use self::base::Event;
-pub use self::base::Lba;
-pub use self::base::Tpl;
-pub use self::base::PhysicalAddress;
-pub use self::base::VirtualAddress;
-pub use self::base::ImageEntryPoint;
+    pub use crate::base::Boolean;
+    pub use crate::base::Char8;
+    pub use crate::base::Char16;
+    pub use crate::base::Guid;
+    pub use crate::base::Status;
+    pub use crate::base::Handle;
+    pub use crate::base::Event;
+    pub use crate::base::Lba;
+    pub use crate::base::Tpl;
+    pub use crate::base::PhysicalAddress;
+    pub use crate::base::VirtualAddress;
+    pub use crate::base::ImageEntryPoint;
 
-//
-// Re-export system
-//
+    //
+    // Re-export system
+    //
 
-pub use self::system::TIME_ADJUST_DAYLIGHT;
-pub use self::system::TIME_IN_DAYLIGHT;
-pub use self::system::UNSPECIFIED_TIMEZONE;
-pub use self::system::Time;
-pub use self::system::TimeCapabilities;
+    pub use crate::system::TIME_ADJUST_DAYLIGHT;
+    pub use crate::system::TIME_IN_DAYLIGHT;
+    pub use crate::system::UNSPECIFIED_TIMEZONE;
+    pub use crate::system::Time;
+    pub use crate::system::TimeCapabilities;
 
-pub use self::system::VARIABLE_NON_VOLATILE;
-pub use self::system::VARIABLE_BOOTSERVICE_ACCESS;
-pub use self::system::VARIABLE_RUNTIME_ACCESS;
-pub use self::system::VARIABLE_HARDWARE_ERROR_RECORD;
-pub use self::system::VARIABLE_AUTHENTICATED_WRITE_ACCESS;
-pub use self::system::VARIABLE_TIME_BASED_AUTHENTICATED_WRITE_ACCESS;
-pub use self::system::VARIABLE_APPEND_WRITE;
-pub use self::system::VARIABLE_ENHANCED_AUTHENTICATED_ACCESS;
-pub use self::system::VARIABLE_AUTHENTICATION_3_CERT_ID_SHA256;
-pub use self::system::VariableAuthentication3CertId;
-pub use self::system::VariableAuthentication;
-pub use self::system::VariableAuthentication2;
-pub use self::system::VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE;
-pub use self::system::VARIABLE_AUTHENTICATION_3_NONCE_TYPE;
-pub use self::system::VariableAuthentication3;
-pub use self::system::VariableAuthentication3Nonce;
-pub use self::system::HARDWARE_ERROR_VARIABLE_GUID;
+    pub use crate::system::VARIABLE_NON_VOLATILE;
+    pub use crate::system::VARIABLE_BOOTSERVICE_ACCESS;
+    pub use crate::system::VARIABLE_RUNTIME_ACCESS;
+    pub use crate::system::VARIABLE_HARDWARE_ERROR_RECORD;
+    pub use crate::system::VARIABLE_AUTHENTICATED_WRITE_ACCESS;
+    pub use crate::system::VARIABLE_TIME_BASED_AUTHENTICATED_WRITE_ACCESS;
+    pub use crate::system::VARIABLE_APPEND_WRITE;
+    pub use crate::system::VARIABLE_ENHANCED_AUTHENTICATED_ACCESS;
+    pub use crate::system::VARIABLE_AUTHENTICATION_3_CERT_ID_SHA256;
+    pub use crate::system::VariableAuthentication3CertId;
+    pub use crate::system::VariableAuthentication;
+    pub use crate::system::VariableAuthentication2;
+    pub use crate::system::VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE;
+    pub use crate::system::VARIABLE_AUTHENTICATION_3_NONCE_TYPE;
+    pub use crate::system::VariableAuthentication3;
+    pub use crate::system::VariableAuthentication3Nonce;
+    pub use crate::system::HARDWARE_ERROR_VARIABLE_GUID;
 
-pub use self::system::OPTIONAL_POINTER;
+    pub use crate::system::OPTIONAL_POINTER;
 
-pub use self::system::ResetType;
+    pub use crate::system::ResetType;
 
-pub use self::system::CapsuleBlockDescriptorUnion;
-pub use self::system::CapsuleBlockDescriptor;
-pub use self::system::CAPSULE_FLAGS_PERSIST_ACROSS_RESET;
-pub use self::system::CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE;
-pub use self::system::CAPSULE_FLAGS_INITIATE_RESET;
-pub use self::system::CapsuleHeader;
-pub use self::system::OS_INDICATIONS_BOOT_TO_FW_UI;
-pub use self::system::OS_INDICATIONS_TIMESTAMP_REVOCATION;
-pub use self::system::OS_INDICATIONS_FILE_CAPSULE_DELIVERY_SUPPORTED;
-pub use self::system::OS_INDICATIONS_FMP_CAPSULE_SUPPORTED;
-pub use self::system::OS_INDICATIONS_CAPSULE_RESULT_VAR_SUPPORTED;
-pub use self::system::OS_INDICATIONS_START_OS_RECOVERY;
-pub use self::system::OS_INDICATIONS_START_PLATFORM_RECOVERY;
-pub use self::system::CAPSULE_REPORT_GUID;
-pub use self::system::CapsuleResultVariableHeader;
-pub use self::system::CapsuleResultVariableFMP;
+    pub use crate::system::CapsuleBlockDescriptorUnion;
+    pub use crate::system::CapsuleBlockDescriptor;
+    pub use crate::system::CAPSULE_FLAGS_PERSIST_ACROSS_RESET;
+    pub use crate::system::CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE;
+    pub use crate::system::CAPSULE_FLAGS_INITIATE_RESET;
+    pub use crate::system::CapsuleHeader;
+    pub use crate::system::OS_INDICATIONS_BOOT_TO_FW_UI;
+    pub use crate::system::OS_INDICATIONS_TIMESTAMP_REVOCATION;
+    pub use crate::system::OS_INDICATIONS_FILE_CAPSULE_DELIVERY_SUPPORTED;
+    pub use crate::system::OS_INDICATIONS_FMP_CAPSULE_SUPPORTED;
+    pub use crate::system::OS_INDICATIONS_CAPSULE_RESULT_VAR_SUPPORTED;
+    pub use crate::system::OS_INDICATIONS_START_OS_RECOVERY;
+    pub use crate::system::OS_INDICATIONS_START_PLATFORM_RECOVERY;
+    pub use crate::system::CAPSULE_REPORT_GUID;
+    pub use crate::system::CapsuleResultVariableHeader;
+    pub use crate::system::CapsuleResultVariableFMP;
 
-pub use self::system::EVT_TIMER;
-pub use self::system::EVT_RUNTIME;
-pub use self::system::EVT_NOTIFY_WAIT;
-pub use self::system::EVT_NOTIFY_SIGNAL;
-pub use self::system::EVT_SIGNAL_EXIT_BOOT_SERVICES;
-pub use self::system::EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE;
-pub use self::system::EventNotify;
-pub use self::system::EVENT_GROUP_EXIT_BOOT_SERVICES;
-pub use self::system::EVENT_GROUP_VIRTUAL_ADDRESS_CHANGE;
-pub use self::system::EVENT_GROUP_MEMORY_MAP_CHANGE;
-pub use self::system::EVENT_GROUP_READY_TO_BOOT;
-pub use self::system::EVENT_GROUP_RESET_SYSTEM;
-pub use self::system::TimerDelay;
-pub use self::system::TPL_APPLICATION;
-pub use self::system::TPL_CALLBACK;
-pub use self::system::TPL_NOTIFY;
-pub use self::system::TPL_HIGH_LEVEL;
+    pub use crate::system::EVT_TIMER;
+    pub use crate::system::EVT_RUNTIME;
+    pub use crate::system::EVT_NOTIFY_WAIT;
+    pub use crate::system::EVT_NOTIFY_SIGNAL;
+    pub use crate::system::EVT_SIGNAL_EXIT_BOOT_SERVICES;
+    pub use crate::system::EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE;
+    pub use crate::system::EventNotify;
+    pub use crate::system::EVENT_GROUP_EXIT_BOOT_SERVICES;
+    pub use crate::system::EVENT_GROUP_VIRTUAL_ADDRESS_CHANGE;
+    pub use crate::system::EVENT_GROUP_MEMORY_MAP_CHANGE;
+    pub use crate::system::EVENT_GROUP_READY_TO_BOOT;
+    pub use crate::system::EVENT_GROUP_RESET_SYSTEM;
+    pub use crate::system::TimerDelay;
+    pub use crate::system::TPL_APPLICATION;
+    pub use crate::system::TPL_CALLBACK;
+    pub use crate::system::TPL_NOTIFY;
+    pub use crate::system::TPL_HIGH_LEVEL;
 
-pub use self::system::AllocateType;
-pub use self::system::MemoryType;
-pub use self::system::MEMORY_UC;
-pub use self::system::MEMORY_WC;
-pub use self::system::MEMORY_WT;
-pub use self::system::MEMORY_WB;
-pub use self::system::MEMORY_UCE;
-pub use self::system::MEMORY_WP;
-pub use self::system::MEMORY_RP;
-pub use self::system::MEMORY_XP;
-pub use self::system::MEMORY_NV;
-pub use self::system::MEMORY_MORE_RELIABLE;
-pub use self::system::MEMORY_RO;
-pub use self::system::MEMORY_RUNTIME;
-pub use self::system::MEMORY_DESCRIPTOR_VERSION;
-pub use self::system::MemoryDescriptor;
+    pub use crate::system::AllocateType;
+    pub use crate::system::MemoryType;
+    pub use crate::system::MEMORY_UC;
+    pub use crate::system::MEMORY_WC;
+    pub use crate::system::MEMORY_WT;
+    pub use crate::system::MEMORY_WB;
+    pub use crate::system::MEMORY_UCE;
+    pub use crate::system::MEMORY_WP;
+    pub use crate::system::MEMORY_RP;
+    pub use crate::system::MEMORY_XP;
+    pub use crate::system::MEMORY_NV;
+    pub use crate::system::MEMORY_MORE_RELIABLE;
+    pub use crate::system::MEMORY_RO;
+    pub use crate::system::MEMORY_RUNTIME;
+    pub use crate::system::MEMORY_DESCRIPTOR_VERSION;
+    pub use crate::system::MemoryDescriptor;
 
-pub use self::system::InterfaceType;
-pub use self::system::LocateSearchType;
-pub use self::system::OPEN_PROTOCOL_BY_HANDLE_PROTOCOL;
-pub use self::system::OPEN_PROTOCOL_GET_PROTOCOL;
-pub use self::system::OPEN_PROTOCOL_TEST_PROTOCOL;
-pub use self::system::OPEN_PROTOCOL_BY_CHILD_CONTROLLER;
-pub use self::system::OPEN_PROTOCOL_BY_DRIVER;
-pub use self::system::OPEN_PROTOCOL_EXCLUSIVE;
-pub use self::system::OpenProtocolInformationEntry;
+    pub use crate::system::InterfaceType;
+    pub use crate::system::LocateSearchType;
+    pub use crate::system::OPEN_PROTOCOL_BY_HANDLE_PROTOCOL;
+    pub use crate::system::OPEN_PROTOCOL_GET_PROTOCOL;
+    pub use crate::system::OPEN_PROTOCOL_TEST_PROTOCOL;
+    pub use crate::system::OPEN_PROTOCOL_BY_CHILD_CONTROLLER;
+    pub use crate::system::OPEN_PROTOCOL_BY_DRIVER;
+    pub use crate::system::OPEN_PROTOCOL_EXCLUSIVE;
+    pub use crate::system::OpenProtocolInformationEntry;
 
-pub use self::system::ConfigurationTable;
-pub use self::system::PROPERTIES_TABLE_GUID;
-pub use self::system::PROPERTIES_TABLE_VERSION;
-pub use self::system::PROPERTIES_RUNTIME_MEMORY_PROTECTION_NON_EXECUTABLE_PE_DATA;
-pub use self::system::PropertiesTable;
-pub use self::system::MEMORY_ATTRIBUTES_TABLE_GUID;
-pub use self::system::MEMORY_ATTRIBUTES_TABLE_VERSION;
-pub use self::system::MemoryAttributesTable;
+    pub use crate::system::ConfigurationTable;
+    pub use crate::system::PROPERTIES_TABLE_GUID;
+    pub use crate::system::PROPERTIES_TABLE_VERSION;
+    pub use crate::system::PROPERTIES_RUNTIME_MEMORY_PROTECTION_NON_EXECUTABLE_PE_DATA;
+    pub use crate::system::PropertiesTable;
+    pub use crate::system::MEMORY_ATTRIBUTES_TABLE_GUID;
+    pub use crate::system::MEMORY_ATTRIBUTES_TABLE_VERSION;
+    pub use crate::system::MemoryAttributesTable;
 
-pub use self::system::SPECIFICATION_REVISION;
-pub use self::system::TableHeader;
-pub use self::system::RUNTIME_SERVICES_SIGNATURE;
-pub use self::system::RUNTIME_SERVICES_REVISION;
-pub use self::system::RuntimeServices;
-pub use self::system::BOOT_SERVICES_SIGNATURE;
-pub use self::system::BOOT_SERVICES_REVISION;
-pub use self::system::BootServices;
-pub use self::system::SYSTEM_TABLE_SIGNATURE;
-pub use self::system::SYSTEM_TABLE_REVISION_2_70;
-pub use self::system::SYSTEM_TABLE_REVISION_2_60;
-pub use self::system::SYSTEM_TABLE_REVISION_2_50;
-pub use self::system::SYSTEM_TABLE_REVISION_2_40;
-pub use self::system::SYSTEM_TABLE_REVISION_2_31;
-pub use self::system::SYSTEM_TABLE_REVISION_2_30;
-pub use self::system::SYSTEM_TABLE_REVISION_2_20;
-pub use self::system::SYSTEM_TABLE_REVISION_2_10;
-pub use self::system::SYSTEM_TABLE_REVISION_2_00;
-pub use self::system::SYSTEM_TABLE_REVISION_1_10;
-pub use self::system::SYSTEM_TABLE_REVISION_1_02;
-pub use self::system::SystemTable;
+    pub use crate::system::SPECIFICATION_REVISION;
+    pub use crate::system::TableHeader;
+    pub use crate::system::RUNTIME_SERVICES_SIGNATURE;
+    pub use crate::system::RUNTIME_SERVICES_REVISION;
+    pub use crate::system::RuntimeServices;
+    pub use crate::system::BOOT_SERVICES_SIGNATURE;
+    pub use crate::system::BOOT_SERVICES_REVISION;
+    pub use crate::system::BootServices;
+    pub use crate::system::SYSTEM_TABLE_SIGNATURE;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_70;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_60;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_50;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_40;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_31;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_30;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_20;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_10;
+    pub use crate::system::SYSTEM_TABLE_REVISION_2_00;
+    pub use crate::system::SYSTEM_TABLE_REVISION_1_10;
+    pub use crate::system::SYSTEM_TABLE_REVISION_1_02;
+    pub use crate::system::SystemTable;
+}
