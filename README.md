@@ -19,7 +19,7 @@ needs to interact with UEFI, or implement (parts of) the UEFI specification.
 
 The requirements for r-efi are:
 
- * *<none>*
+ * *[none]*
 
 ## License
 
