@@ -19,7 +19,7 @@ needs to interact with UEFI, or implement (parts of) the UEFI specification.
 
 The requirements for r-efi are:
 
- * *[none]*
+ * rustc >= 1.31.0-nightly
 
 ## License
 
@@ -27,3 +27,18 @@ The requirements for r-efi are:
  * Lesser General Public License 2.1+
 
 See AUTHORS for details.
+
+## Build
+
+No special requirements exist to compile for UEFI targets. Native compilations
+work out of the box without any adjustments. In case of cross-compilation, you
+need a target-configuration as input to the rust compiler. These are provided
+alongside this project.
+
+Our recommended way to cross-compile this project is to use `cargo-xbuild`. It
+then becomes as simple as the following command to build the example
+applications shipped with this project:
+
+```
+cargo xbuild --target x86_64-unknown-uefi --examples
+```
