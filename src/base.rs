@@ -73,11 +73,11 @@
 //!    For now the UEFI specification only defines little-endian architectures, hence this did not
 //!    pop up as actual issue. Future extensions might change this, though.
 //!
-//!  * The C-language-calling-convention is used. That is, all external calls to UEFI functions
-//!    use the C calling convention. All such ABI functions must be marked as `extern "C"`.
-//!    The UEFI Specification defines some additional common rules for all its APIs, though. You
-//!    will most likely not see any of these mentioned in the individual API documentions. So here
-//!    is a short reminder:
+//!  * The Microsoft calling-convention is used. That is, all external calls to UEFI functions
+//!    follow a calling convention that is very similar to that used on Microsoft Windows. All
+//!    such ABI functions must be marked with the right calling-convention. The UEFI Specification
+//!    defines some additional common rules for all its APIs, though. You will most likely not see
+//!    any of these mentioned in the individual API documentions. So here is a short reminder:
 //!
 //!     * Pointers must reference physical-memory locations (no I/O mappings, no
 //!       virtual addresses, etc.). Once ExitBootServices() was called, and the
