@@ -40,11 +40,6 @@
 #![feature(const_int_ops)]
 #![feature(macro_at_most_once_rep)]
 
-// We use several features of `core`. This includes things like `core::ffi::c_void`. See the
-// `base` module for details on the required target-configuration and the implications thereof.
-// Including `core` does not imply that the host must be a native UEFI target. The generated code
-// can still be used cross-target. Again, the `base` module describes this in detail.
-extern crate core;
 
 // Import the different core modules. We separate them into different modules to make it easier to
 // work on them and describe what each part implements. This is different to the reference
