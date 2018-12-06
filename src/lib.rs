@@ -1,6 +1,35 @@
 //! UEFI Reference Specification Protocol Constants and Definitions
 //!
-//! XXX
+//! This project provides protocol constants and definitions as defined in the UEFI Reference
+//! Specification. The aim is to provide all these constants as C-ABI compatible imports to rust.
+//! Safe rust abstractions over the UEFI API are out of scope of this project. That is, the
+//! purpose is really just to extract all the bits and pieces from the specification and provide
+//! them as rust types and constants.
+//!
+//! While we strongly recommend using safe abstractions to interact with UEFI systems, this
+//! project serves both as base to write those abstractions, but also as last resort if you have
+//! to deal with quirks and peculiarities of UEFI systems directly. Therefore, several examples
+//! are included, which show how to interact with UEFI systems from rust. These serve both as
+//! documentation for anyone interested in how the system works, but also as base for anyone
+//! implementing safe abstractions on top.
+//!
+//! # Target Configuration
+//!
+//! Rust code can be compiled natively for UEFI systems. However, you are quite unlikely to have a
+//! rust compiler running in an UEFI environment. Therefore, you will most likely want to cross
+//! compile your rust code for UEFI systems. To do this, you need a target-configuration for UEFI
+//! systems. In case your rust compiler does not provide these, this project has several of them
+//! included.
+//!
+//! A target-configuration tells the rust compiler (and backends) about the formats and rules used
+//! on the target architecture. Since UEFI systems borrow most of their definitions from Microsoft
+//! Windows, the target-configurations look similar as well.
+//!
+//! The target configurations can be found in the source-tree under their respective target-triple
+//! name. For instance, the `x86_64` configuration is called `x86_64-unknown-uefi.json`. Note that
+//! the target-configuration interface is not a stable rustc API. Therefore, it is subject to
+//! change. We try to only ever provide configurations for the nightly version of rustc, but work
+//! with upstream to make sure suitable target-configurations are included with rustc.
 //!
 //! # Examples
 //!
@@ -25,6 +54,16 @@
 //!     efi::Status::SUCCESS
 //! }
 //! ```
+
+// XXX: - We some documentation why SIMD is disabled in our target-configurations. UEFI generally
+//        allows MMX+SSE, but there have been reports that the FP exception handlers are
+//        uninitialized. Generally, that is not a problem, unless you trigger FP exceptions. So
+//        far we simply disable any SIMD extenions to avoid all this. We should try to
+//        investigate, though.
+//      - UEFI allows stack-pages to be marked non-executable. So far there is no way to tell
+//        rustc about this in the target-configuration. There might be no need for it, if rustc
+//        never places code on the stack. However, we did not investigate this. So if rustc places
+//        trampolines, or similar constructs, on the stack, this would fail.
 
 // We use globals a lot, since UEFI defines many Guid-globals and other constants. However, we
 // want to be able to initialize these globals with proper constructor functions. We thus use the
