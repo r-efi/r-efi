@@ -238,45 +238,6 @@ pub type Char8 = u8;
 /// The `Char16` type represents dual-byte characters. UEFI defines them to be UCS-2 encoded.
 pub type Char16 = u16;
 
-/// Globally Unique Identifiers
-///
-/// The `Guid` type represents globally unique identifiers as defined by RFC-4122 (i.e., only the
-/// `10x` variant is used). The type must be 64-bit aligned.
-///
-/// Note that only the binary representation of Guids is stable. You are highly recommended to
-/// interpret Guids as 128bit integers.
-///
-/// UEFI uses the Microsoft-style Guid format. Hence, a lot of documentation and code refers to
-/// these Guids. If you thusly cannot treat Guids as 128-bit integers, this Guid type allows you
-/// to access the individual fields of the Microsoft-style Guid. A reminder of the Guid encoding:
-///
-/// ```text
-///    0                   1                   2                   3
-///    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-///   |                          time_low                             |
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-///   |       time_mid                |         time_hi_and_version   |
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-///   |clk_seq_hi_res |  clk_seq_low  |         node (0-1)            |
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-///   |                         node (2-5)                            |
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-/// ```
-///
-/// The individual fields are encoded as big-endian (network-byte-order). The Guid structure
-/// allows you direct access to these fields. Make sure to convert endianness when accessing the
-/// data. Data stored in Guid objects must be considered big-endian.
-#[repr(C, align(8))]
-pub struct Guid {
-    pub time_low: u32,
-    pub time_mid: u16,
-    pub time_hi_and_version: u16,
-    pub clk_seq_hi_res: u8,
-    pub clk_seq_low: u8,
-    pub node: [u8; 6],
-}
-
 /// Status Codes
 ///
 /// UEFI uses the `Status` type to represent all kinds of status codes. This includes return codes
@@ -338,6 +299,45 @@ pub type VirtualAddress = u64;
 /// In most cases it is perfectly fine to cast the pointer to a real rust reference. However, this
 /// should be an explicit decision by the caller.
 pub type ImageEntryPoint = fn(Handle, *mut crate::system::SystemTable) -> Status;
+
+/// Globally Unique Identifiers
+///
+/// The `Guid` type represents globally unique identifiers as defined by RFC-4122 (i.e., only the
+/// `10x` variant is used). The type must be 64-bit aligned.
+///
+/// Note that only the binary representation of Guids is stable. You are highly recommended to
+/// interpret Guids as 128bit integers.
+///
+/// UEFI uses the Microsoft-style Guid format. Hence, a lot of documentation and code refers to
+/// these Guids. If you thusly cannot treat Guids as 128-bit integers, this Guid type allows you
+/// to access the individual fields of the Microsoft-style Guid. A reminder of the Guid encoding:
+///
+/// ```text
+///    0                   1                   2                   3
+///    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+///   |                          time_low                             |
+///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+///   |       time_mid                |         time_hi_and_version   |
+///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+///   |clk_seq_hi_res |  clk_seq_low  |         node (0-1)            |
+///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+///   |                         node (2-5)                            |
+///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+/// ```
+///
+/// The individual fields are encoded as big-endian (network-byte-order). The Guid structure
+/// allows you direct access to these fields. Make sure to convert endianness when accessing the
+/// data. Data stored in Guid objects must be considered big-endian.
+#[repr(C, align(8))]
+pub struct Guid {
+    pub time_low: u32,
+    pub time_mid: u16,
+    pub time_hi_and_version: u16,
+    pub clk_seq_hi_res: u8,
+    pub clk_seq_low: u8,
+    pub node: [u8; 6],
+}
 
 impl Guid {
     /// Initialize a Guid from its individual fields in native endianness
