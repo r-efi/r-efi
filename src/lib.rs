@@ -22,7 +22,7 @@
 //!
 //! #[no_mangle]
 //! pub extern fn efi_main(h: efi::Handle, st: *mut efi::SystemTable) -> efi::Status {
-//!     0
+//!     efi::Status::SUCCESS
 //! }
 //! ```
 

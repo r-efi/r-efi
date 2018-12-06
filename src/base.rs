@@ -243,8 +243,12 @@ pub type Char16 = u16;
 ///
 /// UEFI uses the `Status` type to represent all kinds of status codes. This includes return codes
 /// from functions, but also complex state of different devices and drivers. It is a simple
-/// `usize`. Depending on the context, different state is stored in it.
-pub type Status = usize;
+/// `usize`, but wrapped in a rust-type to allow us to implement helpers on this type. Depending
+/// on the context, different state is stored in it. Note that it is always binary compatible to a
+/// usize!
+#[repr(C)]
+#[derive(Copy, Clone)]
+pub struct Status(usize);
 
 /// Object Handles
 ///
@@ -339,6 +343,100 @@ pub struct Guid {
     pub clk_seq_hi_res: u8,
     pub clk_seq_low: u8,
     pub node: [u8; 6],
+}
+
+impl Status {
+    const WIDTH: usize = 8usize * core::mem::size_of::<Status>();
+    const MASK: usize = 0xc0 << (Status::WIDTH - 8);
+    const ERROR_MASK: usize = 0x80 << (Status::WIDTH - 8);
+    const WARNING_MASK: usize = 0x00 << (Status::WIDTH - 8);
+
+    /// Success Code
+    ///
+    /// This code represents a successfull function invocation. Its value is guaranteed to be 0.
+    /// However, note that warnings are considered success as well, so this is not the only code
+    /// that can be returned by UEFI functions on success. However, in nearly all situations
+    /// warnings are not allowed, so the effective result will be SUCCESS.
+    pub const SUCCESS: Status = Status::from_usize(0);
+
+    // List of predefined error codes
+    pub const LOAD_ERROR:                   Status = Status::from_usize( 1 | Status::ERROR_MASK);
+    pub const INVALID_PARAMETER:            Status = Status::from_usize( 2 | Status::ERROR_MASK);
+    pub const UNSUPPORTED:                  Status = Status::from_usize( 3 | Status::ERROR_MASK);
+    pub const BAD_BUFFER_SIZE:              Status = Status::from_usize( 4 | Status::ERROR_MASK);
+    pub const BUFFER_TOO_SMALL:             Status = Status::from_usize( 5 | Status::ERROR_MASK);
+    pub const NOT_READY:                    Status = Status::from_usize( 6 | Status::ERROR_MASK);
+    pub const DEVICE_ERROR:                 Status = Status::from_usize( 7 | Status::ERROR_MASK);
+    pub const WRITE_PROTECTED:              Status = Status::from_usize( 8 | Status::ERROR_MASK);
+    pub const OUT_OF_RESOURCES:             Status = Status::from_usize( 9 | Status::ERROR_MASK);
+    pub const VOLUME_CORRUPTED:             Status = Status::from_usize(10 | Status::ERROR_MASK);
+    pub const VOLUME_FULL:                  Status = Status::from_usize(11 | Status::ERROR_MASK);
+    pub const NO_MEDIA:                     Status = Status::from_usize(12 | Status::ERROR_MASK);
+    pub const MEDIA_CHANGED:                Status = Status::from_usize(13 | Status::ERROR_MASK);
+    pub const NOT_FOUND:                    Status = Status::from_usize(14 | Status::ERROR_MASK);
+    pub const ACCESS_DENIED:                Status = Status::from_usize(15 | Status::ERROR_MASK);
+    pub const NO_RESPONSE:                  Status = Status::from_usize(16 | Status::ERROR_MASK);
+    pub const NO_MAPPING:                   Status = Status::from_usize(17 | Status::ERROR_MASK);
+    pub const TIMEOUT:                      Status = Status::from_usize(18 | Status::ERROR_MASK);
+    pub const NOT_STARTED:                  Status = Status::from_usize(19 | Status::ERROR_MASK);
+    pub const ALREADY_STARTED:              Status = Status::from_usize(20 | Status::ERROR_MASK);
+    pub const ABORTED:                      Status = Status::from_usize(21 | Status::ERROR_MASK);
+    pub const ICMP_ERROR:                   Status = Status::from_usize(22 | Status::ERROR_MASK);
+    pub const TFTP_ERROR:                   Status = Status::from_usize(23 | Status::ERROR_MASK);
+    pub const PROTOCOL_ERROR:               Status = Status::from_usize(24 | Status::ERROR_MASK);
+    pub const INCOMPATIBLE_VERSION:         Status = Status::from_usize(25 | Status::ERROR_MASK);
+    pub const SECURITY_VIOLATION:           Status = Status::from_usize(26 | Status::ERROR_MASK);
+    pub const CRC_ERROR:                    Status = Status::from_usize(27 | Status::ERROR_MASK);
+    pub const END_OF_MEDIA:                 Status = Status::from_usize(28 | Status::ERROR_MASK);
+    pub const END_OF_FILE:                  Status = Status::from_usize(31 | Status::ERROR_MASK);
+    pub const INVALID_LANGUAGE:             Status = Status::from_usize(32 | Status::ERROR_MASK);
+    pub const COMPROMISED_DATA:             Status = Status::from_usize(33 | Status::ERROR_MASK);
+    pub const IP_ADDRESS_CONFLICT:          Status = Status::from_usize(34 | Status::ERROR_MASK);
+    pub const HTTP_ERROR:                   Status = Status::from_usize(35 | Status::ERROR_MASK);
+
+    // List of predefined warning codes
+    pub const WARN_UNKNOWN_GLYPH:           Status = Status::from_usize( 1 | Status::WARNING_MASK);
+    pub const WARN_DELETE_FAILURE:          Status = Status::from_usize( 2 | Status::WARNING_MASK);
+    pub const WARN_WRITE_FAILURE:           Status = Status::from_usize( 3 | Status::WARNING_MASK);
+    pub const WARN_BUFFER_TOO_SMALL:        Status = Status::from_usize( 4 | Status::WARNING_MASK);
+    pub const WARN_STALE_DATA:              Status = Status::from_usize( 5 | Status::WARNING_MASK);
+    pub const WARN_FILE_SYSTEM:             Status = Status::from_usize( 6 | Status::WARNING_MASK);
+    pub const WARN_RESET_REQUIRED:          Status = Status::from_usize( 7 | Status::WARNING_MASK);
+
+    /// Create Status Code from Integer
+    ///
+    /// This takes the literal value of a status code and turns it into a `Status` object. Note
+    /// that we want it as `const fn` so we cannot use `core::convert::From`.
+    pub const fn from_usize(v: usize) -> Status {
+        Status(v)
+    }
+
+    fn value(&self) -> usize {
+        self.0
+    }
+
+    fn mask(&self) -> usize {
+        self.value() & Status::MASK
+    }
+
+    /// Check whether this is an error
+    ///
+    /// This returns true if the given status code is considered an error. Errors mean the
+    /// operation did not success, nor produce any valuable output. Output parameters must be
+    /// considered invalid if an error was returned. That is, its content is not well defined.
+    pub fn is_error(&self) -> bool {
+        self.mask() == Status::ERROR_MASK
+    }
+
+    /// Check whether this is a warning
+    ///
+    /// This returns true if the given status code is considered a warning. Warnings are to be
+    /// treated as success, but might indicate data loss or other device errors. However, if an
+    /// operation returns with a warning code, it must be considered successfull, and the output
+    /// parameters are valid.
+    pub fn is_warning(&self) -> bool {
+        self.value() != 0 && self.mask() == Status::WARNING_MASK
+    }
 }
 
 impl Guid {
