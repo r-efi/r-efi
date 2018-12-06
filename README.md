@@ -40,5 +40,5 @@ then becomes as simple as the following command to build the example
 applications shipped with this project:
 
 ```
-cargo xbuild --target x86_64-unknown-uefi --examples
+cargo xbuild --target src/x86_64-unknown-uefi.json --examples
 ```
