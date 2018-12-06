@@ -753,11 +753,11 @@ pub struct SystemTable {
     pub firmware_revision: u32,
 
     pub console_in_handle: crate::base::Handle,
-    pub con_in: *mut core::ffi::c_void, // XXX
+    pub con_in: *mut crate::protocols::simple_text_input::Protocol,
     pub console_out_handle: crate::base::Handle,
-    pub con_out: *mut core::ffi::c_void, // XXX
+    pub con_out: *mut crate::protocols::simple_text_output::Protocol,
     pub standard_error_handle: crate::base::Handle,
-    pub std_err: *mut core::ffi::c_void, // XXX
+    pub std_err: *mut crate::protocols::simple_text_output::Protocol,
 
     pub runtime_services: *mut RuntimeServices,
     pub boot_services: *mut BootServices,
