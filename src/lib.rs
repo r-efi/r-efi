@@ -18,9 +18,10 @@
 //! #![no_std]
 //!
 //! extern crate r_efi;
+//! use r_efi::efi;
 //!
-//! #![no_mangle]
-//! pub extern fn efi_main(h: r_efi::Handle, st: *mut r_efi::SystemTable) -> r_efi::Status {
+//! #[no_mangle]
+//! pub extern fn efi_main(h: efi::Handle, st: *mut efi::SystemTable) -> efi::Status {
 //!     0
 //! }
 //! ```
