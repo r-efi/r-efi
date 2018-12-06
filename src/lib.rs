@@ -40,6 +40,10 @@
 #![feature(const_int_ops)]
 #![feature(macro_at_most_once_rep)]
 
+// We have no std::* dependencies (and we better don't have them), so no reason to require it.
+// This does not mean that you cannot use std::* with UEFI. You have to port it to UEFI first,
+// though.
+#![no_std]
 
 // Import the different core modules. We separate them into different modules to make it easier to
 // work on them and describe what each part implements. This is different to the reference
