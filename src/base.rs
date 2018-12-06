@@ -222,6 +222,7 @@ macro_rules! eficall {
 /// UEFI defines booleans to be 1-byte integers, which can only have the values of `0` or `1`.
 /// This enum provides the equivalent definitions as [`Boolean::False`] and [`Boolean::True`].
 #[repr(u8)]
+#[derive(Copy, Clone)]
 pub enum Boolean {
     False = 0u8,
     True = 1u8,
@@ -330,6 +331,7 @@ pub type ImageEntryPoint = fn(Handle, *mut crate::system::SystemTable) -> Status
 /// allows you direct access to these fields. Make sure to convert endianness when accessing the
 /// data. Data stored in Guid objects must be considered big-endian.
 #[repr(C, align(8))]
+#[derive(Copy, Clone)]
 pub struct Guid {
     pub time_low: u32,
     pub time_mid: u16,

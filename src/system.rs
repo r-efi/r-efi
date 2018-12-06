@@ -119,6 +119,7 @@ pub const OPTIONAL_POINTER: u32 = 0x00000001u32;
 //
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub enum ResetType {
     ResetCold,
     ResetWarm,
@@ -227,6 +228,7 @@ pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_
 );
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub enum TimerDelay {
     TimerCancel,
     TimerPeriodic,
@@ -248,6 +250,7 @@ pub const TPL_HIGH_LEVEL:       crate::base::Tpl = 31;
 //
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub enum AllocateType {
     AllocateAnyPages,
     AllocateMaxAddress,
@@ -255,6 +258,7 @@ pub enum AllocateType {
 }
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub enum MemoryType {
     ReservedMemoryType,
     LoaderCode,
@@ -307,11 +311,13 @@ pub struct MemoryDescriptor {
 //
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub enum InterfaceType {
     NativeInterface,
 }
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub enum LocateSearchType {
     AllHandles,
     ByRegisterNotify,
