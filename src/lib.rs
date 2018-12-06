@@ -28,18 +28,10 @@
 
 // We use globals a lot, since UEFI defines many Guid-globals and other constants. However, we
 // want to be able to initialize these globals with proper constructor functions. We thus use the
-// unstable `const fn` feature of rust. The `min_const_fn` is a subset of `const_fn`, only
-// providing the most basic of its features, which appear to be sufficient for our use-cases.
-//
-// Additionally, the `const_int_ops` feature makes the standard library integer conversion helpers
-// const-safe as well.
-//
-// The `macro_at_most_once_rep` feature allows us to use the `?` qualifier in macros, also known
-// as Kleene Operator. It is similar to the existing `+` and `*` qualifiers, but limits the
-// repetition to 0 or 1. We could come by without it, but it seems stable enough to rely on it.
-#![feature(min_const_fn)]
+// `const fn` feature of rust, which is stable through `min_const_fn` since 1.31.0. However, we
+// still need `const_int_ops` to make the standard library integer conversion helpers const-safe
+// as well.
 #![feature(const_int_ops)]
-#![feature(macro_at_most_once_rep)]
 
 // We have no std::* dependencies (and we better don't have them), so no reason to require it.
 // This does not mean that you cannot use std::* with UEFI. You have to port it to UEFI first,
