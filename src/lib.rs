@@ -47,6 +47,12 @@ pub mod base;
 #[macro_use]
 pub mod system;
 
+// Import the protocols. Each protocol is separated into its own module, readily imported by the
+// meta `protocols` module. Note that this puts all symbols into their respective protocol
+// namespace, thus clearly separating them (unlike the UEFI Specification, which more often than
+// not violates its own namespacing).
+pub mod protocols;
+
 /// Flat EFI Namespace
 ///
 /// The EFI namespace re-exports all symbols in a single, flat namespace. This allows mirroring
@@ -200,4 +206,10 @@ pub mod efi {
     pub use crate::system::SYSTEM_TABLE_REVISION_1_10;
     pub use crate::system::SYSTEM_TABLE_REVISION_1_02;
     pub use crate::system::SystemTable;
+
+    //
+    // Re-export protocols
+    //
+
+    pub use crate::protocols;
 }
