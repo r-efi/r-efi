@@ -46,7 +46,6 @@
 //! #![no_main]
 //! #![no_std]
 //!
-//! extern crate r_efi;
 //! use r_efi::efi;
 //!
 //! #[no_mangle]
