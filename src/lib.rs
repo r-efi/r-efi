@@ -71,10 +71,14 @@
 // as well.
 #![feature(const_int_ops)]
 
-// We have no std::* dependencies (and we better don't have them), so no reason to require it.
-// This does not mean that you cannot use std::* with UEFI. You have to port it to UEFI first,
-// though.
-#![no_std]
+// Mark this crate as `no_std`. We have no std::* dependencies (and we better don't have them),
+// so no reason to require it. This does not mean that you cannot use std::* with UEFI. You have
+// to port it to UEFI first, though.
+//
+// In case of unit-test compilation, we pull in `std` and drop the `no_std` marker. This allows
+// basic unit-tests on the compilation host. For integration tests, we have separate compilation
+// units, so they will be unaffected by this.
+#![cfg_attr(not(test), no_std)]
 
 // Import the different core modules. We separate them into different modules to make it easier to
 // work on them and describe what each part implements. This is different to the reference
