@@ -222,7 +222,7 @@ macro_rules! eficall {
 /// UEFI defines booleans to be 1-byte integers, which can only have the values of `0` or `1`.
 /// This enum provides the equivalent definitions as [`Boolean::False`] and [`Boolean::True`].
 #[repr(u8)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub enum Boolean {
     False = 0u8,
     True = 1u8,
@@ -343,6 +343,15 @@ pub struct Guid {
     pub clk_seq_hi_res: u8,
     pub clk_seq_low: u8,
     pub node: [u8; 6],
+}
+
+impl PartialEq<bool> for Boolean {
+    fn eq(&self, other: &bool) -> bool {
+        match self {
+            Boolean::False  => *other == false,
+            Boolean::True   => *other == true,
+        }
+    }
 }
 
 impl Status {
