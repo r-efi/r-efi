@@ -39,6 +39,7 @@ pub extern fn efi_main(_h: efi::Handle, st: *mut efi::SystemTable) -> efi::Statu
         0x0020u16,                                                          // " "
         0x0057u16, 0x006fu16, 0x0072u16, 0x006cu16, 0x0064u16,              // "World"
         0x0021u16,                                                          // "!"
+        0x000au16,                                                          // "\n"
         0x0000u16,                                                          // NUL
     ];
 
