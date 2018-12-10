@@ -26,6 +26,12 @@ license = "Apache-2.0 OR LGPL-2.1-or-later"
 readme = "README.md"
 repository = "https://github.com/r-util/r-efi"
 
+[features]
+# We feature-gate all examples, since they will not link correctly, unless you
+# use a UEFI target configuration. To make `cargo test` work, we exclude all
+# examples from normal runs.
+examples = []
+
 [[example]]
 name = "hello-world"
-crate-type = ["lib"] # prevent linking
+required-features = ["examples"]

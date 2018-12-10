@@ -24,8 +24,6 @@
 // required, nor do we rely on nightly compilers.
 //
 
-#![allow(unused_attributes)]
-
 #![no_main]
 #![no_std]
 
