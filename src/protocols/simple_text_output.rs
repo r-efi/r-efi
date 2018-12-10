@@ -1,6 +1,8 @@
 //! Simple Text Output Protocol
 //!
-//! XXX
+//! The simple-text-output protocol provides a simple way to print text on screen. It is modeled
+//! around the old VGA-consoles, but does not carry all the old cruft. It expects a rectangular
+//! text array and allows you to move the cursor around to write Unicode symbols to screen.
 
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_spec(
     0x387477c2, 0x69c7, 0x11d2, 0x8e, 0x39, &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b]
