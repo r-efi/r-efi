@@ -20,6 +20,11 @@
 // open-coded, zero-terminated, UTF-16 array as argument to `output_string()`. Similarly to the
 // panic handler, real applications should rather use UTF-16 modules.
 //
+// Note that as of rust-1.31.0, all features used here are stabilized. Not unstable features are
+// required, nor do we rely on nightly compilers.
+//
+
+#![allow(unused_attributes)]
 
 #![no_main]
 #![no_std]
