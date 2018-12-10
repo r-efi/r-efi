@@ -46,7 +46,7 @@
 //!  * `NULL`, `void *`: Void pointers have a native rust implementation in
 //!                      [`c_void`](core::ffi::c_void). `NULL` is represented through
 //!                      [`null`](core::ptr::null) and [`is_null()`](core::ptr) for
-//!                      all pointers types.
+//!                      all pointer types.
 //!  * `uint8_t`..`uint64_t`,
 //!    `int8_t`..`int64_t`: Fixed-size integers are represented by their native rust equivalents
 //!                         (`u8`..`u64`, `i8`..`i64`).

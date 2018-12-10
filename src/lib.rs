@@ -40,21 +40,22 @@
 //!
 //! The following example shows a minimal UEFI application. Note that, depending on your rust
 //! compiler, you might need further hooks to make this compile. In particular, you most likely
-//! need a panic-handler and compiler-intrinsics as well.
+//! need a panic-handler and compiler-intrinsics as well. See the bundled examples for complete
+//! examples compatible to Rust-2018.
 //!
-//! ```no_run
+//! ```ignore
 //! #![no_main]
 //! #![no_std]
 //!
 //! use r_efi::efi;
 //!
 //! #[no_mangle]
-//! pub extern fn efi_main(h: efi::Handle, st: *mut efi::SystemTable) -> efi::Status {
+//! pub extern fn efi_main(_h: efi::Handle, _st: *mut efi::SystemTable) -> efi::Status {
 //!     efi::Status::SUCCESS
 //! }
 //! ```
 
-// XXX: - We some documentation why SIMD is disabled in our target-configurations. UEFI generally
+// XXX: - We should document why SIMD is disabled in our target-configurations. UEFI generally
 //        allows MMX+SSE, but there have been reports that the FP exception handlers are
 //        uninitialized. Generally, that is not a problem, unless you trigger FP exceptions. So
 //        far we simply disable any SIMD extenions to avoid all this. We should try to
@@ -83,7 +84,7 @@
 // Import the different core modules. We separate them into different modules to make it easier to
 // work on them and describe what each part implements. This is different to the reference
 // implementation, which uses a flat namespace due to its origins in the C language. For
-// compatibility, we provide this flat namespace as well. See the `UEFI` submodule.
+// compatibility, we provide this flat namespace as well. See the `efi` submodule.
 #[macro_use]
 pub mod base;
 #[macro_use]
