@@ -512,3 +512,101 @@ impl Guid {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::mem::{align_of, size_of};
+
+    #[test]
+    fn types() {
+        //
+        // Booleans
+        //
+
+        assert_eq!(size_of::<Boolean>(), 1);
+        assert_eq!(align_of::<Boolean>(), 1);
+        assert_eq!(Boolean::False, false);
+        assert_eq!(Boolean::True, true);
+        assert_ne!(Boolean::False, Boolean::True);
+
+        //
+        // Char8 / Char16
+        //
+
+        assert_eq!(size_of::<Char8>(), 1);
+        assert_eq!(align_of::<Char8>(), 1);
+        assert_eq!(size_of::<Char16>(), 2);
+        assert_eq!(align_of::<Char16>(), 2);
+
+        assert_eq!(size_of::<Char8>(), size_of::<u8>());
+        assert_eq!(align_of::<Char8>(), align_of::<u8>());
+        assert_eq!(size_of::<Char16>(), size_of::<u16>());
+        assert_eq!(align_of::<Char16>(), align_of::<u16>());
+
+        //
+        // Status
+        //
+
+        assert_eq!(size_of::<Status>(), size_of::<usize>());
+        assert_eq!(align_of::<Status>(), align_of::<usize>());
+
+        //
+        // Handles / Events
+        //
+
+        assert_eq!(size_of::<Handle>(), size_of::<usize>());
+        assert_eq!(align_of::<Handle>(), align_of::<usize>());
+        assert_eq!(size_of::<Event>(), size_of::<usize>());
+        assert_eq!(align_of::<Event>(), align_of::<usize>());
+
+        assert_eq!(size_of::<Handle>(), size_of::<*mut ()>());
+        assert_eq!(align_of::<Handle>(), align_of::<*mut ()>());
+        assert_eq!(size_of::<Event>(), size_of::<*mut ()>());
+        assert_eq!(align_of::<Event>(), align_of::<*mut ()>());
+
+        //
+        // Lba / Tpl
+        //
+
+        assert_eq!(size_of::<Lba>(), size_of::<u64>());
+        assert_eq!(align_of::<Lba>(), align_of::<u64>());
+        assert_eq!(size_of::<Tpl>(), size_of::<usize>());
+        assert_eq!(align_of::<Tpl>(), align_of::<usize>());
+
+        //
+        // PhysicalAddress / VirtualAddress
+        //
+
+        assert_eq!(size_of::<PhysicalAddress>(), size_of::<u64>());
+        assert_eq!(align_of::<PhysicalAddress>(), align_of::<u64>());
+        assert_eq!(size_of::<VirtualAddress>(), size_of::<u64>());
+        assert_eq!(align_of::<VirtualAddress>(), align_of::<u64>());
+
+        //
+        // ImageEntryPoint
+        //
+
+        assert_eq!(size_of::<ImageEntryPoint>(), size_of::<fn ()>());
+        assert_eq!(align_of::<ImageEntryPoint>(), align_of::<fn ()>());
+
+        //
+        // Guid
+        //
+
+        assert_eq!(size_of::<Guid>(), 16);
+        assert_eq!(align_of::<Guid>(), 8);
+    }
+
+    #[test]
+    fn eficall() {
+        //
+        // Make sure the eficall!{} macro can deal with all kinds of function callbacks.
+        //
+
+        let _: eficall!{fn()};
+        let _: eficall!{fn(i32)};
+        let _: eficall!{fn(i32) -> i32};
+        let _: eficall!{fn(i32, i32) -> (i32, i32)};
+    }
+}
