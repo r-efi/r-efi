@@ -465,8 +465,8 @@ impl Guid {
             time_low: time_low.to_be(),
             time_mid: time_mid.to_be(),
             time_hi_and_version: time_hi_and_version.to_be(),
-            clk_seq_hi_res: clk_seq_hi_res.to_be(),
-            clk_seq_low: clk_seq_low.to_be(),
+            clk_seq_hi_res: clk_seq_hi_res,
+            clk_seq_low: clk_seq_low,
             node: *node,
         }
     }
@@ -496,8 +496,8 @@ impl Guid {
             time_low.swap_bytes(),
             time_mid.swap_bytes(),
             time_hi_and_version.swap_bytes(),
-            clk_seq_hi_res.swap_bytes(),
-            clk_seq_low.swap_bytes(),
+            clk_seq_hi_res,
+            clk_seq_low,
             node,
         )
     }
