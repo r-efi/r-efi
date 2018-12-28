@@ -349,9 +349,9 @@ pub type ImageEntryPoint = fn(Handle, *mut crate::system::SystemTable) -> Status
 #[repr(C, align(8))]
 #[derive(Copy, Clone)]
 pub struct Guid {
-    pub time_low: u32,
-    pub time_mid: u16,
-    pub time_hi_and_version: u16,
+    pub time_low: [u8; 4],
+    pub time_mid: [u8; 2],
+    pub time_hi_and_version: [u8; 2],
     pub clk_seq_hi_res: u8,
     pub clk_seq_low: u8,
     pub node: [u8; 6],
@@ -520,6 +520,22 @@ impl Status {
 }
 
 impl Guid {
+    const fn u32_to_bytes_be(num: u32) -> [u8; 4] {
+        [
+            (num >> 24) as u8,
+            (num >> 16) as u8,
+            (num >> 8) as u8,
+            num as u8,
+        ]
+    }
+
+    const fn u16_to_bytes_be(num: u16) -> [u8; 2] {
+        [
+            (num >> 8) as u8,
+            num as u8,
+        ]
+    }
+
     /// Initialize a Guid from its individual fields in native endianness
     ///
     /// This is the most basic initializer of a Guid object. It takes the individual fields in
@@ -533,9 +549,9 @@ impl Guid {
         node: &[u8; 6],
     ) -> Guid {
         Guid {
-            time_low: time_low.to_be(),
-            time_mid: time_mid.to_be(),
-            time_hi_and_version: time_hi_and_version.to_be(),
+            time_low: Self::u32_to_bytes_be(time_low),
+            time_mid: Self::u16_to_bytes_be(time_mid),
+            time_hi_and_version: Self::u16_to_bytes_be(time_hi_and_version),
             clk_seq_hi_res: clk_seq_hi_res,
             clk_seq_low: clk_seq_low,
             node: *node,
