@@ -97,7 +97,7 @@ pub struct VariableAuthentication3Nonce {
     pub nonce: [u8],
 }
 
-pub const HARDWARE_ERROR_VARIABLE_GUID: crate::base::Guid = crate::base::Guid::from_spec(
+pub const HARDWARE_ERROR_VARIABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x414E6BDD, 0xE47B, 0x47cc, 0xB2, 0x44, &[0xBB, 0x61, 0x02, 0x0C, 0xF5, 0x16]
 );
 
@@ -166,7 +166,7 @@ pub const OS_INDICATIONS_CAPSULE_RESULT_VAR_SUPPORTED:      u64 = 0x000000000000
 pub const OS_INDICATIONS_START_OS_RECOVERY:                 u64 = 0x0000000000000020u64;
 pub const OS_INDICATIONS_START_PLATFORM_RECOVERY:           u64 = 0x0000000000000040u64;
 
-pub const CAPSULE_REPORT_GUID: crate::base::Guid = crate::base::Guid::from_spec(
+pub const CAPSULE_REPORT_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x39b68c46, 0xf7fb, 0x441b, 0xb6, 0xec, &[0x16, 0xb0, 0xf6, 0x98, 0x21, 0xf3]
 );
 
@@ -211,19 +211,19 @@ pub const EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE:    u32 = 0x60000202u32;
 
 pub type EventNotify = eficall!{fn(crate::base::Event, *mut core::ffi::c_void)};
 
-pub const EVENT_GROUP_EXIT_BOOT_SERVICES: crate::base::Guid = crate::base::Guid::from_spec(
+pub const EVENT_GROUP_EXIT_BOOT_SERVICES: crate::base::Guid = crate::base::Guid::from_fields(
     0x27abf055, 0xb1b8, 0x4c26, 0x80, 0x48, &[0x74, 0x8f, 0x37, 0xba, 0xa2, 0xdf]
 );
-pub const EVENT_GROUP_VIRTUAL_ADDRESS_CHANGE: crate::base::Guid = crate::base::Guid::from_spec(
+pub const EVENT_GROUP_VIRTUAL_ADDRESS_CHANGE: crate::base::Guid = crate::base::Guid::from_fields(
     0x13fa7698, 0xc831, 0x49c7, 0x87, 0xea, &[0x8f, 0x43, 0xfc, 0xc2, 0x51, 0x96]
 );
-pub const EVENT_GROUP_MEMORY_MAP_CHANGE: crate::base::Guid = crate::base::Guid::from_spec(
+pub const EVENT_GROUP_MEMORY_MAP_CHANGE: crate::base::Guid = crate::base::Guid::from_fields(
     0x78bee926, 0x692f, 0x48fd, 0x9e, 0xdb, &[0x1, 0x42, 0x2e, 0xf0, 0xd7, 0xab]
 );
-pub const EVENT_GROUP_READY_TO_BOOT: crate::base::Guid = crate::base::Guid::from_spec(
+pub const EVENT_GROUP_READY_TO_BOOT: crate::base::Guid = crate::base::Guid::from_fields(
     0x7ce88fb3, 0x4bd7, 0x4679, 0x87, 0xa8, &[0xa8, 0xd8, 0xde, 0xe5, 0x0d, 0x2b]
 );
-pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_spec(
+pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_fields(
     0x62da6a56, 0x13fb, 0x485a, 0xa8, 0xda, &[0xa3, 0xdd, 0x79, 0x12, 0xcb, 0x6b]
 );
 
@@ -352,7 +352,7 @@ pub struct ConfigurationTable {
     pub vendor_table: *mut core::ffi::c_void,
 }
 
-pub const PROPERTIES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_spec(
+pub const PROPERTIES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x880aaca3, 0x4adc, 0x4a04, 0x90, 0x79, &[0xb7, 0x47, 0x34, 0x8, 0x25, 0xe5]
 );
 
@@ -367,7 +367,7 @@ pub struct PropertiesTable {
     pub memory_protection_attribute: u64,
 }
 
-pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_spec(
+pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xdcfa911d, 0x26eb, 0x469f, 0xa2, 0x20, &[ 0x38, 0xb7, 0xdc, 0x46, 0x12, 0x20]
 );
 
