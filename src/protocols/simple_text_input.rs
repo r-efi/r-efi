@@ -4,7 +4,7 @@
 //! non-modifiers and lacks any detailed reporting. It is mostly useful for debugging and admin
 //! interaction.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_spec(
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x387477c1, 0x69c7, 0x11d2, 0x8e, 0x39, &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b]
 );
 
