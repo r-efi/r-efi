@@ -349,12 +349,12 @@ pub type ImageEntryPoint = fn(Handle, *mut crate::system::SystemTable) -> Status
 #[repr(C, align(8))]
 #[derive(Copy, Clone)]
 pub struct Guid {
-    pub time_low: [u8; 4],
-    pub time_mid: [u8; 2],
-    pub time_hi_and_version: [u8; 2],
-    pub clk_seq_hi_res: u8,
-    pub clk_seq_low: u8,
-    pub node: [u8; 6],
+    time_low: [u8; 4],
+    time_mid: [u8; 2],
+    time_hi_and_version: [u8; 2],
+    clk_seq_hi_res: u8,
+    clk_seq_low: u8,
+    node: [u8; 6],
 }
 
 impl PartialEq<bool> for Boolean {
@@ -529,11 +529,23 @@ impl Guid {
         ]
     }
 
+    const fn u32_from_bytes_le(bytes: &[u8; 4]) -> u32 {
+        (bytes[0] as u32) |
+        ((bytes[1] as u32) << 8) |
+        ((bytes[2] as u32) << 16) |
+        ((bytes[3] as u32) << 24)
+    }
+
     const fn u16_to_bytes_le(num: u16) -> [u8; 2] {
         [
             num as u8,
             (num >> 8) as u8,
         ]
+    }
+
+    const fn u16_from_bytes_le(bytes: &[u8; 2]) -> u16 {
+        (bytes[0] as u16) |
+        ((bytes[1] as u16) << 8)
     }
 
     /// Initialize a Guid from its individual fields
@@ -557,6 +569,20 @@ impl Guid {
             clk_seq_low: clk_seq_low,
             node: *node,
         }
+    }
+
+    /// Access a Guid as individual fields
+    ///
+    /// This decomposes a Guid back into the individual fields as given in the specification.
+    pub const fn as_fields(&self) -> (u32, u16, u16, u8, u8, &[u8; 6]) {
+        (
+            Self::u32_from_bytes_le(&self.time_low),
+            Self::u16_from_bytes_le(&self.time_mid),
+            Self::u16_from_bytes_le(&self.time_hi_and_version),
+            self.clk_seq_hi_res,
+            self.clk_seq_low,
+            &self.node,
+        )
     }
 
     /// Access a Guid as raw byte array
