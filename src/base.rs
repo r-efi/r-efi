@@ -122,6 +122,8 @@ compile_error!("The target architecture is not supported.");
 #[cfg(not(any(target_endian = "little")))]
 compile_error!("The target endianness is not supported.");
 
+use core::convert::TryFrom;
+
 // eficall_arch!()
 //
 // This macro is the architecture-dependent implementation of eficall!(). See the documentation of
@@ -243,6 +245,12 @@ pub struct Char8(u8);
 #[derive(Copy, Clone)]
 pub struct Char16(u16);
 
+pub enum TryFromCharError {
+    Surrogate,
+    Private,
+    OutOfRange,
+}
+
 /// Status Codes
 ///
 /// UEFI uses the `Status` type to represent all kinds of status codes. This includes return codes
@@ -351,9 +359,68 @@ pub struct Guid {
 
 impl PartialEq<bool> for Boolean {
     fn eq(&self, other: &bool) -> bool {
-        match self {
-            Boolean::False  => *other == false,
-            Boolean::True   => *other == true,
+        *other == (*self).into()
+    }
+}
+
+impl From<bool> for Boolean {
+    fn from(b: bool) -> Self {
+        match b {
+            false => Boolean::False,
+            true => Boolean::True,
+        }
+    }
+}
+
+impl From<Boolean> for bool {
+    fn from(b: Boolean) -> Self {
+        match b {
+            Boolean::False  => false,
+            Boolean::True   => true,
+        }
+    }
+}
+
+impl From<Char8> for char {
+    fn from(c: Char8) -> Self {
+        // A Char8 is always a valid Unicode codepoint.
+        char::from(c.0)
+    }
+}
+
+impl From<Char16> for char {
+    fn from(c: Char16) -> Self {
+        // A Char16 is always a valid Unicode codepoint.
+        char::try_from(c.0 as u32).unwrap()
+    }
+}
+
+impl TryFrom<char> for Char8 {
+    type Error = TryFromCharError;
+
+    fn try_from(c: char) -> Result<Self, Self::Error> {
+        // A Char8 is any 8-bit Unicode codepoint, corresponding to
+        // the ISO-Latin-1 encoding.
+        match c as u32 {
+            0x00 ... 0xff => Ok(Char8(c as u8)),
+            _ => Err(TryFromCharError::OutOfRange),
+        }
+    }
+}
+
+impl TryFrom<char> for Char16 {
+    type Error = TryFromCharError;
+
+    fn try_from(c: char) -> Result<Self, Self::Error> {
+        // A Char16 is any Unicode codepoint in the basic multilingual
+        // plane, except any surrogate codepoint or a codepoint reserved
+        // for private use.
+        match c as u32 {
+            0x0000 ... 0xd7ff => Ok(Char16(c as u16)),
+            0xd800 ... 0xdfff => Err(TryFromCharError::Surrogate),
+            0xe000 ... 0xf8ff => Err(TryFromCharError::Private),
+            0xf900 ... 0xffff => Ok(Char16(c as u16)),
+            _ => Err(TryFromCharError::OutOfRange),
         }
     }
 }

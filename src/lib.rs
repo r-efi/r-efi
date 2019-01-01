@@ -72,6 +72,10 @@
 // as well.
 #![feature(const_int_ops)]
 
+// We want to use the TryFrom trait to convert between the native `char` and our own Char{8,16}
+// types. We cannot simply use From, as the conversion is not well-defined at all chars.
+#![feature(try_from)]
+
 // Mark this crate as `no_std`. We have no std::* dependencies (and we better don't have them),
 // so no reason to require it. This does not mean that you cannot use std::* with UEFI. You have
 // to port it to UEFI first, though.
