@@ -347,9 +347,24 @@ pub struct Guid {
 
 impl PartialEq<bool> for Boolean {
     fn eq(&self, other: &bool) -> bool {
-        match self {
-            Boolean::False  => *other == false,
-            Boolean::True   => *other == true,
+        *other == (*self).into()
+    }
+}
+
+impl From<bool> for Boolean {
+    fn from(b: bool) -> Self {
+        match b {
+            false => Boolean::False,
+            true => Boolean::True,
+        }
+    }
+}
+
+impl From<Boolean> for bool {
+    fn from(b: Boolean) -> Self {
+        match b {
+            Boolean::False  => false,
+            Boolean::True   => true,
         }
     }
 }
