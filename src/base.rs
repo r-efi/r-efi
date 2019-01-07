@@ -426,6 +426,36 @@ impl TryFrom<char> for Char16 {
     }
 }
 
+impl Default for Char8 {
+    fn default () -> Self {
+        Char8(0)
+    }
+}
+
+impl Default for Char16 {
+    fn default () -> Self {
+        Char16(0)
+    }
+}
+
+impl Char8 {
+    pub fn is_null(&self) -> bool {
+        match self {
+            Char8(0) => true,
+            _ => false,
+        }
+    }
+}
+
+impl Char16 {
+    pub fn is_null(&self) -> bool {
+        match self {
+            Char16(0) => true,
+            _ => false,
+        }
+    }
+}
+
 impl Status {
     const WIDTH: usize = 8usize * core::mem::size_of::<Status>();
     const MASK: usize = 0xc0 << (Status::WIDTH - 8);
