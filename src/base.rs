@@ -245,6 +245,7 @@ pub struct Char8(u8);
 #[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Char16(u16);
 
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub enum TryFromCharError {
     Surrogate,
     Private,
