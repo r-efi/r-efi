@@ -235,14 +235,14 @@ pub enum Boolean {
 /// The `Char8` type represents single-byte characters. UEFI defines them to be ASCII compatible,
 /// using the ISO-Latin-1 character set.
 #[repr(C)]
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Char8(u8);
 
 /// Dual-byte Character Type
 ///
 /// The `Char16` type represents dual-byte characters. UEFI defines them to be UCS-2 encoded.
 #[repr(C)]
-#[derive(Copy, Clone, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq)]
 pub struct Char16(u16);
 
 pub enum TryFromCharError {
