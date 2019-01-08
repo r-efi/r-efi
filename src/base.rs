@@ -250,6 +250,7 @@ pub enum TryFromCharError {
     Surrogate,
     Private,
     OutOfRange,
+    Nul,
 }
 
 /// Status Codes
@@ -439,7 +440,7 @@ impl Default for Char16 {
 }
 
 impl Char8 {
-    pub fn is_null(&self) -> bool {
+    pub fn is_nul(&self) -> bool {
         match self {
             Char8(0) => true,
             _ => false,
@@ -448,7 +449,7 @@ impl Char8 {
 }
 
 impl Char16 {
-    pub fn is_null(&self) -> bool {
+    pub fn is_nul(&self) -> bool {
         match self {
             Char16(0) => true,
             _ => false,
