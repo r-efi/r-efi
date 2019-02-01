@@ -65,13 +65,6 @@
 //        never places code on the stack. However, we did not investigate this. So if rustc places
 //        trampolines, or similar constructs, on the stack, this would fail.
 
-// We use globals a lot, since UEFI defines many Guid-globals and other constants. However, we
-// want to be able to initialize these globals with proper constructor functions. We thus use the
-// `const fn` feature of rust, which is stable through `min_const_fn` since 1.31.0. However, we
-// still need `const_int_ops` to make the standard library integer conversion helpers const-safe
-// as well.
-#![feature(const_int_ops)]
-
 // We want to use the TryFrom trait to convert between the native `char` and our own Char{8,16}
 // types. We cannot simply use From, as the conversion is not well-defined at all chars.
 #![feature(try_from)]
