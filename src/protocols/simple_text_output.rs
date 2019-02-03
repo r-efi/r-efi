@@ -27,11 +27,11 @@ pub struct Protocol {
     ) -> crate::base::Status},
     pub output_string: eficall!{fn(
         *mut Protocol,
-        *mut crate::base::Char16,
+        *const crate::base::Char16,
     ) -> crate::base::Status},
     pub test_string: eficall!{fn(
         *mut Protocol,
-        *mut crate::base::Char16,
+        *const crate::base::Char16,
     ) -> crate::base::Status},
     pub query_mode: eficall!{fn(
         *mut Protocol,
@@ -59,5 +59,5 @@ pub struct Protocol {
         *mut Protocol,
         crate::base::Boolean,
     ) -> crate::base::Status},
-    pub mode: *mut Mode,
+    pub mode: *const Mode,
 }
