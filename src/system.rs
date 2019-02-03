@@ -442,6 +442,7 @@ pub struct RuntimeServices {
         *mut crate::base::Guid,
         *mut u32,
         *mut usize,
+        *mut core::ffi::c_void,
     ) -> crate::base::Status},
     pub get_next_variable_name: eficall!{fn(
         *mut usize,
