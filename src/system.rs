@@ -414,7 +414,7 @@ pub struct RuntimeServices {
         *mut TimeCapabilities,
     ) -> crate::base::Status},
     pub set_time: eficall!{fn(
-        *mut Time,
+        *const Time,
     ) -> crate::base::Status},
     pub get_wakeup_time: eficall!{fn(
         *mut crate::base::Boolean,
@@ -423,14 +423,14 @@ pub struct RuntimeServices {
     ) -> crate::base::Status},
     pub set_wakeup_time: eficall!{fn(
         crate::base::Boolean,
-        *mut Time,
+        *const Time,
     ) -> crate::base::Status},
 
     pub set_virtual_address_map: eficall!{fn(
         usize,
         usize,
         u32,
-        *mut MemoryDescriptor,
+        *const MemoryDescriptor,
     ) -> crate::base::Status},
     pub convert_pointer: eficall!{fn(
         usize,
@@ -438,8 +438,8 @@ pub struct RuntimeServices {
     ) -> crate::base::Status},
 
     pub get_variable: eficall!{fn(
-        *mut crate::base::Char16,
-        *mut crate::base::Guid,
+        *const crate::base::Char16,
+        *const crate::base::Guid,
         *mut u32,
         *mut usize,
         *mut core::ffi::c_void,
@@ -450,11 +450,11 @@ pub struct RuntimeServices {
         *mut crate::base::Guid,
     ) -> crate::base::Status},
     pub set_variable: eficall!{fn(
-        *mut crate::base::Char16,
-        *mut crate::base::Guid,
+        *const crate::base::Char16,
+        *const crate::base::Guid,
         u32,
         usize,
-        *mut core::ffi::c_void,
+        *const core::ffi::c_void,
     ) -> crate::base::Status},
 
     pub get_next_high_mono_count: eficall!{fn(
@@ -464,16 +464,16 @@ pub struct RuntimeServices {
         ResetType,
         crate::base::Status,
         usize,
-        *mut core::ffi::c_void,
+        *const core::ffi::c_void,
     )},
 
     pub update_capsule: eficall!{fn(
-        *mut *mut CapsuleHeader,
+        *const *const CapsuleHeader,
         usize,
         crate::base::PhysicalAddress,
     ) -> crate::base::Status},
     pub query_capsule_capabilities: eficall!{fn(
-        *mut *mut CapsuleHeader,
+        *const *const CapsuleHeader,
         usize,
         *mut u64,
         *mut ResetType,
