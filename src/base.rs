@@ -551,6 +551,16 @@ impl Status {
     }
 }
 
+impl From<Status> for Result<Status, Status> {
+    fn from(status: Status) -> Self {
+        if status.is_error() {
+            Err(status)
+        } else {
+            Ok(status)
+        }
+    }
+}
+
 impl Guid {
     const fn u32_to_bytes_le(num: u32) -> [u8; 4] {
         [
