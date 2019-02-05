@@ -261,7 +261,7 @@ pub enum TryFromCharError {
 /// on the context, different state is stored in it. Note that it is always binary compatible to a
 /// usize!
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub struct Status(usize);
 
 /// Object Handles
