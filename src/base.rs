@@ -250,7 +250,6 @@ pub enum TryFromCharError {
     Surrogate,
     Private,
     OutOfRange,
-    Nul,
 }
 
 /// Status Codes
