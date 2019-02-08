@@ -47,7 +47,7 @@ pub extern fn efi_main(_h: efi::Handle, st: *mut efi::SystemTable) -> efi::Statu
 
     // Print "Hello World!".
     let r = unsafe {
-        ((*(*st).con_out).output_string)((*st).con_out, s.as_mut_ptr())
+        ((*(*st).con_out).output_string)((*st).con_out, s.as_mut_ptr() as *mut efi::Char16)
     };
     if r.is_error() {
         return r;
