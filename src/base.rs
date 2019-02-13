@@ -131,6 +131,8 @@ use core::convert::TryFrom;
 // backend to make rustdoc attach to the right symbol.
 
 #[cfg(target_arch = "arm")]
+#[macro_export]
+#[doc(hidden)]
 macro_rules! eficall_arch {
     ($($arg:tt)*) => { extern "aapcs" $($arg)* };
 }
@@ -138,16 +140,22 @@ macro_rules! eficall_arch {
 // XXX: Rust does not define aapcs64, yet. Once it does, we should switch to it, rather than
 //      referring to the system default.
 #[cfg(target_arch = "aarch64")]
+#[macro_export]
+#[doc(hidden)]
 macro_rules! eficall_arch {
     ($($arg:tt)*) => { extern "C" $($arg)* };
 }
 
 #[cfg(target_arch = "x86")]
+#[macro_export]
+#[doc(hidden)]
 macro_rules! eficall_arch {
     ($($arg:tt)*) => { extern "cdecl" $($arg)* };
 }
 
 #[cfg(target_arch = "x86_64")]
+#[macro_export]
+#[doc(hidden)]
 macro_rules! eficall_arch {
     ($($arg:tt)*) => { extern "win64" $($arg)* };
 }
@@ -156,6 +164,8 @@ macro_rules! eficall_arch {
               target_arch = "aarch64",
               target_arch = "x86",
               target_arch = "x86_64")))]
+#[macro_export]
+#[doc(hidden)]
 macro_rules! eficall_arch {
     ($($arg:tt)*) => { extern "C" $($arg)* };
 }
