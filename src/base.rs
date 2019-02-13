@@ -132,24 +132,24 @@ use core::convert::TryFrom;
 
 #[cfg(target_arch = "arm")]
 macro_rules! eficall_arch {
-    (fn $in:tt $(-> $out:ty)?) => { extern "aapcs" fn $in $( -> $out )? };
+    ($($arg:tt)*) => { extern "aapcs" $($arg)* };
 }
 
 // XXX: Rust does not define aapcs64, yet. Once it does, we should switch to it, rather than
 //      referring to the system default.
 #[cfg(target_arch = "aarch64")]
 macro_rules! eficall_arch {
-    (fn $in:tt $(-> $out:ty)?) => { extern "C" fn $in $( -> $out )? };
+    ($($arg:tt)*) => { extern "C" $($arg)* };
 }
 
 #[cfg(target_arch = "x86")]
 macro_rules! eficall_arch {
-    (fn $in:tt $(-> $out:ty)?) => { extern "cdecl" fn $in $( -> $out )? };
+    ($($arg:tt)*) => { extern "cdecl" $($arg)* };
 }
 
 #[cfg(target_arch = "x86_64")]
 macro_rules! eficall_arch {
-    (fn $in:tt $(-> $out:ty)?) => { extern "win64" fn $in $( -> $out )? };
+    ($($arg:tt)*) => { extern "win64" $($arg)* };
 }
 
 #[cfg(not(any(target_arch = "arm",
@@ -157,7 +157,7 @@ macro_rules! eficall_arch {
               target_arch = "x86",
               target_arch = "x86_64")))]
 macro_rules! eficall_arch {
-    (fn $in:tt $(-> $out:ty)?) => { extern "C" fn $in $( -> $out )? };
+    ($($arg:tt)*) => { extern "C" $($arg)* };
 }
 
 /// Annotate function with UEFI calling convention
