@@ -212,7 +212,7 @@ macro_rules! eficall_arch {
 /// required.
 #[macro_export]
 macro_rules! eficall {
-    ($($arg:tt)*) => { eficall_arch!($($arg)*) };
+    ($($arg:tt)*) => { eficall_arch!{$($arg)*} };
 }
 
 /// Boolean Type
