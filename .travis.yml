@@ -1,0 +1,24 @@
+os: linux
+dist: xenial
+sudo: false
+language: rust
+cache: cargo
+
+rust:
+ - stable
+ - nightly
+
+install:
+ - cargo install --force cargo-xbuild
+ - rustup component add rust-src
+
+script:
+ - cargo build --verbose
+ - cargo test --verbose
+ - test ! "$TRAVIS_RUST_VERSION" = "nightly" ||
+   (
+        cargo xbuild --verbose
+                --target x86_64-unknown-uefi
+                --features examples
+                --lib --bins --examples
+   )
