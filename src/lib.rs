@@ -19,29 +19,26 @@
 //! rust compiler running in an UEFI environment. Therefore, you will most likely want to cross
 //! compile your rust code for UEFI systems. To do this, you need a target-configuration for UEFI
 //! systems. In case your rust compiler does not provide these, this project has several of them
-//! included.
+//! included. As of February 2019, upstream rust includes the following UEFI targets:
 //!
-//! A target-configuration tells the rust compiler (and backends) about the formats and rules used
-//! on the target architecture. Since UEFI systems borrow most of their definitions from Microsoft
-//! Windows, the target-configurations look similar as well.
+//!  * `x86_64-unknown-uefi`: A native UEFI target for x86-64 systems. Programs compiled for this
+//!                           target can run natively as UEFI binaries on 64bit Intel-compatible
+//!                           systems.
 //!
-//! The target configurations can be found in the source-tree under their respective target-triple
-//! name. For instance, the `x86_64` configuration is called `x86_64-unknown-uefi.json`. Note that
-//! the target-configuration interface is not a stable rustc API. Therefore, it is subject to
-//! change. We try to only ever provide configurations for the nightly version of rustc, but work
-//! with upstream to make sure suitable target-configurations are included with rustc.
+//! If none of these targets match your architecture, you have to create the target specification
+//! yourself. Feel free to contact the `r-efi` project for help.
 //!
 //! # Examples
 //!
 //! To write free-standing UEFI applications, you need to disable the entry-point provided by rust
 //! and instead provide your own. Most target-configurations look for a function called `efi_main`
 //! during linking and set it as entry point. If you use the target-configurations provided with
-//! this module, they will pick the function called `efi_main` as entry-point.
+//! upstream rust, they will pick the function called `efi_main` as entry-point.
 //!
 //! The following example shows a minimal UEFI application. Note that, depending on your rust
 //! compiler, you might need further hooks to make this compile. In particular, you most likely
 //! need a panic-handler and compiler-intrinsics as well. See the bundled examples for complete
-//! examples compatible to Rust-2018.
+//! examples compatible with the nightly compiler.
 //!
 //! ```ignore
 //! #![no_main]
@@ -54,16 +51,6 @@
 //!     efi::Status::SUCCESS
 //! }
 //! ```
-
-// XXX: - We should document why SIMD is disabled in our target-configurations. UEFI generally
-//        allows MMX+SSE, but there have been reports that the FP exception handlers are
-//        uninitialized. Generally, that is not a problem, unless you trigger FP exceptions. So
-//        far we simply disable any SIMD extenions to avoid all this. We should try to
-//        investigate, though.
-//      - UEFI allows stack-pages to be marked non-executable. So far there is no way to tell
-//        rustc about this in the target-configuration. There might be no need for it, if rustc
-//        never places code on the stack. However, we did not investigate this. So if rustc places
-//        trampolines, or similar constructs, on the stack, this would fail.
 
 // We want to use the TryFrom trait to convert between the native `char` and our own Char{8,16}
 // types. We cannot simply use From, as the conversion is not well-defined at all chars.
