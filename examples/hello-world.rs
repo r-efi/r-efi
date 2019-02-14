@@ -34,7 +34,7 @@ fn rust_panic_handler(_info: &core::panic::PanicInfo) -> ! {
     loop {}
 }
 
-#[no_mangle]
+#[export_name = "efi_main"]
 pub extern fn efi_main(_h: efi::Handle, st: *mut efi::SystemTable) -> efi::Status {
     let mut s = [
         0x0048u16, 0x0065u16, 0x006cu16, 0x006cu16, 0x006fu16,              // "Hello"

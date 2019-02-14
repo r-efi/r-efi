@@ -46,7 +46,7 @@
 //!
 //! use r_efi::efi;
 //!
-//! #[no_mangle]
+//! #[export_name = "efi_main"]
 //! pub extern fn efi_main(_h: efi::Handle, _st: *mut efi::SystemTable) -> efi::Status {
 //!     efi::Status::SUCCESS
 //! }
