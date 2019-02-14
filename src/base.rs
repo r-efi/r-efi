@@ -124,17 +124,16 @@ compile_error!("The target endianness is not supported.");
 
 use core::convert::TryFrom;
 
-// eficall_arch!()
+// eficall_abi!()
 //
 // This macro is the architecture-dependent implementation of eficall!(). See the documentation of
-// the eficall!() macro for a description. We need to split the exported wrapper from the internal
-// backend to make rustdoc attach to the right symbol.
+// the eficall!() macro for a description.
 
 #[cfg(target_arch = "arm")]
 #[macro_export]
 #[doc(hidden)]
-macro_rules! eficall_arch {
-    ($($arg:tt)*) => { extern "aapcs" $($arg)* };
+macro_rules! eficall_abi {
+    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "aapcs" $($suffix)* };
 }
 
 // XXX: Rust does not define aapcs64, yet. Once it does, we should switch to it, rather than
@@ -142,22 +141,22 @@ macro_rules! eficall_arch {
 #[cfg(target_arch = "aarch64")]
 #[macro_export]
 #[doc(hidden)]
-macro_rules! eficall_arch {
-    ($($arg:tt)*) => { extern "C" $($arg)* };
+macro_rules! eficall_abi {
+    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "C" $($suffix)* };
 }
 
 #[cfg(target_arch = "x86")]
 #[macro_export]
 #[doc(hidden)]
-macro_rules! eficall_arch {
-    ($($arg:tt)*) => { extern "cdecl" $($arg)* };
+macro_rules! eficall_abi {
+    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "cdecl" $($suffix)* };
 }
 
 #[cfg(target_arch = "x86_64")]
 #[macro_export]
 #[doc(hidden)]
-macro_rules! eficall_arch {
-    ($($arg:tt)*) => { extern "win64" $($arg)* };
+macro_rules! eficall_abi {
+    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "win64" $($suffix)* };
 }
 
 #[cfg(not(any(target_arch = "arm",
@@ -166,8 +165,8 @@ macro_rules! eficall_arch {
               target_arch = "x86_64")))]
 #[macro_export]
 #[doc(hidden)]
-macro_rules! eficall_arch {
-    ($($arg:tt)*) => { extern "C" $($arg)* };
+macro_rules! eficall_abi {
+    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "C" $($suffix)* };
 }
 
 /// Annotate function with UEFI calling convention
@@ -176,6 +175,50 @@ macro_rules! eficall_arch {
 /// but annotated with the correct calling convention. Since the default `extern "C"` annotation
 /// depends on your compiler defaults, we cannot use it. Instead, this macro selects the default
 /// for your target platform.
+///
+/// Ideally, the macro would expand to `extern "<abi>"` so you would be able to write:
+///
+/// ```ignore
+/// // THIS DOES NOT WORK!
+/// pub fn eficall!{} foobar() {
+///     // ...
+/// }
+/// ```
+///
+/// However, macros are evaluated too late for this to work. Instead, the entire construct must be
+/// wrapped in a macro, which then expands to the same construct but with `extern "<abi>"`
+/// inserted at the correct place:
+///
+/// ```
+/// use r_efi::{eficall, eficall_abi};
+///
+/// eficall!{pub fn foobar() {
+///     // ...
+/// }}
+///
+/// type FooBar = eficall!{fn(u8) -> (u8)};
+/// ```
+///
+/// The `eficall!{}` macro takes either a function-type or function-definition as argument. It
+/// inserts `extern "<abi>"` after the function qualifiers, but before the `fn` keyword.
+///
+/// # Internals
+///
+/// The `eficall!{}` macro tries to parse the function header so it can insert `extern "<abi>"` at
+/// the right place. If, for whatever reason, this does not work with a particular syntax, you can
+/// use the internal `eficall_abi!{}` macro. This macro takes two token-streams as input and
+/// evaluates to the concatenation of both token-streams, but separated by the selected ABI.
+///
+/// For instance, the following 3 type definitions are equivalent, assuming the selected ABI
+/// is "C":
+///
+/// ```
+/// use r_efi::{eficall, eficall_abi};
+///
+/// type FooBar1 = unsafe extern "C" fn(u8) -> (u8);
+/// type FooBar2 = eficall!{unsafe fn(u8) -> (u8)};
+/// type FooBar3 = eficall_abi!{(unsafe), (fn(u8) -> (u8))};
+/// ```
 ///
 /// # Calling Conventions
 ///
@@ -217,12 +260,29 @@ macro_rules! eficall_arch {
 ///
 /// For some reason, the rust compiler allows variadics only in combination with the `"C"` calling
 /// convention, even if the selected calling-convention matches what `"C"` would select on the
-/// target platform. Hence, we do not support variadics so far. Luckily, all of the UEFI functions
-/// that use variadics are wrappers around more low-level accessors, so they are not necessarily
-/// required.
+/// target platform. Hence, you will very likely be unable to use variadics with this macro.
+/// Luckily, all of the UEFI functions that use variadics are wrappers around more low-level
+/// accessors, so they are not necessarily required.
 #[macro_export]
 macro_rules! eficall {
-    ($($arg:tt)*) => { eficall_arch!{$($arg)*} };
+    // Muncher
+    //
+    // The `@munch()` rules are internal and should not be invoked directly. We walk through the
+    // input, moving one token after the other from the suffix into the prefix until we find the
+    // position where to insert `extern "<abi>"`. This muncher never drops any tokens, hence we
+    // can safely match invalid statements just fine, as the compiler will later print proper
+    // diagnostics when parsing the macro output.
+    // Once done, we invoke the `eficall_abi!{}` macro, which simply inserts the correct ABI.
+    (@munch(($($prefix:tt)*),(pub $($suffix:tt)*))) => { eficall!{@munch(($($prefix)* pub),($($suffix)*))} };
+    (@munch(($($prefix:tt)*),(unsafe $($suffix:tt)*))) => { eficall!{@munch(($($prefix)* unsafe),($($suffix)*))} };
+    (@munch(($($prefix:tt)*),($($suffix:tt)*))) => { eficall_abi!{($($prefix)*),($($suffix)*)} };
+
+    // Entry Point
+    //
+    // This captures the entire argument and invokes its own TT-muncher, but splits the input into
+    // prefix and suffix, so the TT-muncher can walk through it. Note that initially everything is
+    // in the suffix and the prefix is empty.
+    ($($arg:tt)*) => { eficall!{@munch((),($($arg)*))} };
 }
 
 /// Boolean Type
