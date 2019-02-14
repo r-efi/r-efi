@@ -544,7 +544,7 @@ impl Status {
     /// Check whether this is an error
     ///
     /// This returns true if the given status code is considered an error. Errors mean the
-    /// operation did not success, nor produce any valuable output. Output parameters must be
+    /// operation did not succeed, nor produce any valuable output. Output parameters must be
     /// considered invalid if an error was returned. That is, its content is not well defined.
     pub fn is_error(&self) -> bool {
         self.mask() == Status::ERROR_MASK
@@ -605,6 +605,9 @@ impl Guid {
     /// This function initializes a Guid object given the individual fields as specified in the
     /// UEFI specification. That is, if you simply copy the literals from the specification into
     /// your code, this function will correctly initialize the Guid object.
+    ///
+    /// In other words, this takes the individual fields in native endian and converts them to the
+    /// correct endianness for a UEFI Guid.
     pub const fn from_fields(
         time_low: u32,
         time_mid: u16,
@@ -625,7 +628,8 @@ impl Guid {
 
     /// Access a Guid as individual fields
     ///
-    /// This decomposes a Guid back into the individual fields as given in the specification.
+    /// This decomposes a Guid back into the individual fields as given in the specification. The
+    /// individual fields are returned in native-endianness.
     pub const fn as_fields(&self) -> (u32, u16, u16, u8, u8, &[u8; 6]) {
         (
             Self::u32_from_bytes_le(&self.time_low),
