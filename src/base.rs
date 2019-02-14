@@ -122,8 +122,6 @@ compile_error!("The target architecture is not supported.");
 #[cfg(not(any(target_endian = "little")))]
 compile_error!("The target endianness is not supported.");
 
-use core::convert::TryFrom;
-
 // eficall_abi!()
 //
 // This macro is the architecture-dependent implementation of eficall!(). See the documentation of
@@ -308,23 +306,12 @@ pub struct Boolean(u8);
 ///
 /// The `Char8` type represents single-byte characters. UEFI defines them to be ASCII compatible,
 /// using the ISO-Latin-1 character set.
-#[repr(C)]
-#[derive(Copy, Clone, Debug, PartialEq)]
-pub struct Char8(u8);
+pub type Char8 = u8;
 
 /// Dual-byte Character Type
 ///
 /// The `Char16` type represents dual-byte characters. UEFI defines them to be UCS-2 encoded.
-#[repr(C)]
-#[derive(Copy, Clone, Debug, PartialEq)]
-pub struct Char16(u16);
-
-#[derive(Copy, Clone, Debug, PartialEq)]
-pub enum TryFromCharError {
-    Surrogate,
-    Private,
-    OutOfRange,
-}
+pub type Char16 = u16;
 
 /// Status Codes
 ///
@@ -477,80 +464,6 @@ impl PartialEq for Boolean {
 impl PartialEq<bool> for Boolean {
     fn eq(&self, other: &bool) -> bool {
         *other == (*self).into()
-    }
-}
-
-impl From<Char8> for char {
-    fn from(c: Char8) -> Self {
-        // A Char8 is always a valid Unicode codepoint.
-        char::from(c.0)
-    }
-}
-
-impl From<Char16> for char {
-    fn from(c: Char16) -> Self {
-        // A Char16 is always a valid Unicode codepoint.
-        char::try_from(c.0 as u32).unwrap()
-    }
-}
-
-impl TryFrom<char> for Char8 {
-    type Error = TryFromCharError;
-
-    fn try_from(c: char) -> Result<Self, Self::Error> {
-        // A Char8 is any 8-bit Unicode codepoint, corresponding to
-        // the ISO-Latin-1 encoding.
-        match c as u32 {
-            0x00 ... 0xff => Ok(Char8(c as u8)),
-            _ => Err(TryFromCharError::OutOfRange),
-        }
-    }
-}
-
-impl TryFrom<char> for Char16 {
-    type Error = TryFromCharError;
-
-    fn try_from(c: char) -> Result<Self, Self::Error> {
-        // A Char16 is any Unicode codepoint in the basic multilingual
-        // plane, except any surrogate codepoint or a codepoint reserved
-        // for private use.
-        match c as u32 {
-            0x0000 ... 0xd7ff => Ok(Char16(c as u16)),
-            0xd800 ... 0xdfff => Err(TryFromCharError::Surrogate),
-            0xe000 ... 0xf8ff => Err(TryFromCharError::Private),
-            0xf900 ... 0xffff => Ok(Char16(c as u16)),
-            _ => Err(TryFromCharError::OutOfRange),
-        }
-    }
-}
-
-impl Default for Char8 {
-    fn default () -> Self {
-        Char8(0)
-    }
-}
-
-impl Default for Char16 {
-    fn default () -> Self {
-        Char16(0)
-    }
-}
-
-impl Char8 {
-    pub fn is_nul(&self) -> bool {
-        match self {
-            Char8(0) => true,
-            _ => false,
-        }
-    }
-}
-
-impl Char16 {
-    pub fn is_nul(&self) -> bool {
-        match self {
-            Char16(0) => true,
-            _ => false,
-        }
     }
 }
 
