@@ -3,7 +3,7 @@ name = "r-efi"
 version = "0.1.1"
 
 authors = [
-        "David Herrmann <dh.herrmann@gmail.com>",
+        "David Rheinsberg <david.rheinsberg@gmail.com>",
         "Tom Gundersen <teg@jklm.no>",
 ]
 categories = [
