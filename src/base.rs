@@ -22,8 +22,8 @@
 //!
 //! The recommend way to compile your code, is to use the native target-configuration for UEFI.
 //! These configurations are not necessarily included in the upstream rust compiler. Hence, you
-//! might have to craft one yourself. This project contains target-configurations for all targets
-//! defined by the UEFI specification and supported by rust.
+//! might have to craft one yourself. For all systems that we can test on, we make sure to push
+//! the target configuration into upstream rust-lang.
 //!
 //! However, there are situations where you want to access UEFI data from a non-native host. For
 //! instance, a UEFI boot loader might store data in boot variables, formatted according to types
