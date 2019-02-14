@@ -1,19 +1,18 @@
-//
 // Example: Hello World!
 //
 // This is an example UEFI application that prints "Hello World!", then waits for key input before
 // it exits. It serves as base example how to write UEFI applications without any helper modules
 // other than the UEFI protocol definitions.
 //
-// The `efi_main` function serves as entry-point. Depending on your target-configuration, this
-// entry point might be called differently. If you use the target-configuration shipped with
-// r-efi, then `efi_main` is the selected PE/COFF entry point.
+// The `main` function serves as entry-point. Depending on your target-configuration, it must be
+// exported with a pre-configured name so the linker will correctly mark it as entry-point. The
+// target configurations shipped with upstream rust-lang use `efi_main` as symbol name.
 //
 // Additionally, a panic handler is provided. This is executed by rust on panic. For simplicity,
 // we simply end up in an infinite loop. For real applications, this method should probably call
 // into `SystemTable->boot_services->exit()` to exit the UEFI application. Note, however, that
 // UEFI applications are likely to run in the same address space as the entire firmware. Hence,
-// halting the machine might be a viable alternative. All that is out-of-scope of this example,
+// halting the machine might be a viable alternative. All that is out-of-scope for this example,
 // though.
 //
 // Lastly, note that UEFI uses UTF-16 strings. Since rust literals are UTF-8, we have to use an
@@ -22,7 +21,6 @@
 //
 // Note that as of rust-1.31.0, all features used here are stabilized. No unstable features are
 // required, nor do we rely on nightly compilers.
-//
 
 #![no_main]
 #![no_std]
@@ -30,13 +28,13 @@
 use r_efi::efi;
 
 #[panic_handler]
-fn rust_panic_handler(_info: &core::panic::PanicInfo) -> ! {
+fn panic_handler(_info: &core::panic::PanicInfo) -> ! {
     loop {}
 }
 
 #[export_name = "efi_main"]
-pub extern fn efi_main(_h: efi::Handle, st: *mut efi::SystemTable) -> efi::Status {
-    let mut s = [
+pub extern fn main(_h: efi::Handle, st: *mut efi::SystemTable) -> efi::Status {
+    let s = [
         0x0048u16, 0x0065u16, 0x006cu16, 0x006cu16, 0x006fu16,              // "Hello"
         0x0020u16,                                                          // " "
         0x0057u16, 0x006fu16, 0x0072u16, 0x006cu16, 0x0064u16,              // "World"
@@ -47,7 +45,7 @@ pub extern fn efi_main(_h: efi::Handle, st: *mut efi::SystemTable) -> efi::Statu
 
     // Print "Hello World!".
     let r = unsafe {
-        ((*(*st).con_out).output_string)((*st).con_out, s.as_mut_ptr() as *mut efi::Char16)
+        ((*(*st).con_out).output_string)((*st).con_out, s.as_ptr() as *mut efi::Char16)
     };
     if r.is_error() {
         return r;

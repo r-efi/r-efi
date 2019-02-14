@@ -35,10 +35,9 @@
 //! during linking and set it as entry point. If you use the target-configurations provided with
 //! upstream rust, they will pick the function called `efi_main` as entry-point.
 //!
-//! The following example shows a minimal UEFI application. Note that, depending on your rust
-//! compiler, you might need further hooks to make this compile. In particular, you most likely
-//! need a panic-handler and compiler-intrinsics as well. See the bundled examples for complete
-//! examples compatible with the nightly compiler.
+//! The following example shows a minimal UEFI application, which simply returns success upon
+//! invocation. Note that you must provide your own panic-handler when running without `libstd`.
+//! In our case, we use a trivial implementation that simply loops forever.
 //!
 //! ```ignore
 //! #![no_main]
@@ -46,8 +45,13 @@
 //!
 //! use r_efi::efi;
 //!
+//! #[panic_handler]
+//! fn panic_handler(_info: &core::panic::PanicInfo) -> ! {
+//!     loop {}
+//! }
+//!
 //! #[export_name = "efi_main"]
-//! pub extern fn efi_main(_h: efi::Handle, _st: *mut efi::SystemTable) -> efi::Status {
+//! pub extern fn main(_h: efi::Handle, _st: *mut efi::SystemTable) -> efi::Status {
 //!     efi::Status::SUCCESS
 //! }
 //! ```
