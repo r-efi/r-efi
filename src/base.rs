@@ -746,9 +746,14 @@ mod tests {
         //
 
         let _: eficall!{fn()};
+        let _: eficall!{unsafe fn()};
         let _: eficall!{fn(i32)};
         let _: eficall!{fn(i32) -> i32};
         let _: eficall!{fn(i32, i32) -> (i32, i32)};
+
+        eficall!{fn _unused00() {}}
+        eficall!{unsafe fn _unused01() {}}
+        eficall!{pub unsafe fn _unused02() {}}
     }
 
     // Verify Boolean ABI
