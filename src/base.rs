@@ -299,7 +299,7 @@ macro_rules! eficall {
 /// However, on the rust side you will never see the integer value. It instead behaves truly as a
 /// boolean. If you need access to the integer value, you have to transmute it back to `u8`.
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Eq)]
 pub struct Boolean(u8);
 
 /// Single-byte Character Type
@@ -409,7 +409,7 @@ pub type ImageEntryPoint = fn(Handle, *mut crate::system::SystemTable) -> Status
 /// The individual fields are encoded as little-endian. Accessors are provided for the Guid
 /// structure allowing access to these fields in native endian byte order.
 #[repr(C, align(8))]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, PartialEq, Eq)]
 pub struct Guid {
     time_low: [u8; 4],
     time_mid: [u8; 2],
