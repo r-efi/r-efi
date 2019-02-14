@@ -232,13 +232,17 @@ macro_rules! eficall {
 /// interface.
 ///
 /// UEFI defines booleans to be 1-byte integers, which can only have the values of `0` or `1`.
-/// This enum provides the equivalent definitions as [`Boolean::False`] and [`Boolean::True`].
-#[repr(u8)]
-#[derive(Copy, Clone, Debug, PartialEq)]
-pub enum Boolean {
-    False = 0u8,
-    True = 1u8,
-}
+/// However, in practice anything non-zero is considered `true` by nearly all UEFI systems. Hence,
+/// this type implements a boolean over `u8` and maps `0` to `false`, everything else to `true`.
+///
+/// The binary representation of this type is ABI. That is, you are allowed to transmute from and
+/// to `u8`. Furthermore, this type never modifies its binary representation. If it was
+/// initialized as, or transmuted from, a specific integer value, this value will be retained.
+/// However, on the rust side you will never see the integer value. It instead behaves truly as a
+/// boolean. If you need access to the integer value, you have to transmute it back to `u8`.
+#[repr(C)]
+#[derive(Copy, Clone, Debug)]
+pub struct Boolean(u8);
 
 /// Single-byte Character Type
 ///
@@ -368,27 +372,51 @@ pub struct Guid {
     node: [u8; 6],
 }
 
-impl PartialEq<bool> for Boolean {
-    fn eq(&self, other: &bool) -> bool {
-        *other == (*self).into()
+impl Boolean {
+    /// Literal False
+    ///
+    /// This constant represents the `false` value of the `Boolean` type.
+    pub const FALSE: Boolean = Boolean(0u8);
+
+    /// Literal True
+    ///
+    /// This constant represents the `true` value of the `Boolean` type.
+    pub const TRUE: Boolean = Boolean(1u8);
+}
+
+impl From<u8> for Boolean {
+    fn from(v: u8) -> Self {
+        Boolean(v)
     }
 }
 
 impl From<bool> for Boolean {
-    fn from(b: bool) -> Self {
-        match b {
-            false => Boolean::False,
-            true => Boolean::True,
+    fn from(v: bool) -> Self {
+        match v {
+            false   => Boolean::FALSE,
+            true    => Boolean::TRUE,
         }
     }
 }
 
 impl From<Boolean> for bool {
-    fn from(b: Boolean) -> Self {
-        match b {
-            Boolean::False  => false,
-            Boolean::True   => true,
+    fn from(v: Boolean) -> Self {
+        match v.0 {
+            0 => false,
+            _ => true,
         }
+    }
+}
+
+impl PartialEq for Boolean {
+    fn eq(&self, other: &Boolean) -> bool {
+        <bool as From<Boolean>>::from(*self) == (*other).into()
+    }
+}
+
+impl PartialEq<bool> for Boolean {
+    fn eq(&self, other: &bool) -> bool {
+        *other == (*self).into()
     }
 }
 
@@ -652,17 +680,19 @@ mod tests {
     use super::*;
     use std::mem::{align_of, size_of};
 
+    // Verify Type Size and Alignemnt
+    //
+    // Since UEFI defines explicitly the ABI of their types, we can verify that our implementation
+    // is correct by checking the size and alignment of the ABI types matches what the spec
+    // mandates.
     #[test]
-    fn types() {
+    fn type_size_and_alignment() {
         //
         // Booleans
         //
 
         assert_eq!(size_of::<Boolean>(), 1);
         assert_eq!(align_of::<Boolean>(), 1);
-        assert_eq!(Boolean::False, false);
-        assert_eq!(Boolean::True, true);
-        assert_ne!(Boolean::False, Boolean::True);
 
         //
         // Char8 / Char16
@@ -742,5 +772,57 @@ mod tests {
         let _: eficall!{fn(i32)};
         let _: eficall!{fn(i32) -> i32};
         let _: eficall!{fn(i32, i32) -> (i32, i32)};
+    }
+
+    // Verify Boolean ABI
+    //
+    // Even though booleans are strictly 1-bit, and thus 0 or 1, in practice all UEFI systems
+    // treat it more like C does, and a boolean formatted as `u8` now allows any value other than
+    // 0 to represent `true`. Make sure we support the same.
+    #[test]
+    fn booleans() {
+        // Verify PartialEq works.
+        assert_ne!(Boolean::FALSE, Boolean::TRUE);
+
+        // Verify Boolean<->bool conversion and comparison works.
+        assert_eq!(Boolean::FALSE, false);
+        assert_eq!(Boolean::TRUE, true);
+
+        // Iterate all possible values for `u8` and verify 0 behaves as `false`, and everything
+        // else behaves as `true`. We verify both, the natural constructor through `From`, as well
+        // as a transmute.
+        for i in 0u8..=255u8 {
+            let v1: Boolean = i.into();
+            let v2: Boolean = unsafe { std::mem::transmute::<u8, Boolean>(i) };
+
+            assert_eq!(v1, v2);
+            assert_eq!(v1, v1);
+            assert_eq!(v2, v2);
+
+            match i {
+                0 => {
+                    assert_eq!(v1, Boolean::FALSE);
+                    assert_eq!(v1, false);
+                    assert_eq!(v2, Boolean::FALSE);
+                    assert_eq!(v2, false);
+
+                    assert_ne!(v1, Boolean::TRUE);
+                    assert_ne!(v1, true);
+                    assert_ne!(v2, Boolean::TRUE);
+                    assert_ne!(v2, true);
+                },
+                _ => {
+                    assert_eq!(v1, Boolean::TRUE);
+                    assert_eq!(v1, true);
+                    assert_eq!(v2, Boolean::TRUE);
+                    assert_eq!(v2, true);
+
+                    assert_ne!(v1, Boolean::FALSE);
+                    assert_ne!(v1, false);
+                    assert_ne!(v2, Boolean::FALSE);
+                    assert_ne!(v2, false);
+                },
+            }
+        }
     }
 }
