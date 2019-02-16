@@ -321,7 +321,7 @@ pub type Char16 = u16;
 /// on the context, different state is stored in it. Note that it is always binary compatible to a
 /// usize!
 #[repr(C)]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct Status(usize);
 
 /// Object Handles
@@ -409,7 +409,7 @@ pub type ImageEntryPoint = fn(Handle, *mut crate::system::SystemTable) -> Status
 /// The individual fields are encoded as little-endian. Accessors are provided for the Guid
 /// structure allowing access to these fields in native endian byte order.
 #[repr(C, align(8))]
-#[derive(Copy, Clone, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct Guid {
     time_low: [u8; 4],
     time_mid: [u8; 2],
