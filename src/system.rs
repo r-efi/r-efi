@@ -22,6 +22,7 @@ pub const TIME_IN_DAYLIGHT: u8 = 0x02u8;
 pub const UNSPECIFIED_TIMEZONE: i16 = 0x07ffi16;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct Time {
     pub year: u16,
     pub month: u8,
@@ -37,6 +38,7 @@ pub struct Time {
 }
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct TimeCapabilities {
     pub resolution: u32,
     pub accuracy: u32,
@@ -62,6 +64,7 @@ pub const VARIABLE_ENHANCED_AUTHENTICATED_ACCESS:           u32 = 0x00000080u32;
 pub const VARIABLE_AUTHENTICATION_3_CERT_ID_SHA256: u32 = 0x1u32;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct VariableAuthentication3CertId {
     pub type_: u8,
     pub id_size: u32,
@@ -69,12 +72,14 @@ pub struct VariableAuthentication3CertId {
 }
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct VariableAuthentication {
     pub monotonic_count: u64,
     pub auth_info: [u8], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
 }
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct VariableAuthentication2 {
     pub timestamp: Time,
     pub auth_info: [u8], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
@@ -84,6 +89,7 @@ pub const VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE:     u32 = 0x1u32;
 pub const VARIABLE_AUTHENTICATION_3_NONCE_TYPE:         u32 = 0x2u32;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct VariableAuthentication3 {
     pub version: u8,
     pub type_: u8,
@@ -92,6 +98,7 @@ pub struct VariableAuthentication3 {
 }
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct VariableAuthentication3Nonce {
     pub nonce_size: u32,
     pub nonce: [u8],
@@ -119,7 +126,7 @@ pub const OPTIONAL_POINTER: u32 = 0x00000001u32;
 //
 
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum ResetType {
     ResetCold,
     ResetWarm,
@@ -151,6 +158,7 @@ pub const CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE:  u32 = 0x00020000u32;
 pub const CAPSULE_FLAGS_INITIATE_RESET:         u32 = 0x00040000u32;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct CapsuleHeader {
     pub capsule_guid: crate::base::Guid,
     pub header_size: u32,
@@ -171,6 +179,7 @@ pub const CAPSULE_REPORT_GUID: crate::base::Guid = crate::base::Guid::from_field
 );
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct CapsuleResultVariableHeader {
     pub variable_total_size: u32,
     pub reserved: u32,
@@ -180,6 +189,7 @@ pub struct CapsuleResultVariableHeader {
 }
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct CapsuleResultVariableFMP {
     pub version: u16,
     pub payload_index: u8,
@@ -228,7 +238,7 @@ pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_
 );
 
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum TimerDelay {
     TimerCancel,
     TimerPeriodic,
@@ -250,7 +260,7 @@ pub const TPL_HIGH_LEVEL:       crate::base::Tpl = 31;
 //
 
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum AllocateType {
     AllocateAnyPages,
     AllocateMaxAddress,
@@ -258,7 +268,7 @@ pub enum AllocateType {
 }
 
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum MemoryType {
     ReservedMemoryType,
     LoaderCode,
@@ -293,6 +303,7 @@ pub const MEMORY_RUNTIME:           u64 = 0x8000000000000000u64;
 pub const MEMORY_DESCRIPTOR_VERSION: u32 = 0x00000001u32;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct MemoryDescriptor {
     pub type_: u32,
     pub physical_start: crate::base::PhysicalAddress,
@@ -311,13 +322,13 @@ pub struct MemoryDescriptor {
 //
 
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum InterfaceType {
     NativeInterface,
 }
 
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Debug)]
 pub enum LocateSearchType {
     AllHandles,
     ByRegisterNotify,
@@ -332,6 +343,7 @@ pub const OPEN_PROTOCOL_BY_DRIVER:              u32 = 0x00000010u32;
 pub const OPEN_PROTOCOL_EXCLUSIVE:              u32 = 0x00000020u32;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct OpenProtocolInformationEntry {
     pub agent_handle: crate::base::Handle,
     pub controller_handle: crate::base::Handle,
@@ -347,6 +359,7 @@ pub struct OpenProtocolInformationEntry {
 //
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct ConfigurationTable {
     pub vendor_guid: crate::base::Guid,
     pub vendor_table: *mut core::ffi::c_void,
@@ -361,6 +374,7 @@ pub const PROPERTIES_TABLE_VERSION: u32 = 0x00010000u32;
 pub const PROPERTIES_RUNTIME_MEMORY_PROTECTION_NON_EXECUTABLE_PE_DATA: u64 = 0x1u64;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct PropertiesTable {
     pub version: u32,
     pub length: u32,
@@ -374,6 +388,7 @@ pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::f
 pub const MEMORY_ATTRIBUTES_TABLE_VERSION: u32 = 0x00000001u32;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct MemoryAttributesTable {
     pub version: u32,
     pub number_of_entries: u32,
@@ -394,6 +409,7 @@ pub struct MemoryAttributesTable {
 pub const SPECIFICATION_REVISION: u32 = SYSTEM_TABLE_REVISION;
 
 #[repr(C)]
+#[derive(Debug)]
 pub struct TableHeader {
     pub signature: u64,
     pub revision: u32,
