@@ -5,6 +5,7 @@
 //! each protocol as a separate module, so it is clearly defined where a symbol belongs to.
 
 pub mod file;
+pub mod simple_file_system;
 pub mod simple_text_input;
 pub mod simple_text_input_ex;
 pub mod simple_text_output;
