@@ -13,7 +13,7 @@ pub struct FileIoToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,
     pub buffer_size: u64,
-    pub buffer: core::ffi::c_void,
+    pub buffer: *mut core::ffi::c_void,
 }
 
 #[repr(C)]
