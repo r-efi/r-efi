@@ -18,7 +18,7 @@ needs to interact with UEFI, or implement (parts of) the UEFI specification.
 
 The requirements for this project are:
 
- * `rustc >= 1.31.0-nightly`
+ * `rustc >= 1.31.0`
 
 ## Build
 
