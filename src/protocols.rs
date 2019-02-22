@@ -4,6 +4,7 @@
 //! refer to each other, but their documentation and implementation is split apart. We provide
 //! each protocol as a separate module, so it is clearly defined where a symbol belongs to.
 
+pub mod decompress;
 pub mod device_path;
 pub mod file;
 pub mod loaded_image;
