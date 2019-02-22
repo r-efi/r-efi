@@ -6,6 +6,7 @@
 
 pub mod device_path;
 pub mod file;
+pub mod loaded_image;
 pub mod simple_file_system;
 pub mod simple_text_input;
 pub mod simple_text_input_ex;
