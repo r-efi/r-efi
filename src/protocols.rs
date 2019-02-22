@@ -6,6 +6,7 @@
 
 pub mod decompress;
 pub mod device_path;
+pub mod device_path_utilities;
 pub mod file;
 pub mod loaded_image;
 pub mod simple_file_system;
