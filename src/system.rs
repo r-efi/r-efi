@@ -520,7 +520,7 @@ pub struct BootServices {
         AllocateType,
         MemoryType,
         usize,
-        crate::base::PhysicalAddress,
+        *mut crate::base::PhysicalAddress,
     ) -> crate::base::Status},
     pub free_pages: eficall!{fn(
         crate::base::PhysicalAddress,
