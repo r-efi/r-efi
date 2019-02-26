@@ -66,7 +66,7 @@ pub const VARIABLE_AUTHENTICATION_3_CERT_ID_SHA256: u32 = 0x1u32;
 #[repr(C)]
 #[derive(Debug)]
 pub struct VariableAuthentication3CertId {
-    pub type_: u8,
+    pub r#type: u8,
     pub id_size: u32,
     pub id: [u8],
 }
@@ -92,7 +92,7 @@ pub const VARIABLE_AUTHENTICATION_3_NONCE_TYPE:         u32 = 0x2u32;
 #[derive(Debug)]
 pub struct VariableAuthentication3 {
     pub version: u8,
-    pub type_: u8,
+    pub r#type: u8,
     pub metadata_size: u32,
     pub flags: u32,
 }
@@ -305,7 +305,7 @@ pub const MEMORY_DESCRIPTOR_VERSION: u32 = 0x00000001u32;
 #[repr(C)]
 #[derive(Debug)]
 pub struct MemoryDescriptor {
-    pub type_: u32,
+    pub r#type: u32,
     pub physical_start: crate::base::PhysicalAddress,
     pub virtual_start: crate::base::VirtualAddress,
     pub number_of_pages: u64,
