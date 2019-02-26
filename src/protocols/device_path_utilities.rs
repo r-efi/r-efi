@@ -1,7 +1,7 @@
-//! Decompress Protocol
+//! Device Path Utilities Protocol
 //!
-//! The decompress protocol provides a decompression service that allows a compressed source
-//! buffer in memory to be decompressed into a destination buffer in memory.
+//! The device-path utilities protocol provides common utilities for creating and manipulating
+//! device paths and device nodes.
 
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x379be4e, 0xd706, 0x437d, 0b0, 037, &[0xed, 0xb8, 0x2f, 0xb7, 0x72, 0xa4]
