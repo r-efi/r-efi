@@ -16,7 +16,7 @@ pub struct Protocol {
     pub system_table: *mut crate::system::SystemTable,
 
     pub device_handle: crate::base::Handle,
-    pub device_path: *mut crate::protocols::device_path::Protocol,
+    pub file_path: *mut crate::protocols::device_path::Protocol,
     reserved: *mut core::ffi::c_void,
 
     pub load_options_size: u32,
