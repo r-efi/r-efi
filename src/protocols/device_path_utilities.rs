@@ -12,29 +12,29 @@ pub struct Protocol {
     pub get_device_path_size: eficall!{fn(
         *const crate::protocols::device_path::Protocol,
     ) -> usize},
-    pub dup_device_path: eficall!{fn(
+    pub duplicate_device_path: eficall!{fn(
         *const crate::protocols::device_path::Protocol,
     ) -> *mut crate::protocols::device_path::Protocol},
-    pub append_path: eficall!{fn(
-        *const crate::protocols::device_path::Protocol,
-        *const crate::protocols::device_path::Protocol,
-    ) -> *mut crate::protocols::device_path::Protocol},
-    pub append_node: eficall!{fn(
+    pub append_device_path: eficall!{fn(
         *const crate::protocols::device_path::Protocol,
         *const crate::protocols::device_path::Protocol,
     ) -> *mut crate::protocols::device_path::Protocol},
-    pub append_instance: eficall!{fn(
+    pub append_device_node: eficall!{fn(
         *const crate::protocols::device_path::Protocol,
         *const crate::protocols::device_path::Protocol,
     ) -> *mut crate::protocols::device_path::Protocol},
-    pub get_next_instance: eficall!{fn(
+    pub append_device_path_instance: eficall!{fn(
+        *const crate::protocols::device_path::Protocol,
+        *const crate::protocols::device_path::Protocol,
+    ) -> *mut crate::protocols::device_path::Protocol},
+    pub get_next_device_path_instance: eficall!{fn(
         *mut *mut crate::protocols::device_path::Protocol,
         *mut usize,
         ) -> *mut crate::protocols::device_path::Protocol},
-    pub is_multi_instance: eficall!{fn(
+    pub is_device_path_multi_instance: eficall!{fn(
         *const crate::protocols::device_path::Protocol,
     ) -> crate::base::Boolean},
-    pub create_node: eficall!{fn(
+    pub create_device_node: eficall!{fn(
         u8,
         u8,
         u16,
