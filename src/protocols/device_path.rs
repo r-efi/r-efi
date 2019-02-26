@@ -3,11 +3,7 @@
 //! The device path protocol defines how to obtain generic path/location information
 //! concerning the phisycal or logical device.
 
-pub const LOADED_IMAGE_DEVICE_PATH_ID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xbc62157e, 0x3e33, 0x4fec, 0x99, 0x20, &[0x2d, 0x3b, 0x36, 0xd7, 0x50, 0xdf]
-);
-
-pub const DEVICE_PATH_ID: crate::base::Guid = crate::base::Guid::from_fields(
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x09576e91, 0x6d3f, 0x11d2, 0x8e, 0x39, &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b]
 );
 
