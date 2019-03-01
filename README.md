@@ -20,7 +20,7 @@ The requirements for this project are:
 
  * `rustc >= 1.31.0`
 
-## Build
+### Build
 
 To build this project, run:
 
