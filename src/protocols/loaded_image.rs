@@ -17,7 +17,7 @@ pub struct Protocol {
 
     pub device_handle: crate::base::Handle,
     pub file_path: *mut crate::protocols::device_path::Protocol,
-    reserved: *mut core::ffi::c_void,
+    pub reserved: *mut core::ffi::c_void,
 
     pub load_options_size: u32,
     pub load_options: *mut core::ffi::c_void,
