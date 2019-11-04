@@ -35,3 +35,9 @@ examples = []
 [[example]]
 name = "hello-world"
 required-features = ["examples"]
+
+# Enable LTO to workaround https://github.com/rust-lang/rust/issues/62785
+[profile.dev]
+lto = true
+[profile.release]
+lto = true
