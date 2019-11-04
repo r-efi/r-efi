@@ -4,19 +4,24 @@
 //! buffer in memory to be decompressed into a destination buffer in memory.
 
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xd8117cfe, 0x94a6, 0x11d4, 0x9a, 0x3a, &[0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d]
+    0xd8117cfe,
+    0x94a6,
+    0x11d4,
+    0x9a,
+    0x3a,
+    &[0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
 );
 
 #[repr(C)]
 pub struct Protocol {
-    pub get_info: eficall!{fn(
+    pub get_info: eficall! {fn(
         *mut Protocol,
         *mut core::ffi::c_void,
         u32,
         *mut u32,
         *mut u32,
     ) -> crate::base::Status},
-    pub decompress: eficall!{fn(
+    pub decompress: eficall! {fn(
         *mut Protocol,
         *mut core::ffi::c_void,
         u32,

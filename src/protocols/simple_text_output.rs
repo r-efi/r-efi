@@ -5,7 +5,12 @@
 //! text array and allows you to move the cursor around to write Unicode symbols to screen.
 
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x387477c2, 0x69c7, 0x11d2, 0x8e, 0x39, &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b]
+    0x387477c2,
+    0x69c7,
+    0x11d2,
+    0x8e,
+    0x39,
+    &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
 );
 
 #[repr(C)]
@@ -21,41 +26,41 @@ pub struct Mode {
 
 #[repr(C)]
 pub struct Protocol {
-    pub reset: eficall!{fn(
+    pub reset: eficall! {fn(
         *mut Protocol,
         crate::base::Boolean,
     ) -> crate::base::Status},
-    pub output_string: eficall!{fn(
+    pub output_string: eficall! {fn(
         *mut Protocol,
         *mut crate::base::Char16,
     ) -> crate::base::Status},
-    pub test_string: eficall!{fn(
+    pub test_string: eficall! {fn(
         *mut Protocol,
         *mut crate::base::Char16,
     ) -> crate::base::Status},
-    pub query_mode: eficall!{fn(
+    pub query_mode: eficall! {fn(
         *mut Protocol,
         usize,
         *mut usize,
         *mut usize,
     ) -> crate::base::Status},
-    pub set_mode: eficall!{fn(
+    pub set_mode: eficall! {fn(
         *mut Protocol,
         usize,
     ) -> crate::base::Status},
-    pub set_attribute: eficall!{fn(
+    pub set_attribute: eficall! {fn(
         *mut Protocol,
         usize,
     ) -> crate::base::Status},
-    pub clear_screen: eficall!{fn(
+    pub clear_screen: eficall! {fn(
         *mut Protocol,
     ) -> crate::base::Status},
-    pub set_cursor_position: eficall!{fn(
+    pub set_cursor_position: eficall! {fn(
         *mut Protocol,
         usize,
         usize,
     ) -> crate::base::Status},
-    pub enable_cursor: eficall!{fn(
+    pub enable_cursor: eficall! {fn(
         *mut Protocol,
         crate::base::Boolean,
     ) -> crate::base::Status},
