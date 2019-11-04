@@ -4,21 +4,23 @@ sudo: false
 language: rust
 cache: cargo
 
-rust:
- - stable
- - nightly
+jobs:
+  include:
+  - name: "Build/Test (stable)"
+    rust: stable
+    script:
+    - cargo build --verbose
+    - cargo test --verbose
 
-install:
- - cargo install --force cargo-xbuild
- - rustup component add rust-src
-
-script:
- - cargo build --verbose
- - cargo test --verbose
- - test ! "$TRAVIS_RUST_VERSION" = "nightly" ||
-   (
-        cargo xbuild --verbose
-                --target x86_64-unknown-uefi
-                --features examples
-                --lib --bins --examples
-   )
+  - name: "Build/Test/Cross (nightly)"
+    rust: nightly
+    install:
+    - cargo install --force cargo-xbuild
+    - rustup component add rust-src
+    script:
+    - cargo build --verbose
+    - cargo test --verbose
+    - cargo xbuild --verbose
+        --target x86_64-unknown-uefi
+        --features examples
+        --lib --bins --examples
