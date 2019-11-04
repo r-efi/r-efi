@@ -117,11 +117,13 @@
 #[cfg(not(any(
     target_arch = "arm",
     target_arch = "aarch64",
+    target_arch = "riscv32",
+    target_arch = "riscv64",
     target_arch = "x86",
     target_arch = "x86_64"
 )))]
 compile_error!("The target architecture is not supported.");
-#[cfg(not(any(target_endian = "little")))]
+#[cfg(not(target_endian = "little"))]
 compile_error!("The target endianness is not supported.");
 
 // eficall_abi!()
@@ -129,39 +131,40 @@ compile_error!("The target endianness is not supported.");
 // This macro is the architecture-dependent implementation of eficall!(). See the documentation of
 // the eficall!() macro for a description.
 
-#[cfg(target_arch = "arm")]
+#[cfg(feature = "efiapi")]
+#[macro_export]
+#[doc(hidden)]
+macro_rules! eficall_abi {
+    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "efiapi" $($suffix)* };
+}
+
+#[cfg(all(target_arch = "arm", not(feature = "efiapi")))]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
     (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "aapcs" $($suffix)* };
 }
 
-// XXX: Rust does not define aapcs64, yet. Once it does, we should switch to it, rather than
-//      referring to the system default.
-#[cfg(target_arch = "aarch64")]
-#[macro_export]
-#[doc(hidden)]
-macro_rules! eficall_abi {
-    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "C" $($suffix)* };
-}
-
-#[cfg(target_arch = "x86")]
+#[cfg(all(target_arch = "x86", not(feature = "efiapi")))]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
     (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "cdecl" $($suffix)* };
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(all(target_arch = "x86_64", not(feature = "efiapi")))]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
     (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "win64" $($suffix)* };
 }
 
+// Rust does not define specific calling conventions for aarch64 or RISC-V, so
+// we just use the "C" ABI on all other targets (which is equivalent).
+// TODO: We should switch specific ABIs (or "efiapi") when available in rustc.
 #[cfg(not(any(
+    feature = "efiapi",
     target_arch = "arm",
-    target_arch = "aarch64",
     target_arch = "x86",
     target_arch = "x86_64"
 )))]

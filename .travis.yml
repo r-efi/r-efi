@@ -20,6 +20,7 @@ jobs:
     script:
     - cargo build --verbose
     - cargo test --verbose
+    - cargo build --features=efiapi --verbose
     - cargo xbuild --verbose
         --target x86_64-unknown-uefi
         --features examples

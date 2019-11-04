@@ -31,6 +31,8 @@ repository = "https://github.com/r-util/r-efi"
 # use a UEFI target configuration. To make `cargo test` work, we exclude all
 # examples from normal runs.
 examples = []
+# Unstable: use the new (nightly-only) "efiapi" ABI
+efiapi = []
 
 [[example]]
 name = "hello-world"

@@ -64,6 +64,8 @@
 // basic unit-tests on the compilation host. For integration tests, we have separate compilation
 // units, so they will be unaffected by this.
 #![cfg_attr(not(test), no_std)]
+// The "efiapi" calling convention is still experimental.
+#![cfg_attr(feature = "efiapi", feature(abi_efiapi))]
 
 // Import the different core modules. We separate them into different modules to make it easier to
 // work on them and describe what each part implements. This is different to the reference
