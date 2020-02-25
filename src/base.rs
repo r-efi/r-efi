@@ -533,6 +533,14 @@ impl Status {
         Status(v)
     }
 
+    /// Return Underlying Integer Representation
+    ///
+    /// This takes the `Status` object and returns the underlying integer representation as
+    /// defined by the UEFI specification.
+    pub const fn as_usize(&self) -> usize {
+        self.0
+    }
+
     fn value(&self) -> usize {
         self.0
     }
