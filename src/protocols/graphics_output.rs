@@ -4,7 +4,12 @@
 //! UVA interface from EFI with a VGA-independent API.
 
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x9042a9de, 0x23dc, 0x4a38, 0x96, 0xfb, &[0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a]
+    0x9042a9de,
+    0x23dc,
+    0x4a38,
+    0x96,
+    0xfb,
+    &[0x7a, 0xde, 0xd0, 0x80, 0x51, 0x6a],
 );
 
 #[repr(C)]
@@ -69,17 +74,17 @@ pub enum BltOperation {
 
 #[repr(C)]
 pub struct Protocol {
-    pub query_mode: eficall!{fn(
+    pub query_mode: eficall! {fn(
         *mut Protocol,
         u32,
         *mut usize,
         *mut *mut ModeInformation,
     ) -> crate::base::Status},
-    pub set_mode: eficall!{fn(
+    pub set_mode: eficall! {fn(
         *mut Protocol,
         u32,
     ) -> crate::base::Status},
-    pub blt: eficall!{fn(
+    pub blt: eficall! {fn(
         *mut Protocol,
         *mut BltPixel,
         BltOperation,

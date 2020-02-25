@@ -114,10 +114,12 @@
 // Similarly, UEFI only defines configurations for little-endian architectures so far. Several
 // bits of the specification are thus unclear how they would be applied on big-endian systems. We
 // therefore mark it as unsupported. If you override this, you are on your own.
-#[cfg(not(any(target_arch = "arm",
-              target_arch = "aarch64",
-              target_arch = "x86",
-              target_arch = "x86_64")))]
+#[cfg(not(any(
+    target_arch = "arm",
+    target_arch = "aarch64",
+    target_arch = "x86",
+    target_arch = "x86_64"
+)))]
 compile_error!("The target architecture is not supported.");
 #[cfg(not(any(target_endian = "little")))]
 compile_error!("The target endianness is not supported.");
@@ -157,10 +159,12 @@ macro_rules! eficall_abi {
     (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "win64" $($suffix)* };
 }
 
-#[cfg(not(any(target_arch = "arm",
-              target_arch = "aarch64",
-              target_arch = "x86",
-              target_arch = "x86_64")))]
+#[cfg(not(any(
+    target_arch = "arm",
+    target_arch = "aarch64",
+    target_arch = "x86",
+    target_arch = "x86_64"
+)))]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
@@ -440,8 +444,8 @@ impl From<u8> for Boolean {
 impl From<bool> for Boolean {
     fn from(v: bool) -> Self {
         match v {
-            false   => Boolean::FALSE,
-            true    => Boolean::TRUE,
+            false => Boolean::FALSE,
+            true => Boolean::TRUE,
         }
     }
 }
@@ -482,48 +486,48 @@ impl Status {
     pub const SUCCESS: Status = Status::from_usize(0);
 
     // List of predefined error codes
-    pub const LOAD_ERROR:                   Status = Status::from_usize( 1 | Status::ERROR_MASK);
-    pub const INVALID_PARAMETER:            Status = Status::from_usize( 2 | Status::ERROR_MASK);
-    pub const UNSUPPORTED:                  Status = Status::from_usize( 3 | Status::ERROR_MASK);
-    pub const BAD_BUFFER_SIZE:              Status = Status::from_usize( 4 | Status::ERROR_MASK);
-    pub const BUFFER_TOO_SMALL:             Status = Status::from_usize( 5 | Status::ERROR_MASK);
-    pub const NOT_READY:                    Status = Status::from_usize( 6 | Status::ERROR_MASK);
-    pub const DEVICE_ERROR:                 Status = Status::from_usize( 7 | Status::ERROR_MASK);
-    pub const WRITE_PROTECTED:              Status = Status::from_usize( 8 | Status::ERROR_MASK);
-    pub const OUT_OF_RESOURCES:             Status = Status::from_usize( 9 | Status::ERROR_MASK);
-    pub const VOLUME_CORRUPTED:             Status = Status::from_usize(10 | Status::ERROR_MASK);
-    pub const VOLUME_FULL:                  Status = Status::from_usize(11 | Status::ERROR_MASK);
-    pub const NO_MEDIA:                     Status = Status::from_usize(12 | Status::ERROR_MASK);
-    pub const MEDIA_CHANGED:                Status = Status::from_usize(13 | Status::ERROR_MASK);
-    pub const NOT_FOUND:                    Status = Status::from_usize(14 | Status::ERROR_MASK);
-    pub const ACCESS_DENIED:                Status = Status::from_usize(15 | Status::ERROR_MASK);
-    pub const NO_RESPONSE:                  Status = Status::from_usize(16 | Status::ERROR_MASK);
-    pub const NO_MAPPING:                   Status = Status::from_usize(17 | Status::ERROR_MASK);
-    pub const TIMEOUT:                      Status = Status::from_usize(18 | Status::ERROR_MASK);
-    pub const NOT_STARTED:                  Status = Status::from_usize(19 | Status::ERROR_MASK);
-    pub const ALREADY_STARTED:              Status = Status::from_usize(20 | Status::ERROR_MASK);
-    pub const ABORTED:                      Status = Status::from_usize(21 | Status::ERROR_MASK);
-    pub const ICMP_ERROR:                   Status = Status::from_usize(22 | Status::ERROR_MASK);
-    pub const TFTP_ERROR:                   Status = Status::from_usize(23 | Status::ERROR_MASK);
-    pub const PROTOCOL_ERROR:               Status = Status::from_usize(24 | Status::ERROR_MASK);
-    pub const INCOMPATIBLE_VERSION:         Status = Status::from_usize(25 | Status::ERROR_MASK);
-    pub const SECURITY_VIOLATION:           Status = Status::from_usize(26 | Status::ERROR_MASK);
-    pub const CRC_ERROR:                    Status = Status::from_usize(27 | Status::ERROR_MASK);
-    pub const END_OF_MEDIA:                 Status = Status::from_usize(28 | Status::ERROR_MASK);
-    pub const END_OF_FILE:                  Status = Status::from_usize(31 | Status::ERROR_MASK);
-    pub const INVALID_LANGUAGE:             Status = Status::from_usize(32 | Status::ERROR_MASK);
-    pub const COMPROMISED_DATA:             Status = Status::from_usize(33 | Status::ERROR_MASK);
-    pub const IP_ADDRESS_CONFLICT:          Status = Status::from_usize(34 | Status::ERROR_MASK);
-    pub const HTTP_ERROR:                   Status = Status::from_usize(35 | Status::ERROR_MASK);
+    pub const LOAD_ERROR: Status = Status::from_usize(1 | Status::ERROR_MASK);
+    pub const INVALID_PARAMETER: Status = Status::from_usize(2 | Status::ERROR_MASK);
+    pub const UNSUPPORTED: Status = Status::from_usize(3 | Status::ERROR_MASK);
+    pub const BAD_BUFFER_SIZE: Status = Status::from_usize(4 | Status::ERROR_MASK);
+    pub const BUFFER_TOO_SMALL: Status = Status::from_usize(5 | Status::ERROR_MASK);
+    pub const NOT_READY: Status = Status::from_usize(6 | Status::ERROR_MASK);
+    pub const DEVICE_ERROR: Status = Status::from_usize(7 | Status::ERROR_MASK);
+    pub const WRITE_PROTECTED: Status = Status::from_usize(8 | Status::ERROR_MASK);
+    pub const OUT_OF_RESOURCES: Status = Status::from_usize(9 | Status::ERROR_MASK);
+    pub const VOLUME_CORRUPTED: Status = Status::from_usize(10 | Status::ERROR_MASK);
+    pub const VOLUME_FULL: Status = Status::from_usize(11 | Status::ERROR_MASK);
+    pub const NO_MEDIA: Status = Status::from_usize(12 | Status::ERROR_MASK);
+    pub const MEDIA_CHANGED: Status = Status::from_usize(13 | Status::ERROR_MASK);
+    pub const NOT_FOUND: Status = Status::from_usize(14 | Status::ERROR_MASK);
+    pub const ACCESS_DENIED: Status = Status::from_usize(15 | Status::ERROR_MASK);
+    pub const NO_RESPONSE: Status = Status::from_usize(16 | Status::ERROR_MASK);
+    pub const NO_MAPPING: Status = Status::from_usize(17 | Status::ERROR_MASK);
+    pub const TIMEOUT: Status = Status::from_usize(18 | Status::ERROR_MASK);
+    pub const NOT_STARTED: Status = Status::from_usize(19 | Status::ERROR_MASK);
+    pub const ALREADY_STARTED: Status = Status::from_usize(20 | Status::ERROR_MASK);
+    pub const ABORTED: Status = Status::from_usize(21 | Status::ERROR_MASK);
+    pub const ICMP_ERROR: Status = Status::from_usize(22 | Status::ERROR_MASK);
+    pub const TFTP_ERROR: Status = Status::from_usize(23 | Status::ERROR_MASK);
+    pub const PROTOCOL_ERROR: Status = Status::from_usize(24 | Status::ERROR_MASK);
+    pub const INCOMPATIBLE_VERSION: Status = Status::from_usize(25 | Status::ERROR_MASK);
+    pub const SECURITY_VIOLATION: Status = Status::from_usize(26 | Status::ERROR_MASK);
+    pub const CRC_ERROR: Status = Status::from_usize(27 | Status::ERROR_MASK);
+    pub const END_OF_MEDIA: Status = Status::from_usize(28 | Status::ERROR_MASK);
+    pub const END_OF_FILE: Status = Status::from_usize(31 | Status::ERROR_MASK);
+    pub const INVALID_LANGUAGE: Status = Status::from_usize(32 | Status::ERROR_MASK);
+    pub const COMPROMISED_DATA: Status = Status::from_usize(33 | Status::ERROR_MASK);
+    pub const IP_ADDRESS_CONFLICT: Status = Status::from_usize(34 | Status::ERROR_MASK);
+    pub const HTTP_ERROR: Status = Status::from_usize(35 | Status::ERROR_MASK);
 
     // List of predefined warning codes
-    pub const WARN_UNKNOWN_GLYPH:           Status = Status::from_usize( 1 | Status::WARNING_MASK);
-    pub const WARN_DELETE_FAILURE:          Status = Status::from_usize( 2 | Status::WARNING_MASK);
-    pub const WARN_WRITE_FAILURE:           Status = Status::from_usize( 3 | Status::WARNING_MASK);
-    pub const WARN_BUFFER_TOO_SMALL:        Status = Status::from_usize( 4 | Status::WARNING_MASK);
-    pub const WARN_STALE_DATA:              Status = Status::from_usize( 5 | Status::WARNING_MASK);
-    pub const WARN_FILE_SYSTEM:             Status = Status::from_usize( 6 | Status::WARNING_MASK);
-    pub const WARN_RESET_REQUIRED:          Status = Status::from_usize( 7 | Status::WARNING_MASK);
+    pub const WARN_UNKNOWN_GLYPH: Status = Status::from_usize(1 | Status::WARNING_MASK);
+    pub const WARN_DELETE_FAILURE: Status = Status::from_usize(2 | Status::WARNING_MASK);
+    pub const WARN_WRITE_FAILURE: Status = Status::from_usize(3 | Status::WARNING_MASK);
+    pub const WARN_BUFFER_TOO_SMALL: Status = Status::from_usize(4 | Status::WARNING_MASK);
+    pub const WARN_STALE_DATA: Status = Status::from_usize(5 | Status::WARNING_MASK);
+    pub const WARN_FILE_SYSTEM: Status = Status::from_usize(6 | Status::WARNING_MASK);
+    pub const WARN_RESET_REQUIRED: Status = Status::from_usize(7 | Status::WARNING_MASK);
 
     /// Create Status Code from Integer
     ///
@@ -590,22 +594,18 @@ impl Guid {
     }
 
     const fn u32_from_bytes_le(bytes: &[u8; 4]) -> u32 {
-        (bytes[0] as u32) |
-        ((bytes[1] as u32) << 8) |
-        ((bytes[2] as u32) << 16) |
-        ((bytes[3] as u32) << 24)
+        (bytes[0] as u32)
+            | ((bytes[1] as u32) << 8)
+            | ((bytes[2] as u32) << 16)
+            | ((bytes[3] as u32) << 24)
     }
 
     const fn u16_to_bytes_le(num: u16) -> [u8; 2] {
-        [
-            num as u8,
-            (num >> 8) as u8,
-        ]
+        [num as u8, (num >> 8) as u8]
     }
 
     const fn u16_from_bytes_le(bytes: &[u8; 2]) -> u16 {
-        (bytes[0] as u16) |
-        ((bytes[1] as u16) << 8)
+        (bytes[0] as u16) | ((bytes[1] as u16) << 8)
     }
 
     /// Initialize a Guid from its individual fields
@@ -654,9 +654,7 @@ impl Guid {
     /// This provides access to a Guid through a byte array. It is a simple re-interpretation of
     /// the Guid value as a 128-bit byte array. No conversion is performed. This is a simple cast.
     pub fn as_bytes(&self) -> &[u8; 16] {
-        unsafe {
-            core::mem::transmute::<&Guid, &[u8; 16]>(self)
-        }
+        unsafe { core::mem::transmute::<&Guid, &[u8; 16]>(self) }
     }
 }
 
@@ -736,8 +734,8 @@ mod tests {
         // ImageEntryPoint
         //
 
-        assert_eq!(size_of::<ImageEntryPoint>(), size_of::<fn ()>());
-        assert_eq!(align_of::<ImageEntryPoint>(), align_of::<fn ()>());
+        assert_eq!(size_of::<ImageEntryPoint>(), size_of::<fn()>());
+        assert_eq!(align_of::<ImageEntryPoint>(), align_of::<fn()>());
 
         //
         // Guid
@@ -753,15 +751,15 @@ mod tests {
         // Make sure the eficall!{} macro can deal with all kinds of function callbacks.
         //
 
-        let _: eficall!{fn()};
-        let _: eficall!{unsafe fn()};
-        let _: eficall!{fn(i32)};
-        let _: eficall!{fn(i32) -> i32};
-        let _: eficall!{fn(i32, i32) -> (i32, i32)};
+        let _: eficall! {fn()};
+        let _: eficall! {unsafe fn()};
+        let _: eficall! {fn(i32)};
+        let _: eficall! {fn(i32) -> i32};
+        let _: eficall! {fn(i32, i32) -> (i32, i32)};
 
-        eficall!{fn _unused00() {}}
-        eficall!{unsafe fn _unused01() {}}
-        eficall!{pub unsafe fn _unused02() {}}
+        eficall! {fn _unused00() {}}
+        eficall! {unsafe fn _unused01() {}}
+        eficall! {pub unsafe fn _unused02() {}}
     }
 
     // Verify Boolean ABI
@@ -800,7 +798,7 @@ mod tests {
                     assert_ne!(v1, true);
                     assert_ne!(v2, Boolean::TRUE);
                     assert_ne!(v2, true);
-                },
+                }
                 _ => {
                     assert_eq!(v1, Boolean::TRUE);
                     assert_eq!(v1, true);
@@ -811,7 +809,7 @@ mod tests {
                     assert_ne!(v1, false);
                     assert_ne!(v2, Boolean::FALSE);
                     assert_ne!(v2, false);
-                },
+                }
             }
         }
     }

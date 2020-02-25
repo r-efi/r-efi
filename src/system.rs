@@ -52,14 +52,14 @@ pub struct TimeCapabilities {
 // variable store must be provided by the platform, but persistent storage might not be available.
 //
 
-pub const VARIABLE_NON_VOLATILE:                            u32 = 0x00000001u32;
-pub const VARIABLE_BOOTSERVICE_ACCESS:                      u32 = 0x00000002u32;
-pub const VARIABLE_RUNTIME_ACCESS:                          u32 = 0x00000004u32;
-pub const VARIABLE_HARDWARE_ERROR_RECORD:                   u32 = 0x00000008u32;
-pub const VARIABLE_AUTHENTICATED_WRITE_ACCESS:              u32 = 0x00000010u32;
-pub const VARIABLE_TIME_BASED_AUTHENTICATED_WRITE_ACCESS:   u32 = 0x00000020u32;
-pub const VARIABLE_APPEND_WRITE:                            u32 = 0x00000040u32;
-pub const VARIABLE_ENHANCED_AUTHENTICATED_ACCESS:           u32 = 0x00000080u32;
+pub const VARIABLE_NON_VOLATILE: u32 = 0x00000001u32;
+pub const VARIABLE_BOOTSERVICE_ACCESS: u32 = 0x00000002u32;
+pub const VARIABLE_RUNTIME_ACCESS: u32 = 0x00000004u32;
+pub const VARIABLE_HARDWARE_ERROR_RECORD: u32 = 0x00000008u32;
+pub const VARIABLE_AUTHENTICATED_WRITE_ACCESS: u32 = 0x00000010u32;
+pub const VARIABLE_TIME_BASED_AUTHENTICATED_WRITE_ACCESS: u32 = 0x00000020u32;
+pub const VARIABLE_APPEND_WRITE: u32 = 0x00000040u32;
+pub const VARIABLE_ENHANCED_AUTHENTICATED_ACCESS: u32 = 0x00000080u32;
 
 pub const VARIABLE_AUTHENTICATION_3_CERT_ID_SHA256: u32 = 0x1u32;
 
@@ -85,8 +85,8 @@ pub struct VariableAuthentication2 {
     pub auth_info: [u8], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
 }
 
-pub const VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE:     u32 = 0x1u32;
-pub const VARIABLE_AUTHENTICATION_3_NONCE_TYPE:         u32 = 0x2u32;
+pub const VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE: u32 = 0x1u32;
+pub const VARIABLE_AUTHENTICATION_3_NONCE_TYPE: u32 = 0x2u32;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -105,7 +105,12 @@ pub struct VariableAuthentication3Nonce {
 }
 
 pub const HARDWARE_ERROR_VARIABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x414E6BDD, 0xE47B, 0x47cc, 0xB2, 0x44, &[0xBB, 0x61, 0x02, 0x0C, 0xF5, 0x16]
+    0x414E6BDD,
+    0xE47B,
+    0x47cc,
+    0xB2,
+    0x44,
+    &[0xBB, 0x61, 0x02, 0x0C, 0xF5, 0x16],
 );
 
 //
@@ -153,9 +158,9 @@ pub struct CapsuleBlockDescriptor {
     pub data: CapsuleBlockDescriptorUnion,
 }
 
-pub const CAPSULE_FLAGS_PERSIST_ACROSS_RESET:   u32 = 0x00010000u32;
-pub const CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE:  u32 = 0x00020000u32;
-pub const CAPSULE_FLAGS_INITIATE_RESET:         u32 = 0x00040000u32;
+pub const CAPSULE_FLAGS_PERSIST_ACROSS_RESET: u32 = 0x00010000u32;
+pub const CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE: u32 = 0x00020000u32;
+pub const CAPSULE_FLAGS_INITIATE_RESET: u32 = 0x00040000u32;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -166,16 +171,21 @@ pub struct CapsuleHeader {
     pub capsule_image_size: u32,
 }
 
-pub const OS_INDICATIONS_BOOT_TO_FW_UI:                     u64 = 0x0000000000000001u64;
-pub const OS_INDICATIONS_TIMESTAMP_REVOCATION:              u64 = 0x0000000000000002u64;
-pub const OS_INDICATIONS_FILE_CAPSULE_DELIVERY_SUPPORTED:   u64 = 0x0000000000000004u64;
-pub const OS_INDICATIONS_FMP_CAPSULE_SUPPORTED:             u64 = 0x0000000000000008u64;
-pub const OS_INDICATIONS_CAPSULE_RESULT_VAR_SUPPORTED:      u64 = 0x0000000000000010u64;
-pub const OS_INDICATIONS_START_OS_RECOVERY:                 u64 = 0x0000000000000020u64;
-pub const OS_INDICATIONS_START_PLATFORM_RECOVERY:           u64 = 0x0000000000000040u64;
+pub const OS_INDICATIONS_BOOT_TO_FW_UI: u64 = 0x0000000000000001u64;
+pub const OS_INDICATIONS_TIMESTAMP_REVOCATION: u64 = 0x0000000000000002u64;
+pub const OS_INDICATIONS_FILE_CAPSULE_DELIVERY_SUPPORTED: u64 = 0x0000000000000004u64;
+pub const OS_INDICATIONS_FMP_CAPSULE_SUPPORTED: u64 = 0x0000000000000008u64;
+pub const OS_INDICATIONS_CAPSULE_RESULT_VAR_SUPPORTED: u64 = 0x0000000000000010u64;
+pub const OS_INDICATIONS_START_OS_RECOVERY: u64 = 0x0000000000000020u64;
+pub const OS_INDICATIONS_START_PLATFORM_RECOVERY: u64 = 0x0000000000000040u64;
 
 pub const CAPSULE_REPORT_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x39b68c46, 0xf7fb, 0x441b, 0xb6, 0xec, &[0x16, 0xb0, 0xf6, 0x98, 0x21, 0xf3]
+    0x39b68c46,
+    0xf7fb,
+    0x441b,
+    0xb6,
+    0xec,
+    &[0x16, 0xb0, 0xf6, 0x98, 0x21, 0xf3],
 );
 
 #[repr(C)]
@@ -212,29 +222,54 @@ pub struct CapsuleResultVariableFMP {
 // task-priority-levels (TPL) to adjust the priority of your callbacks and current task.
 //
 
-pub const EVT_TIMER:                            u32 = 0x80000000u32;
-pub const EVT_RUNTIME:                          u32 = 0x40000000u32;
-pub const EVT_NOTIFY_WAIT:                      u32 = 0x00000100u32;
-pub const EVT_NOTIFY_SIGNAL:                    u32 = 0x00000200u32;
-pub const EVT_SIGNAL_EXIT_BOOT_SERVICES:        u32 = 0x00000201u32;
-pub const EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE:    u32 = 0x60000202u32;
+pub const EVT_TIMER: u32 = 0x80000000u32;
+pub const EVT_RUNTIME: u32 = 0x40000000u32;
+pub const EVT_NOTIFY_WAIT: u32 = 0x00000100u32;
+pub const EVT_NOTIFY_SIGNAL: u32 = 0x00000200u32;
+pub const EVT_SIGNAL_EXIT_BOOT_SERVICES: u32 = 0x00000201u32;
+pub const EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE: u32 = 0x60000202u32;
 
-pub type EventNotify = eficall!{fn(crate::base::Event, *mut core::ffi::c_void)};
+pub type EventNotify = eficall! {fn(crate::base::Event, *mut core::ffi::c_void)};
 
 pub const EVENT_GROUP_EXIT_BOOT_SERVICES: crate::base::Guid = crate::base::Guid::from_fields(
-    0x27abf055, 0xb1b8, 0x4c26, 0x80, 0x48, &[0x74, 0x8f, 0x37, 0xba, 0xa2, 0xdf]
+    0x27abf055,
+    0xb1b8,
+    0x4c26,
+    0x80,
+    0x48,
+    &[0x74, 0x8f, 0x37, 0xba, 0xa2, 0xdf],
 );
 pub const EVENT_GROUP_VIRTUAL_ADDRESS_CHANGE: crate::base::Guid = crate::base::Guid::from_fields(
-    0x13fa7698, 0xc831, 0x49c7, 0x87, 0xea, &[0x8f, 0x43, 0xfc, 0xc2, 0x51, 0x96]
+    0x13fa7698,
+    0xc831,
+    0x49c7,
+    0x87,
+    0xea,
+    &[0x8f, 0x43, 0xfc, 0xc2, 0x51, 0x96],
 );
 pub const EVENT_GROUP_MEMORY_MAP_CHANGE: crate::base::Guid = crate::base::Guid::from_fields(
-    0x78bee926, 0x692f, 0x48fd, 0x9e, 0xdb, &[0x1, 0x42, 0x2e, 0xf0, 0xd7, 0xab]
+    0x78bee926,
+    0x692f,
+    0x48fd,
+    0x9e,
+    0xdb,
+    &[0x1, 0x42, 0x2e, 0xf0, 0xd7, 0xab],
 );
 pub const EVENT_GROUP_READY_TO_BOOT: crate::base::Guid = crate::base::Guid::from_fields(
-    0x7ce88fb3, 0x4bd7, 0x4679, 0x87, 0xa8, &[0xa8, 0xd8, 0xde, 0xe5, 0x0d, 0x2b]
+    0x7ce88fb3,
+    0x4bd7,
+    0x4679,
+    0x87,
+    0xa8,
+    &[0xa8, 0xd8, 0xde, 0xe5, 0x0d, 0x2b],
 );
 pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_fields(
-    0x62da6a56, 0x13fb, 0x485a, 0xa8, 0xda, &[0xa3, 0xdd, 0x79, 0x12, 0xcb, 0x6b]
+    0x62da6a56,
+    0x13fb,
+    0x485a,
+    0xa8,
+    0xda,
+    &[0xa3, 0xdd, 0x79, 0x12, 0xcb, 0x6b],
 );
 
 #[repr(C)]
@@ -245,10 +280,10 @@ pub enum TimerDelay {
     TimerRelative,
 }
 
-pub const TPL_APPLICATION:      crate::base::Tpl = 4;
-pub const TPL_CALLBACK:         crate::base::Tpl = 8;
-pub const TPL_NOTIFY:           crate::base::Tpl = 16;
-pub const TPL_HIGH_LEVEL:       crate::base::Tpl = 31;
+pub const TPL_APPLICATION: crate::base::Tpl = 4;
+pub const TPL_CALLBACK: crate::base::Tpl = 8;
+pub const TPL_NOTIFY: crate::base::Tpl = 16;
+pub const TPL_HIGH_LEVEL: crate::base::Tpl = 31;
 
 //
 // Memory management
@@ -287,18 +322,18 @@ pub enum MemoryType {
     PersistentMemory,
 }
 
-pub const MEMORY_UC:                u64 = 0x0000000000000001u64;
-pub const MEMORY_WC:                u64 = 0x0000000000000002u64;
-pub const MEMORY_WT:                u64 = 0x0000000000000004u64;
-pub const MEMORY_WB:                u64 = 0x0000000000000008u64;
-pub const MEMORY_UCE:               u64 = 0x0000000000000010u64;
-pub const MEMORY_WP:                u64 = 0x0000000000001000u64;
-pub const MEMORY_RP:                u64 = 0x0000000000002000u64;
-pub const MEMORY_XP:                u64 = 0x0000000000004000u64;
-pub const MEMORY_NV:                u64 = 0x0000000000008000u64;
-pub const MEMORY_MORE_RELIABLE:     u64 = 0x0000000000010000u64;
-pub const MEMORY_RO:                u64 = 0x0000000000020000u64;
-pub const MEMORY_RUNTIME:           u64 = 0x8000000000000000u64;
+pub const MEMORY_UC: u64 = 0x0000000000000001u64;
+pub const MEMORY_WC: u64 = 0x0000000000000002u64;
+pub const MEMORY_WT: u64 = 0x0000000000000004u64;
+pub const MEMORY_WB: u64 = 0x0000000000000008u64;
+pub const MEMORY_UCE: u64 = 0x0000000000000010u64;
+pub const MEMORY_WP: u64 = 0x0000000000001000u64;
+pub const MEMORY_RP: u64 = 0x0000000000002000u64;
+pub const MEMORY_XP: u64 = 0x0000000000004000u64;
+pub const MEMORY_NV: u64 = 0x0000000000008000u64;
+pub const MEMORY_MORE_RELIABLE: u64 = 0x0000000000010000u64;
+pub const MEMORY_RO: u64 = 0x0000000000020000u64;
+pub const MEMORY_RUNTIME: u64 = 0x8000000000000000u64;
 
 pub const MEMORY_DESCRIPTOR_VERSION: u32 = 0x00000001u32;
 
@@ -335,12 +370,12 @@ pub enum LocateSearchType {
     ByProtocol,
 }
 
-pub const OPEN_PROTOCOL_BY_HANDLE_PROTOCOL:     u32 = 0x00000001u32;
-pub const OPEN_PROTOCOL_GET_PROTOCOL:           u32 = 0x00000002u32;
-pub const OPEN_PROTOCOL_TEST_PROTOCOL:          u32 = 0x00000004u32;
-pub const OPEN_PROTOCOL_BY_CHILD_CONTROLLER:    u32 = 0x00000008u32;
-pub const OPEN_PROTOCOL_BY_DRIVER:              u32 = 0x00000010u32;
-pub const OPEN_PROTOCOL_EXCLUSIVE:              u32 = 0x00000020u32;
+pub const OPEN_PROTOCOL_BY_HANDLE_PROTOCOL: u32 = 0x00000001u32;
+pub const OPEN_PROTOCOL_GET_PROTOCOL: u32 = 0x00000002u32;
+pub const OPEN_PROTOCOL_TEST_PROTOCOL: u32 = 0x00000004u32;
+pub const OPEN_PROTOCOL_BY_CHILD_CONTROLLER: u32 = 0x00000008u32;
+pub const OPEN_PROTOCOL_BY_DRIVER: u32 = 0x00000010u32;
+pub const OPEN_PROTOCOL_EXCLUSIVE: u32 = 0x00000020u32;
 
 #[repr(C)]
 #[derive(Debug)]
@@ -366,7 +401,12 @@ pub struct ConfigurationTable {
 }
 
 pub const PROPERTIES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x880aaca3, 0x4adc, 0x4a04, 0x90, 0x79, &[0xb7, 0x47, 0x34, 0x8, 0x25, 0xe5]
+    0x880aaca3,
+    0x4adc,
+    0x4a04,
+    0x90,
+    0x79,
+    &[0xb7, 0x47, 0x34, 0x8, 0x25, 0xe5],
 );
 
 pub const PROPERTIES_TABLE_VERSION: u32 = 0x00010000u32;
@@ -382,7 +422,12 @@ pub struct PropertiesTable {
 }
 
 pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xdcfa911d, 0x26eb, 0x469f, 0xa2, 0x20, &[ 0x38, 0xb7, 0xdc, 0x46, 0x12, 0x20]
+    0xdcfa911d,
+    0x26eb,
+    0x469f,
+    0xa2,
+    0x20,
+    &[0x38, 0xb7, 0xdc, 0x46, 0x12, 0x20],
 );
 
 pub const MEMORY_ATTRIBUTES_TABLE_VERSION: u32 = 0x00000001u32;
@@ -425,47 +470,47 @@ pub const RUNTIME_SERVICES_REVISION: u32 = SPECIFICATION_REVISION;
 pub struct RuntimeServices {
     pub hdr: TableHeader,
 
-    pub get_time: eficall!{fn(
+    pub get_time: eficall! {fn(
         *mut Time,
         *mut TimeCapabilities,
     ) -> crate::base::Status},
-    pub set_time: eficall!{fn(
+    pub set_time: eficall! {fn(
         *mut Time,
     ) -> crate::base::Status},
-    pub get_wakeup_time: eficall!{fn(
+    pub get_wakeup_time: eficall! {fn(
         *mut crate::base::Boolean,
         *mut crate::base::Boolean,
         *mut Time,
     ) -> crate::base::Status},
-    pub set_wakeup_time: eficall!{fn(
+    pub set_wakeup_time: eficall! {fn(
         crate::base::Boolean,
         *mut Time,
     ) -> crate::base::Status},
 
-    pub set_virtual_address_map: eficall!{fn(
+    pub set_virtual_address_map: eficall! {fn(
         usize,
         usize,
         u32,
         *mut MemoryDescriptor,
     ) -> crate::base::Status},
-    pub convert_pointer: eficall!{fn(
+    pub convert_pointer: eficall! {fn(
         usize,
         *mut *mut core::ffi::c_void,
     ) -> crate::base::Status},
 
-    pub get_variable: eficall!{fn(
+    pub get_variable: eficall! {fn(
         *mut crate::base::Char16,
         *mut crate::base::Guid,
         *mut u32,
         *mut usize,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
-    pub get_next_variable_name: eficall!{fn(
+    pub get_next_variable_name: eficall! {fn(
         *mut usize,
         *mut crate::base::Char16,
         *mut crate::base::Guid,
     ) -> crate::base::Status},
-    pub set_variable: eficall!{fn(
+    pub set_variable: eficall! {fn(
         *mut crate::base::Char16,
         *mut crate::base::Guid,
         u32,
@@ -473,28 +518,28 @@ pub struct RuntimeServices {
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
 
-    pub get_next_high_mono_count: eficall!{fn(
+    pub get_next_high_mono_count: eficall! {fn(
         *mut u32,
     ) -> crate::base::Status},
-    pub reset_system: eficall!{fn(
+    pub reset_system: eficall! {fn(
         ResetType,
         crate::base::Status,
         usize,
         *mut core::ffi::c_void,
     )},
 
-    pub update_capsule: eficall!{fn(
+    pub update_capsule: eficall! {fn(
         *mut *mut CapsuleHeader,
         usize,
         crate::base::PhysicalAddress,
     ) -> crate::base::Status},
-    pub query_capsule_capabilities: eficall!{fn(
+    pub query_capsule_capabilities: eficall! {fn(
         *mut *mut CapsuleHeader,
         usize,
         *mut u64,
         *mut ResetType,
     ) -> crate::base::Status},
-    pub query_variable_info: eficall!{fn(
+    pub query_variable_info: eficall! {fn(
         u32,
         *mut u64,
         *mut u64,
@@ -509,112 +554,112 @@ pub const BOOT_SERVICES_REVISION: u32 = SPECIFICATION_REVISION;
 pub struct BootServices {
     pub hdr: TableHeader,
 
-    pub raise_tpl: eficall!{fn(
+    pub raise_tpl: eficall! {fn(
         crate::base::Tpl,
     ) -> crate::base::Tpl},
-    pub restore_tpl: eficall!{fn(
+    pub restore_tpl: eficall! {fn(
         crate::base::Tpl,
     )},
 
-    pub allocate_pages: eficall!{fn(
+    pub allocate_pages: eficall! {fn(
         AllocateType,
         MemoryType,
         usize,
         *mut crate::base::PhysicalAddress,
     ) -> crate::base::Status},
-    pub free_pages: eficall!{fn(
+    pub free_pages: eficall! {fn(
         crate::base::PhysicalAddress,
         usize,
     ) -> crate::base::Status},
-    pub get_memory_map: eficall!{fn(
+    pub get_memory_map: eficall! {fn(
         *mut usize,
         *mut MemoryDescriptor,
         *mut usize,
         *mut usize,
         *mut u32,
     ) -> crate::base::Status},
-    pub allocate_pool: eficall!{fn(
+    pub allocate_pool: eficall! {fn(
         MemoryType,
         usize,
         *mut *mut core::ffi::c_void,
     ) -> crate::base::Status},
-    pub free_pool: eficall!{fn(
+    pub free_pool: eficall! {fn(
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
 
-    pub create_event: eficall!{fn(
+    pub create_event: eficall! {fn(
         u32,
         crate::base::Tpl,
         EventNotify,
         *mut core::ffi::c_void,
         *mut crate::base::Event,
     ) -> crate::base::Status},
-    pub set_timer: eficall!{fn(
+    pub set_timer: eficall! {fn(
         crate::base::Event,
         TimerDelay,
         u64,
     ) -> crate::base::Status},
-    pub wait_for_event: eficall!{fn(
+    pub wait_for_event: eficall! {fn(
         usize,
         *mut crate::base::Event,
         *mut usize,
     ) -> crate::base::Status},
-    pub signal_event: eficall!{fn(
+    pub signal_event: eficall! {fn(
         crate::base::Event,
     ) -> crate::base::Status},
-    pub close_event: eficall!{fn(
+    pub close_event: eficall! {fn(
         crate::base::Event,
     ) -> crate::base::Status},
-    pub check_event: eficall!{fn(
+    pub check_event: eficall! {fn(
         crate::base::Event,
     ) -> crate::base::Status},
 
-    pub install_protocol_interface: eficall!{fn(
+    pub install_protocol_interface: eficall! {fn(
         *mut crate::base::Handle,
         *mut crate::base::Guid,
         InterfaceType,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
-    pub reinstall_protocol_interface: eficall!{fn(
+    pub reinstall_protocol_interface: eficall! {fn(
         crate::base::Handle,
         *mut crate::base::Guid,
         *mut core::ffi::c_void,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
-    pub uninstall_protocol_interface: eficall!{fn(
+    pub uninstall_protocol_interface: eficall! {fn(
         crate::base::Handle,
         *mut crate::base::Guid,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
-    pub handle_protocol: eficall!{fn(
+    pub handle_protocol: eficall! {fn(
         crate::base::Handle,
         *mut crate::base::Guid,
         *mut *mut core::ffi::c_void,
     ) -> crate::base::Status},
     pub reserved: *mut core::ffi::c_void,
-    pub register_protocol_notify: eficall!{fn(
+    pub register_protocol_notify: eficall! {fn(
         *mut crate::base::Guid,
         crate::base::Event,
         *mut *mut core::ffi::c_void,
     ) -> crate::base::Status},
-    pub locate_handle: eficall!{fn(
+    pub locate_handle: eficall! {fn(
         LocateSearchType,
         *mut crate::base::Guid,
         *mut core::ffi::c_void,
         *mut usize,
         *mut crate::base::Handle,
     ) -> crate::base::Status},
-    pub locate_device_path: eficall!{fn(
+    pub locate_device_path: eficall! {fn(
         *mut crate::base::Guid,
         *mut *mut core::ffi::c_void, // XXX
     ) -> crate::base::Status},
 
-    pub install_configuration_table: eficall!{fn(
+    pub install_configuration_table: eficall! {fn(
         *mut crate::base::Guid,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
 
-    pub load_image: eficall!{fn(
+    pub load_image: eficall! {fn(
         crate::base::Boolean,
         crate::base::Handle,
         *mut core::ffi::c_void, // XXX
@@ -622,32 +667,32 @@ pub struct BootServices {
         usize,
         *mut crate::base::Handle,
     ) -> crate::base::Status},
-    pub start_image: eficall!{fn(
+    pub start_image: eficall! {fn(
         crate::base::Handle,
         *mut usize,
         *mut *mut crate::base::Char16,
     ) -> crate::base::Status},
-    pub exit: eficall!{fn(
+    pub exit: eficall! {fn(
         crate::base::Handle,
         crate::base::Status,
         usize,
         *mut crate::base::Char16,
     ) -> crate::base::Status},
-    pub unload_image: eficall!{fn(
+    pub unload_image: eficall! {fn(
         crate::base::Handle,
     ) -> crate::base::Status},
-    pub exit_boot_services: eficall!{fn(
+    pub exit_boot_services: eficall! {fn(
         crate::base::Handle,
         usize,
     ) -> crate::base::Status},
 
-    pub get_next_monotonic_count: eficall!{fn(
+    pub get_next_monotonic_count: eficall! {fn(
         *mut u64,
     ) -> crate::base::Status},
-    pub stall: eficall!{fn(
+    pub stall: eficall! {fn(
         usize,
     ) -> crate::base::Status},
-    pub set_watchdog_timer: eficall!{fn(
+    pub set_watchdog_timer: eficall! {fn(
         usize,
         u64,
         usize,
@@ -655,20 +700,19 @@ pub struct BootServices {
     ) -> crate::base::Status},
 
     // 1.1+
-
-    pub connect_controller: eficall!{fn(
+    pub connect_controller: eficall! {fn(
         crate::base::Handle,
         *mut crate::base::Handle,
         *mut core::ffi::c_void, // XXX
         crate::base::Boolean,
     ) -> crate::base::Status},
-    pub disconnect_controller: eficall!{fn(
+    pub disconnect_controller: eficall! {fn(
         crate::base::Handle,
         crate::base::Handle,
         crate::base::Handle,
     ) -> crate::base::Status},
 
-    pub open_protocol: eficall!{fn(
+    pub open_protocol: eficall! {fn(
         crate::base::Handle,
         *mut crate::base::Guid,
         *mut *mut core::ffi::c_void,
@@ -676,69 +720,68 @@ pub struct BootServices {
         crate::base::Handle,
         u32,
     ) -> crate::base::Status},
-    pub close_protocol: eficall!{fn(
+    pub close_protocol: eficall! {fn(
         crate::base::Handle,
         *mut crate::base::Guid,
         crate::base::Handle,
         crate::base::Handle,
     ) -> crate::base::Status},
-    pub open_protocol_information: eficall!{fn(
+    pub open_protocol_information: eficall! {fn(
         crate::base::Handle,
         *mut crate::base::Guid,
         *mut *mut OpenProtocolInformationEntry,
         *mut usize,
     ) -> crate::base::Status},
 
-    pub protocols_per_handle: eficall!{fn(
+    pub protocols_per_handle: eficall! {fn(
         crate::base::Handle,
         *mut *mut *mut crate::base::Guid,
         *mut usize,
     ) -> crate::base::Status},
-    pub locate_handle_buffer: eficall!{fn(
+    pub locate_handle_buffer: eficall! {fn(
         LocateSearchType,
         *mut crate::base::Guid,
         *mut core::ffi::c_void,
         *mut usize,
         *mut *mut crate::base::Handle,
     ) -> crate::base::Status},
-    pub locate_protocol: eficall!{fn(
+    pub locate_protocol: eficall! {fn(
         *mut crate::base::Guid,
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> crate::base::Status},
-    pub install_multiple_protocol_interfaces: eficall!{fn(
+    pub install_multiple_protocol_interfaces: eficall! {fn(
         *mut crate::base::Handle,
         // XXX: Actual definition is variadic. See eficall!{} for details.
         *mut core::ffi::c_void,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
-    pub uninstall_multiple_protocol_interfaces: eficall!{fn(
+    pub uninstall_multiple_protocol_interfaces: eficall! {fn(
         *mut crate::base::Handle,
         // XXX: Actual definition is variadic. See eficall!{} for details.
         *mut core::ffi::c_void,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
 
-    pub calculate_crc32: eficall!{fn(
+    pub calculate_crc32: eficall! {fn(
         *mut core::ffi::c_void,
         usize,
         *mut u32,
     ) -> crate::base::Status},
 
-    pub copy_mem: eficall!{fn(
+    pub copy_mem: eficall! {fn(
         *mut core::ffi::c_void,
         *mut core::ffi::c_void,
         usize,
     )},
-    pub set_mem: eficall!{fn(
+    pub set_mem: eficall! {fn(
         *mut core::ffi::c_void,
         usize,
         u8,
     )},
 
     // 2.0+
-
-    pub create_event_ex: eficall!{fn(
+    pub create_event_ex: eficall! {fn(
         u32,
         crate::base::Tpl,
         EventNotify,
@@ -756,9 +799,9 @@ pub const SYSTEM_TABLE_REVISION_2_31: u32 = (2 << 16) | (31);
 pub const SYSTEM_TABLE_REVISION_2_30: u32 = (2 << 16) | (30);
 pub const SYSTEM_TABLE_REVISION_2_20: u32 = (2 << 16) | (20);
 pub const SYSTEM_TABLE_REVISION_2_10: u32 = (2 << 16) | (10);
-pub const SYSTEM_TABLE_REVISION_2_00: u32 = (2 << 16) | ( 0);
+pub const SYSTEM_TABLE_REVISION_2_00: u32 = (2 << 16) | (0);
 pub const SYSTEM_TABLE_REVISION_1_10: u32 = (1 << 16) | (10);
-pub const SYSTEM_TABLE_REVISION_1_02: u32 = (1 << 16) | ( 2);
+pub const SYSTEM_TABLE_REVISION_1_02: u32 = (1 << 16) | (2);
 
 pub const SYSTEM_TABLE_SIGNATURE: u64 = 0x5453595320494249u64; // "IBI SYST"
 pub const SYSTEM_TABLE_REVISION: u32 = SYSTEM_TABLE_REVISION_2_70;
