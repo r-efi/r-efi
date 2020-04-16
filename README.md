@@ -11,8 +11,8 @@ needs to interact with UEFI, or implement (parts of) the UEFI specification.
 
 ### Project
 
- * **Website**: <https://r-util.github.io/r-efi>
- * **Bug Tracker**: <https://github.com/r-util/r-efi/issues>
+ * **Website**: <https://github.com/r-efi/r-efi/wiki>
+ * **Bug Tracker**: <https://github.com/r-efi/r-efi/issues>
 
 ### Requirements
 
@@ -67,9 +67,9 @@ cargo \
 
 ### Repository:
 
- - **web**:   <https://github.com/r-util/r-efi>
- - **https**: `https://github.com/r-util/r-efi.git`
- - **ssh**:   `git@github.com:r-util/r-efi.git`
+ - **web**:   <https://github.com/r-efi/r-efi>
+ - **https**: `https://github.com/r-efi/r-efi.git`
+ - **ssh**:   `git@github.com:r-efi/r-efi.git`
 
 ### License:
 
