@@ -1,6 +1,6 @@
 [package]
 name = "r-efi"
-version = "2.1.0"
+version = "2.2.0"
 
 authors = [
         "David Rheinsberg <david.rheinsberg@gmail.com>",

@@ -1,5 +1,16 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 2.2.0:
+
+        * Provide `as_usize()` accessor for `efi::Status` types. This allows
+          accessing the raw underlying value of a status object.
+
+        * The project moved to its new home at: github.com/r-efi/r-efi
+
+        Contributions from: David Rheinsberg, Joe Richey
+
+        - Tübingen, 2020-04-16
+
 ## CHANGES WITH 2.1.0:
 
         * Add the graphics-output-protocol.
