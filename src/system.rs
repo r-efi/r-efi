@@ -652,6 +652,7 @@ pub struct BootServices {
     pub locate_device_path: eficall! {fn(
         *mut crate::base::Guid,
         *mut *mut core::ffi::c_void, // XXX
+        *mut crate::base::Handle,
     ) -> crate::base::Status},
 
     pub install_configuration_table: eficall! {fn(
