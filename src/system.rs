@@ -651,7 +651,7 @@ pub struct BootServices {
     ) -> crate::base::Status},
     pub locate_device_path: eficall! {fn(
         *mut crate::base::Guid,
-        *mut *mut core::ffi::c_void, // XXX
+        *mut *mut crate::protocols::device_path::Protocol,
         *mut crate::base::Handle,
     ) -> crate::base::Status},
 
@@ -663,7 +663,7 @@ pub struct BootServices {
     pub load_image: eficall! {fn(
         crate::base::Boolean,
         crate::base::Handle,
-        *mut core::ffi::c_void, // XXX
+        *mut crate::protocols::device_path::Protocol,
         *mut core::ffi::c_void,
         usize,
         *mut crate::base::Handle,
@@ -704,7 +704,7 @@ pub struct BootServices {
     pub connect_controller: eficall! {fn(
         crate::base::Handle,
         *mut crate::base::Handle,
-        *mut core::ffi::c_void, // XXX
+        *mut crate::protocols::device_path::Protocol,
         crate::base::Boolean,
     ) -> crate::base::Status},
     pub disconnect_controller: eficall! {fn(
