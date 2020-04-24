@@ -1,5 +1,25 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 3.0.0:
+
+        * Fix a missing parameter in `BootServices::locate_device_path()`. The
+          prototype incorrectly had 2 arguments, while the official version
+          takes 3. The final `handle` argument was missing.
+          This is an API break in `r-efi`. It should have a limited impact,
+          since the function was mostly useless without a handle.
+          Thanks to Michael Kubacki for catching this!
+
+        * Adjust the `device_path` parameter in a bunch of `BootServices`
+          calls. This used to take a `*mut c_void` parameter, since the device
+          path protocol was not implemented.
+          Since we have to bump the major version anyway, we use this to also
+          fix these argument-types to the correct device-path protocol type,
+          which has been implemented some time ago.
+
+        Contributions from: David Rheinsberg, Michael Kubacki
+
+        - Tübingen, 2020-04-24
+
 ## CHANGES WITH 2.2.0:
 
         * Provide `as_usize()` accessor for `efi::Status` types. This allows
