@@ -35,3 +35,7 @@ examples = []
 [[example]]
 name = "hello-world"
 required-features = ["examples"]
+
+[[example]]
+name = "uefi-cross-compile"
+required-features = ["examples"]
