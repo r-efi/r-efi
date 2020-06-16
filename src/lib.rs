@@ -119,6 +119,11 @@ pub mod efi {
     pub use crate::system::TIME_IN_DAYLIGHT;
     pub use crate::system::UNSPECIFIED_TIMEZONE;
 
+    pub use crate::system::Ipv4Address;
+    pub use crate::system::Ipv6Address;
+    pub use crate::system::IpAddress;
+    pub use crate::system::MacAddress;
+
     pub use crate::system::VariableAuthentication;
     pub use crate::system::VariableAuthentication2;
     pub use crate::system::VariableAuthentication3;

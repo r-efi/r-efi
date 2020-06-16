@@ -12,6 +12,7 @@ pub mod graphics_output;
 pub mod loaded_image;
 pub mod loaded_image_device_path;
 pub mod simple_file_system;
+pub mod simple_network;
 pub mod simple_text_input;
 pub mod simple_text_input_ex;
 pub mod simple_text_output;
