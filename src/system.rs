@@ -46,38 +46,6 @@ pub struct TimeCapabilities {
 }
 
 //
-// Networking
-//
-// UEFI defines optional network protocols, which may be used for network booting and pre-OS
-// network functionality. They may not be present on all platforms.
-//
-
-#[repr(C)]
-#[derive(Copy, Clone, Debug)]
-pub struct Ipv4Address {
-    pub addr: [u8; 4],
-}
-
-#[repr(C)]
-#[derive(Copy, Clone, Debug)]
-pub struct Ipv6Address {
-    pub addr: [u8; 16],
-}
-
-#[repr(C)]
-pub union IpAddress {
-    pub addr: [u32; 4],
-    pub v4: Ipv4Address,
-    pub v6: Ipv6Address,
-}
-
-#[repr(C)]
-#[derive(Debug)]
-pub struct MacAddress {
-    pub addr: [u8; 32],
-}
-
-//
 // UEFI Variables
 //
 // UEFI systems provide a way to store global variables. These can be persistent or volatile. The

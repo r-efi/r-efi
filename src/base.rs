@@ -423,6 +423,57 @@ pub struct Guid {
     node: [u8; 6],
 }
 
+/// Network MAC Address
+///
+/// This type encapsulates a single networking media access control address
+/// (MAC). It is a simple 32 bytes buffer with no special alignment. Note that
+/// no comparison function are defined by default, since trailing bytes of the
+/// address might be random.
+///
+/// The interpretation of the content differs depending on the protocol it is
+/// used with. See each documentation for details. In most cases this contains
+/// an Ethernet address.
+#[repr(C)]
+#[derive(Copy, Clone, Debug)]
+pub struct MacAddress {
+    pub addr: [u8; 32],
+}
+
+/// IPv4 Address
+///
+/// Binary representation of an IPv4 address. It is encoded in network byte
+/// order (i.e., big endian). Note that no special alignment restrictions are
+/// defined by the standard specification.
+#[repr(C)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct Ipv4Address {
+    pub addr: [u8; 4],
+}
+
+/// IPv6 Address
+///
+/// Binary representation of an IPv6 address, encoded in network byte order
+/// (i.e., big endian). Similar to the IPv4 address, no special alignment
+/// restrictions are defined by the standard specification.
+#[repr(C)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+pub struct Ipv6Address {
+    pub addr: [u8; 16],
+}
+
+/// IP Address
+///
+/// A union type over the different IP addresses available. Alignment is always
+/// fixed to 4-bytes. Note that trailing bytes might be random, so no
+/// comparison functions are derived.
+#[repr(C, align(4))]
+#[derive(Copy, Clone)]
+pub union IpAddress {
+    pub addr: [u32; 4],
+    pub v4: Ipv4Address,
+    pub v6: Ipv6Address,
+}
+
 impl Boolean {
     /// Literal False
     ///
@@ -743,6 +794,19 @@ mod tests {
 
         assert_eq!(size_of::<Guid>(), 16);
         assert_eq!(align_of::<Guid>(), 8);
+
+        //
+        // Networking Types
+        //
+
+        assert_eq!(size_of::<MacAddress>(), 32);
+        assert_eq!(align_of::<MacAddress>(), 1);
+        assert_eq!(size_of::<Ipv4Address>(), 4);
+        assert_eq!(align_of::<Ipv4Address>(), 1);
+        assert_eq!(size_of::<Ipv6Address>(), 16);
+        assert_eq!(align_of::<Ipv6Address>(), 1);
+        assert_eq!(size_of::<IpAddress>(), 16);
+        assert_eq!(align_of::<IpAddress>(), 4);
     }
 
     #[test]

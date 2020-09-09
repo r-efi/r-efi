@@ -14,8 +14,54 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 pub const REVISION: u64 = 0x0000000000010000u64;
 
+pub const MAX_MCAST_FILTER_CNT: usize = 16;
+
+pub const RECEIVE_UNICAST: u32 = 0x00000001u32;
+pub const RECEIVE_MULTICAST: u32 = 0x00000002u32;
+pub const RECEIVE_BROADCAST: u32 = 0x00000004u32;
+pub const RECEIVE_PROMISCUOUS: u32 = 0x00000008u32;
+pub const RECEIVE_PROMISCUOUS_MULTICAST: u32 = 0x00000010u32;
+
+pub const RECEIVE_INTERRUPT: u32 = 0x00000001u32;
+pub const TRANSMIT_INTERRUPT: u32 = 0x00000002u32;
+pub const COMMAND_INTERRUPT: u32 = 0x00000004u32;
+pub const SOFTWARE_INTERRUPT: u32 = 0x000000008u32;
+
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Debug, Clone, Copy)]
+pub struct Mode {
+    pub state: u32,
+    pub hw_address_size: u32,
+    pub media_header_size: u32,
+    pub max_packet_size: u32,
+    pub nvram_size: u32,
+    pub nvram_access_size: u32,
+    pub receive_filter_mask: u32,
+    pub receive_filter_setting: u32,
+    pub max_mcast_filter_count: u32,
+    pub mcast_filter_count: u32,
+    pub mcast_filter: [crate::base::MacAddress; MAX_MCAST_FILTER_CNT],
+    pub current_address: crate::base::MacAddress,
+    pub broadcast_address: crate::base::MacAddress,
+    pub permanent_address: crate::base::MacAddress,
+    pub if_type: u8,
+    pub mac_address_changeable: crate::base::Boolean,
+    pub multiple_tx_supported: crate::base::Boolean,
+    pub media_present_supported: crate::base::Boolean,
+    pub media_present: crate::base::Boolean,
+}
+
+#[repr(C)]
+#[derive(Debug, Clone, Copy)]
+pub enum NetworkState {
+    NetworkStopped,
+    NetworkStarted,
+    NetworkInitialized,
+    NetworkMaxState,
+}
+
+#[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct Statistics {
     pub rx_total_frames: u64,
     pub rx_good_frames: u64,
@@ -46,51 +92,6 @@ pub struct Statistics {
 }
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
-pub enum NetworkState {
-  NetworkStopped,
-  NetworkStarted,
-  NetworkInitialized,
-  NetworkMaxState,
-}
-
-pub const RECEIVE_UNICAST: u32 = 0x00000001u32;
-pub const RECEIVE_MULTICAST: u32 = 0x00000002u32;
-pub const RECEIVE_BROADCAST: u32 = 0x00000004u32;
-pub const RECEIVE_PROMISCUOUS: u32 = 0x00000008u32;
-pub const RECEIVE_PROMISCUOUS_MULTICAST: u32 = 0x00000010u32;
-
-pub const RECEIVE_INTERRUPT: u32 = 0x00000001u32;
-pub const TRANSMIT_INTERRUPT: u32 = 0x00000002u32;
-pub const COMMAND_INTERRUPT: u32 = 0x00000004u32;
-pub const SOFTWARE_INTERRUPT: u32 = 0x000000008u32;
-
-pub const MAX_MCAST_FILTER_CNT: usize = 16;
-
-#[repr(C)]
-pub struct Mode {
-    pub state: u32,
-    pub hw_address_size: u32,
-    pub media_header_size: u32,
-    pub max_packet_size: u32,
-    pub nvram_size: u32,
-    pub nvram_access_size: u32,
-    pub receive_filter_mask: u32,
-    pub receive_filter_setting: u32,
-    pub max_mcast_filter_count: u32,
-    pub mcast_filter_count: u32,
-    pub mcast_filter: [crate::system::MacAddress; MAX_MCAST_FILTER_CNT],
-    pub current_address: crate::system::MacAddress,
-    pub broadcast_address: crate::system::MacAddress,
-    pub permanent_address: crate::system::MacAddress,
-    pub if_type: u8,
-    pub mac_address_changeable: crate::base::Boolean,
-    pub multiple_tx_supported: crate::base::Boolean,
-    pub media_present_supported: crate::base::Boolean,
-    pub media_present: crate::base::Boolean,
-}
-
-#[repr(C)]
 pub struct Protocol {
     pub revision: u64,
     pub start: eficall! {fn(
@@ -117,12 +118,12 @@ pub struct Protocol {
         u32,
         crate::base::Boolean,
         usize,
-        *mut crate::system::MacAddress,
+        *mut crate::base::MacAddress,
     ) -> crate::base::Status},
     pub station_address: eficall! {fn(
         *mut Protocol,
         crate::base::Boolean,
-        *mut crate::system::MacAddress,
+        *mut crate::base::MacAddress,
     ) -> crate::base::Status},
     pub statistics: eficall! {fn(
         *mut Protocol,
@@ -133,8 +134,8 @@ pub struct Protocol {
     pub mcast_ip_to_mac: eficall! {fn(
         *mut Protocol,
         crate::base::Boolean,
-        *mut crate::system::IpAddress,
-        *mut crate::system::MacAddress,
+        *mut crate::base::IpAddress,
+        *mut crate::base::MacAddress,
     ) -> crate::base::Status},
     pub nv_data: eficall! {fn(
         *mut Protocol,
@@ -153,8 +154,8 @@ pub struct Protocol {
         usize,
         usize,
         *mut core::ffi::c_void,
-        *mut crate::system::MacAddress,
-        *mut crate::system::MacAddress,
+        *mut crate::base::MacAddress,
+        *mut crate::base::MacAddress,
         *mut u16,
     ) -> crate::base::Status},
     pub receive: eficall! {fn(
@@ -162,8 +163,8 @@ pub struct Protocol {
         *mut usize,
         *mut usize,
         *mut core::ffi::c_void,
-        *mut crate::system::MacAddress,
-        *mut crate::system::MacAddress,
+        *mut crate::base::MacAddress,
+        *mut crate::base::MacAddress,
         *mut u16,
     ) -> crate::base::Status},
     pub wait_for_packet: crate::base::Event,

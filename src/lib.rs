@@ -103,7 +103,11 @@ pub mod efi {
     pub use crate::base::Guid;
     pub use crate::base::Handle;
     pub use crate::base::ImageEntryPoint;
+    pub use crate::base::IpAddress;
+    pub use crate::base::Ipv4Address;
+    pub use crate::base::Ipv6Address;
     pub use crate::base::Lba;
+    pub use crate::base::MacAddress;
     pub use crate::base::PhysicalAddress;
     pub use crate::base::Status;
     pub use crate::base::Tpl;
@@ -118,11 +122,6 @@ pub mod efi {
     pub use crate::system::TIME_ADJUST_DAYLIGHT;
     pub use crate::system::TIME_IN_DAYLIGHT;
     pub use crate::system::UNSPECIFIED_TIMEZONE;
-
-    pub use crate::system::Ipv4Address;
-    pub use crate::system::Ipv6Address;
-    pub use crate::system::IpAddress;
-    pub use crate::system::MacAddress;
 
     pub use crate::system::VariableAuthentication;
     pub use crate::system::VariableAuthentication2;
