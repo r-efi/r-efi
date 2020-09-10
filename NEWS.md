@@ -1,5 +1,20 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 3.1.0:
+
+        * Add the basic networking types to `r_efi::base`. This includes MAC
+          and IP address types.
+
+        * Add the EFI_SIMPLE_NETWORK_PROTOCOL definitions and all required
+          constants to make basic networking available.
+
+        * Add a new uefi-cross example, which is copied from upstream rustc
+          sources, so we can test local modifications to it.
+
+        Contributions from: Alex James, David Rheinsberg
+
+        - Tübingen, 2020-09-10
+
 ## CHANGES WITH 3.0.0:
 
         * Fix a missing parameter in `BootServices::locate_device_path()`. The
