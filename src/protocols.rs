@@ -7,6 +7,8 @@
 pub mod decompress;
 pub mod device_path;
 pub mod device_path_utilities;
+pub mod disk_io;
+pub mod disk_io2;
 pub mod file;
 pub mod graphics_output;
 pub mod loaded_image;
