@@ -52,3 +52,15 @@ impl Hardware {
     pub const SUBTYPE_CONTROLLER: u8 = 0x05;
     pub const SUBTYPE_BMC: u8 = 0x06;
 }
+
+#[repr(C, packed)]
+#[derive(Clone, Copy, Debug)]
+pub struct HardDriveMedia {
+    pub header: Protocol,
+    pub partition_number: u32,
+    pub partition_start: u64,
+    pub partition_size: u64,
+    pub partition_signature: [u8; 16],
+    pub partition_format: u8,
+    pub signature_type: u8,
+}
