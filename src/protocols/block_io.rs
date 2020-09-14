@@ -19,7 +19,7 @@ pub const REVISION3: u64 = 0x000000000002001fu64;
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
-pub struct BlockIoMedia {
+pub struct Media {
     pub media_id: u32,
     pub removable_media: bool,
     pub media_present: bool,
@@ -28,23 +28,20 @@ pub struct BlockIoMedia {
     pub write_caching: bool,
     pub block_size: u32,
     pub io_align: u32,
-    pub last_block: u64,
-    pub lowest_aligned_lba: u64,
-    pub logical_blocks_per_physical_block: u64,
+    pub last_block: crate::base::Lba,
+    pub lowest_aligned_lba: crate::base::Lba,
+    pub logical_blocks_per_physical_block: u32,
     pub optimal_transfer_length_granularity: u32,
 }
 
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
-
-    pub media: *const BlockIoMedia,
-
+    pub media: *const Media,
     pub reset: eficall! {fn(
         *mut Protocol,
         crate::base::Boolean,
     ) -> crate::base::Status},
-
     pub read_blocks: eficall! {fn(
         *mut Protocol,
         u32,
@@ -52,7 +49,6 @@ pub struct Protocol {
         usize,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
-
     pub write_blocks: eficall! {fn(
         *mut Protocol,
         u32,
@@ -60,7 +56,6 @@ pub struct Protocol {
         usize,
         *mut core::ffi::c_void,
     ) -> crate::base::Status},
-
     pub flush_blocks: eficall! {fn(
         *mut Protocol,
     ) -> crate::base::Status},
