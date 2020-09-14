@@ -28,7 +28,7 @@ pub struct Protocol {
         *mut Protocol,
         crate::base::Handle,
         usize,
-        crate::base::Handle,
+        *mut crate::base::Handle,
     ) -> crate::base::Status},
     pub version: u32,
     pub image_handle: crate::base::Handle,
