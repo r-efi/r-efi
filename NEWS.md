@@ -1,5 +1,16 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 3.2.0:
+
+        * Add new protocols: DiskIo, DiskIo2, BlockIo, DriverBinding
+
+        * Extend the Device-Path payload structure and add the HardDriveMedia
+          payload.
+
+        Contributions from: TBA
+
+        - Tübingen, 2020-XX-YY
+
 ## CHANGES WITH 3.1.0:
 
         * Add the basic networking types to `r_efi::base`. This includes MAC
