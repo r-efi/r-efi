@@ -14,6 +14,7 @@ pub mod driver_binding;
 pub mod file;
 pub mod graphics_output;
 pub mod hii_database;
+pub mod hii_font;
 pub mod loaded_image;
 pub mod loaded_image_device_path;
 pub mod simple_file_system;
