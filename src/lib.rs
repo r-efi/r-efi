@@ -74,6 +74,10 @@ pub mod base;
 #[macro_use]
 pub mod system;
 
+// Import all top-level HII definitions and structures. These don't readily fall under a protocol namespace,
+// but are too volumnous to put in the flat namespace.
+pub mod hii;
+
 // Import the protocols. Each protocol is separated into its own module, readily imported by the
 // meta `protocols` module. Note that this puts all symbols into their respective protocol
 // namespace, thus clearly separating them (unlike the UEFI Specification, which more often than
