@@ -72,11 +72,9 @@
 #[macro_use]
 pub mod base;
 #[macro_use]
-pub mod system;
-
-// Import all top-level HII definitions and structures. These don't readily fall under a protocol namespace,
-// but are too volumnous to put in the flat namespace.
 pub mod hii;
+#[macro_use]
+pub mod system;
 
 // Import the protocols. Each protocol is separated into its own module, readily imported by the
 // meta `protocols` module. Note that this puts all symbols into their respective protocol
@@ -241,6 +239,12 @@ pub mod efi {
     pub use crate::system::SYSTEM_TABLE_REVISION_2_60;
     pub use crate::system::SYSTEM_TABLE_REVISION_2_70;
     pub use crate::system::SYSTEM_TABLE_SIGNATURE;
+
+    //
+    // Re-export HII
+    //
+
+    pub use crate::hii;
 
     //
     // Re-export protocols

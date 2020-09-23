@@ -1,24 +1,27 @@
-//! HII (Human Interface Infrastructure) Code Definitions
+//! Human Interface Infrastructure (HII)
 //!
 //! This module contains bindings and definitions copied from Section 33.3 of
-//! the UEFI spec. If a package or section is listed here, it is included in its
-//! entirety. Other sections exist that may not be here yet.
+//! the UEFI spec, as well as the core HII related definitions.
 
 //
-// This is the exception to the rule.
-// It's defined in 34.8, not 33.3, but it's used throughout the
-// HII protocols, so it makes sense to be defined at the base.
+// Core HII Definitions
 //
+
+// This is the exception to the rule. It's defined in 34.8 (HII_DATABASE
+// protocol), not 33.3, but it's used throughout the HII protocols, so it makes
+// sense to be defined at the base.
 pub type Handle = *mut core::ffi::c_void;
 
 //
 // 33.3.1 Package Lists and Package Headers
 //
+
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
 pub struct PackageHeader {
     pub length: [u8; 3],
     pub r#type: u8,
+    // pub data: [u8], // Discarded to allow embedding in other definitions.
 }
 
 pub const PACKAGE_TYPE_ALL: u8 = 0x00;
@@ -45,6 +48,7 @@ pub struct PackageListHeader {
 //
 // 33.3.3 Font Package
 //
+
 #[repr(C)]
 #[derive(Debug)]
 pub struct FontPackageHdr {
@@ -53,10 +57,11 @@ pub struct FontPackageHdr {
     pub glyph_block_offset: u32,
     pub cell: GlyphInfo,
     pub font_style: FontStyle,
-    pub wide_glyphs: [crate::base::Char16],
+    pub font_family: [crate::base::Char16],
 }
 
 pub type FontStyle = u32;
+
 pub const FONT_STYLE_NORMAL: FontStyle = 0x00000000;
 pub const FONT_STYLE_BOLD: FontStyle = 0x00000001;
 pub const FONT_STYLE_ITALIC: FontStyle = 0x00000002;
@@ -70,7 +75,7 @@ pub const FONT_STYLE_DBL_UNDER: FontStyle = 0x00100000;
 #[derive(Debug, Clone, Copy)]
 pub struct GlyphBlock {
     pub block_type: u8,
-    // pub block_body: [u8]   // Intentionally skipped.
+    // pub block_body: [u8] // Discarded to allow embedding elsewhere.
 }
 
 pub const GIBT_END: u8 = 0x00;
@@ -146,7 +151,8 @@ pub struct GibtExt4Block {
 pub struct GibtGlyphBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
-    // pub bitmap_data: [u8],   // Intentionally skipped.
+    // pub bitmap_data: [u8], // Discarded to allow embedding elsewhere.
+
 }
 
 #[repr(C)]
@@ -154,7 +160,8 @@ pub struct GibtGlyphBlock {
 pub struct GibtGlyphsBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
-    pub count: u16, // pub bitmap_data: [u8],   // Intentionally skipped.
+    pub count: u16,
+    // pub bitmap_data: [u8], // Discarded to allow embedding elsewhere.
 }
 
 #[repr(C)]
@@ -198,6 +205,7 @@ pub struct GibtVariabilityBlock {
 //
 // 33.3.8 Forms Package
 //
+
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
 pub struct FormPackageHdr {
@@ -225,14 +233,14 @@ pub type AnimationId = u16;
 pub struct IfrQuestionHeader {
     pub header: IfrStatementHeader,
     pub question_id: QuestionId,
-    pub varstore_id: VarstoreId,
-    pub varstore_info: QuestionHeaderVarstoreInfo,
+    pub var_store_id: VarstoreId,
+    pub var_store_info: IfrQuestionHeaderVarstoreInfo,
     pub flags: u8,
 }
 
 #[repr(C)]
 #[derive(Clone, Copy)]
-pub union QuestionHeaderVarstoreInfo {
+pub union IfrQuestionHeaderVarstoreInfo {
     pub var_name: StringId,
     pub var_offset: u16,
 }
@@ -513,7 +521,7 @@ pub struct IfrEqIdValList {
     pub header: IfrOpHeader,
     pub question_id: QuestionId,
     pub list_length: u16,
-    // pub value_list: [u16]    // Intentionally skipped.
+    // pub value_list: [u16], // Discarded to allow embedding elsewhere.
 }
 
 #[repr(C)]
@@ -560,7 +568,7 @@ pub struct IfrFormMapMethod {
 pub struct IfrFormMap {
     pub header: IfrOpHeader,
     pub form_id: FormId,
-    // pub methods: [IfrFormMapMethod],    // Intentionally skipped.
+    // pub methods: [IfrFormMapMethod], // Discarded to allow embedding elsewhere.
 }
 
 pub const STANDARD_FORM_GUID: crate::base::Guid = crate::base::Guid::from_fields(
@@ -580,14 +588,7 @@ pub struct IfrFormSet {
     pub form_set_title: StringId,
     pub help: StringId,
     pub flags: u8,
-    // pub class_guid: [crate::base::Guid], // Intentionally skipped.
-}
-
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub union IfrGetVarStoreInfo {
-    pub var_name: StringId,
-    pub var_offset: u16,
+    // pub class_guid: [crate::base::Guid], // Discarded to allow embedding elsewhere.
 }
 
 #[repr(C)]
@@ -597,6 +598,13 @@ pub struct IfrGet {
     pub var_store_id: VarstoreId,
     pub var_store_info: IfrGetVarStoreInfo,
     pub var_store_type: u8,
+}
+
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union IfrGetVarStoreInfo {
+    pub var_name: StringId,
+    pub var_offset: u16,
 }
 
 #[repr(C)]
@@ -622,7 +630,6 @@ pub struct IfrGreaterThan {
 pub struct IfrGuid {
     pub header: IfrOpHeader,
     pub guid: crate::base::Guid,
-    // Optional data follows.
 }
 
 #[repr(C)]
@@ -706,6 +713,12 @@ pub struct IfrNot {
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
+pub struct IfrNotEqual {
+    pub header: IfrOpHeader,
+}
+
+#[repr(C)]
+#[derive(Debug, Clone, Copy)]
 pub struct IfrNoSubmitIf {
     pub header: IfrOpHeader,
     pub error: StringId,
@@ -784,13 +797,15 @@ pub struct IfrOnes {
     pub header: IfrOpHeader,
 }
 
+type IfrOneOfData = IfrNumericData;
+
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct IfrOneOf {
     pub header: IfrOpHeader,
     pub question: IfrQuestionHeader,
     pub flags: u8,
-    pub data: IfrNumericData,
+    pub data: IfrOneOfData,
 }
 
 #[repr(C)]
@@ -815,7 +830,7 @@ pub union IfrTypeValue {
     pub date: Date,
     pub string: StringId,
     pub r#ref: Ref,
-    // pub buffer: [u8],  // Intentionally skipped.
+    // pub buffer: [u8], // Discarded to allow embedding elsewhere.
 }
 
 #[repr(C)]
@@ -919,6 +934,12 @@ pub struct IfrQuestionRef33 {
     pub header: IfrOpHeader,
     pub device_path: StringId,
     pub guid: crate::base::Guid,
+}
+
+#[repr(C)]
+#[derive(Debug, Clone, Copy)]
+pub struct IfrRead {
+    pub header: IfrOpHeader,
 }
 
 #[repr(C)]
@@ -1045,6 +1066,9 @@ pub struct IfrSpan {
     pub header: IfrOpHeader,
     pub flags: u8,
 }
+
+pub const IFR_FLAGS_FIRST_MATCHING: u8 = 0x00;
+pub const IFR_FLAGS_FIRST_NON_MATCHING: u8 = 0x01;
 
 #[repr(C)]
 #[derive(Clone, Copy)]
@@ -1214,7 +1238,7 @@ pub struct IfrVarstore {
     pub guid: crate::base::Guid,
     pub var_store_id: VarstoreId,
     pub size: u16,
-    // pub name: [u8],    // Intentionally skipped.
+    // pub name: [u8], // Discarded to allow embedding elsewhere.
 }
 
 #[repr(C)]
@@ -1233,7 +1257,7 @@ pub struct IfrVarstoreEfi {
     pub guid: crate::base::Guid,
     pub attributes: u32,
     pub size: u16,
-    // pub name: [u8],    // Intentionally skipped.
+    // pub name: [u8], // Discarded to allow embedding elsewhere.
 }
 
 #[repr(C)]
