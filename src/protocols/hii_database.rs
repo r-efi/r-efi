@@ -1,4 +1,4 @@
-//! HII (Human Interface Infrastructure) Database Protocol from Section 34.8
+//! Human Interface Infrastructure (HII) Protocol
 //!
 //! Database manager for HII-related data structures.
 
@@ -75,7 +75,7 @@ pub struct Protocol {
     ) -> crate::base::Status},
     pub set_keyboard_layout: eficall! {fn(
         *const Protocol,
-        *const crate::base::Guid,
+        *mut crate::base::Guid,
     ) -> crate::base::Status},
     pub get_package_list_handle: eficall! {fn(
         *const Protocol,
@@ -98,10 +98,10 @@ pub struct KeyboardLayout {
 #[derive(Debug, Clone, Copy)]
 pub struct KeyDescriptor {
     pub key: Key,
-    pub unicode: u16,
-    pub shifted_unicode: u16,
-    pub alt_gr_unicode: u16,
-    pub shifted_alt_gr_unicode: u16,
+    pub unicode: crate::base::Char16,
+    pub shifted_unicode: crate::base::Char16,
+    pub alt_gr_unicode: crate::base::Char16,
+    pub shifted_alt_gr_unicode: crate::base::Char16,
     pub modifier: u16,
     pub affected_attribute: u16,
 }
@@ -272,6 +272,7 @@ pub type Notify = eficall! {fn(
 ) -> crate::base::Status};
 
 pub type NotifyType = usize;
+
 pub const NOTIFY_NEW_PACK: NotifyType = 0x00000001;
 pub const NOTIFY_REMOVE_PACK: NotifyType = 0x00000002;
 pub const NOTIFY_EXPORT_PACK: NotifyType = 0x00000004;
