@@ -1,6 +1,4 @@
-//! HII (Human Interface Infrastructure) String Protocol from Section 34.3
-//!
-//! Interfaces which manipulate string data.
+//! HII String Protocol
 
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xfd96974,
@@ -19,25 +17,25 @@ pub struct Protocol {
         *mut crate::hii::StringId,
         *const crate::base::Char8,
         *const crate::base::Char16,
-        crate::protocols::hii_font::String,
-        *const crate::protocols::hii_font::Info,
+        super::hii_font::String,
+        *const Info,
     ) -> crate::base::Status},
     pub get_string: eficall! {fn(
         *const Protocol,
         *const crate::base::Char8,
         crate::hii::Handle,
         crate::hii::StringId,
-        crate::protocols::hii_font::String,
+        super::hii_font::String,
         *mut usize,
-        *mut *mut crate::protocols::hii_font::Info,
+        *mut *mut Info,
     ) -> crate::base::Status},
     pub set_string: eficall! {fn(
         *const Protocol,
         crate::hii::Handle,
         crate::hii::StringId,
         *const crate::base::Char8,
-        crate::protocols::hii_font::String,
-        *const crate::protocols::hii_font::Info,
+        super::hii_font::String,
+        *const Info,
     ) -> crate::base::Status},
     pub get_languages: eficall! {fn(
         *const Protocol,
@@ -52,4 +50,12 @@ pub struct Protocol {
         *mut crate::base::Char8,
         *mut usize,
     ) -> crate::base::Status},
+}
+
+#[repr(C)]
+#[derive(Debug)]
+pub struct Info {
+    pub font_style: crate::hii::FontStyle,
+    pub font_size: u16,
+    pub font_name: [crate::base::Char16],
 }

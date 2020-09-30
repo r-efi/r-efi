@@ -15,6 +15,7 @@ pub mod file;
 pub mod graphics_output;
 pub mod hii_database;
 pub mod hii_font;
+pub mod hii_font_ex;
 pub mod hii_string;
 pub mod loaded_image;
 pub mod loaded_image_device_path;
