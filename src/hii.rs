@@ -152,7 +152,6 @@ pub struct GibtGlyphBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
     // pub bitmap_data: [u8], // Discarded to allow embedding elsewhere.
-
 }
 
 #[repr(C)]
