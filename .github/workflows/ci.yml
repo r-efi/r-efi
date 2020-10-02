@@ -32,11 +32,38 @@ jobs:
   # targets. This test ensures that we can actually compile for our main target
   # platforms.
   #
-  # XXX: Note that we need nightly for `xbuild`, but there is work going on in
-  #      upstream rustc to incorporate all this into `cargo`.
+  # XXX: Note that we need nightly for `-Zbuild-std`. This is still under
+  #      development and marked as unstable. It will hopefully be stabilized
+  #      in the future.
   #
   crossuefi:
-    name: Cross-Compilation To UEFI Target
+    name: Cross-Compilation To UEFI Target (nightly)
+    runs-on: ubuntu-latest
+    steps:
+    - name: Fetch Sources
+      uses: actions/checkout@v2
+    - name: Install Rust Components
+      run: |
+        rustup toolchain install nightly
+        rustup default nightly
+        rustup component add --toolchain nightly rust-src
+    - name: Build Project
+      run: |
+        cargo +nightly build \
+          -Zbuild-std=core,compiler_builtins,alloc \
+          -Zbuild-std-features=compiler-builtins-mem \
+          --target x86_64-unknown-uefi \
+          --features examples \
+          --lib --bins --examples
+
+  #
+  # Cross-Compilation to UEFI Target (cargo-xbuild)
+  #
+  # This is the old way of cross-compiling the standard libraries. We keep it
+  # around in CI to make sure we do not accidentally break it.
+  #
+  crossuefi-xbuild:
+    name: Cross-Compilation To UEFI Target (cargo-xbuild)
     runs-on: ubuntu-latest
     steps:
     - name: Fetch Sources

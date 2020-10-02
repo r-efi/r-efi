@@ -35,11 +35,9 @@ Available configuration options are:
                  successfully on UEFI targets.
 
 No special requirements exist to compile for UEFI targets. Native compilations
-work out of the box without any adjustments. In case of cross-compilation, you
-need a target-configuration as input to the rust compiler.
-
-Our recommended way to cross-compile this project is to use `cargo-xbuild`. To
-setup your toolchain for cross-compilation, you need:
+work out of the box without any adjustments. For cross-compilations, you have
+to use either `cargo-xbuild` or the nightly versions of `cargo` and `rustc`. In
+both cases, you need a nightly toolchain and the compiler sources:
 
 ```sh
 rustup toolchain install nightly
@@ -47,16 +45,26 @@ rustup toolchain install nightly
 rustup update
 
 rustup component add --toolchain nightly rust-src
-cargo install --force cargo-xbuild
 ```
 
-Be sure to update all components to the most recent version. Most of these
-depend on features only available in nightly, so you need recent versions.
+Be sure to update all components to the most recent version.
 
-With these installed, it then becomes as simple as the following command to
-build the example applications shipped with this project:
+##### Build via: cargo/rustc nightly
 
 ```sh
+cargo +nightly build \
+    -Zbuild-std=core,compiler_builtins,alloc \
+    -Zbuild-std-features=compiler-builtins-mem \
+    --target x86_64-unknown-uefi \
+    --features examples \
+    --examples
+```
+
+##### Build via: cargo-xbuild
+
+```sh
+cargo install --force cargo-xbuild
+
 cargo \
     +nightly \
     xbuild \
