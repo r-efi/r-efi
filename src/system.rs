@@ -826,3 +826,29 @@ pub struct SystemTable {
     pub number_of_table_entries: usize,
     pub configuration_table: *mut ConfigurationTable,
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // Verify ABI of MemoryType
+    //
+    // The MemoryType implementation cannot perfectly mirror the UEFI
+    // specification, as rust does not allow enum discriminants outside the
+    // declared range. This test verifies the ABI of MemoryType matches our
+    // expectations, and the converters are correctly implemented.
+    //
+    // In particular, MemoryType reserves all values with the MSB set for
+    // platform and implementation purposes. We cannot define all those enum
+    // variants, so we must use `u32` wherever we accept MemoryType values.
+    // We therefore verify that `v as u32` conversions are valid and properly
+    // defined.
+    #[test]
+    fn memory_type_abi() {
+        assert_eq!(std::mem::size_of::<MemoryType>(), std::mem::size_of::<u32>());
+        assert_eq!(std::mem::align_of::<MemoryType>(), std::mem::align_of::<u32>());
+
+        assert_eq!(MemoryType::ReservedMemoryType as u32, 0);
+        assert_eq!(MemoryType::PersistentMemory as u32, 14);
+    }
+}
