@@ -845,8 +845,14 @@ mod tests {
     // defined.
     #[test]
     fn memory_type_abi() {
-        assert_eq!(std::mem::size_of::<MemoryType>(), std::mem::size_of::<u32>());
-        assert_eq!(std::mem::align_of::<MemoryType>(), std::mem::align_of::<u32>());
+        assert_eq!(
+            std::mem::size_of::<MemoryType>(),
+            std::mem::size_of::<u32>(),
+        );
+        assert_eq!(
+            std::mem::align_of::<MemoryType>(),
+            std::mem::align_of::<u32>(),
+        );
 
         assert_eq!(MemoryType::ReservedMemoryType as u32, 0);
         assert_eq!(MemoryType::PersistentMemory as u32, 14);
