@@ -7,9 +7,17 @@
         * Extend the Device-Path payload structure and add the HardDriveMedia
           payload.
 
-        Contributions from: TBA
+        * Add HII definitions: A new top-level module `hii` with all the basic
+          HII constants, as well as a handful of HII protocols (hii_database,
+          hii_font, hii_string)
 
-        - Tübingen, 2020-XX-YY
+        * Document new `-Zbuild-std` based cross-compilation, serving as
+          official rust alternative to cargo-xbuild.
+
+        Contributions from: Alex James, Bret Barkelew, David Rheinsberg,
+                            Michael Kubacki
+
+        - Tübingen, 2020-10-23
 
 ## CHANGES WITH 3.1.0:
 
