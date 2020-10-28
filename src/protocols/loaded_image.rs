@@ -29,8 +29,8 @@ pub struct Protocol {
 
     pub image_base: *mut core::ffi::c_void,
     pub image_size: u64,
-    pub image_code_type: crate::system::MemoryType,
-    pub image_data_type: crate::system::MemoryType,
+    pub image_code_type: u32,
+    pub image_data_type: u32,
     pub unload: eficall! {fn(
         crate::base::Handle,
     ) -> crate::base::Status},
