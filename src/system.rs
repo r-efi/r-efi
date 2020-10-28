@@ -582,7 +582,7 @@ pub struct BootServices {
 
     pub allocate_pages: eficall! {fn(
         AllocateType,
-        MemoryType,
+        u32,
         usize,
         *mut crate::base::PhysicalAddress,
     ) -> crate::base::Status},
@@ -598,7 +598,7 @@ pub struct BootServices {
         *mut u32,
     ) -> crate::base::Status},
     pub allocate_pool: eficall! {fn(
-        MemoryType,
+        u32,
         usize,
         *mut *mut core::ffi::c_void,
     ) -> crate::base::Status},
