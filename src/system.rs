@@ -320,6 +320,25 @@ pub enum MemoryType {
     MemoryMappedIOPortSpace,
     PalCode,
     PersistentMemory,
+    MaxMemoryType,
+}
+
+impl Into<u32> for MemoryType {
+    fn into(self) -> u32 {
+        unsafe { core::mem::transmute(self) }
+    }
+}
+
+impl core::convert::TryFrom<u32> for MemoryType {
+    type Error = ();
+
+    fn try_from(val: u32) -> Result<MemoryType, Self::Error> {
+        if val <= MemoryType::MaxMemoryType.into() {
+            unsafe { Ok(core::mem::transmute(val)) }
+        } else {
+            Err(())
+        }
+    }
 }
 
 pub const MEMORY_UC: u64 = 0x0000000000000001u64;
