@@ -21,15 +21,13 @@ pub struct PixelBitmask {
     pub reserved_mask: u32,
 }
 
-#[repr(C)]
-#[derive(Debug, Clone, Copy)]
-pub enum GraphicsPixelFormat {
-    PixelRedGreenBlueReserved8BitPerColor,
-    PixelBlueGreenRedReserved8BitPerColor,
-    PixelBitMask,
-    PixelBltOnly,
-    PixelFormatMax,
-}
+pub type GraphicsPixelFormat = u32;
+
+pub const PIXEL_RED_GREEN_BLUE_RESERVED_8_BIT_PER_COLOR: GraphicsPixelFormat = 0x00000000;
+pub const PIXEL_BLUE_GREEN_RED_RESERVED_8_BIT_PER_COLOR: GraphicsPixelFormat = 0x00000001;
+pub const PIXEL_BIT_MASK: GraphicsPixelFormat = 0x00000002;
+pub const PIXEL_BLT_ONLY: GraphicsPixelFormat = 0x00000003;
+pub const PIXEL_FORMAT_MAX: GraphicsPixelFormat = 0x00000004;
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -62,15 +60,13 @@ pub struct BltPixel {
     pub reserved: u8,
 }
 
-#[repr(C)]
-#[derive(Debug, Clone, Copy)]
-pub enum BltOperation {
-    BltVideoFill,
-    BltVideoToBltBuffer,
-    BltBufferToVideo,
-    BltVideoToVideo,
-    BltOperationMax,
-}
+pub type BltOperation = u32;
+
+pub const BLT_VIDEO_FILL: BltOperation = 0x00000000;
+pub const BLT_VIDEO_TO_BLT_BUFFER: BltOperation = 0x00000001;
+pub const BLT_BUFFER_TO_VIDEO: BltOperation = 0x00000002;
+pub const BLT_VIDEO_TO_VIDEO: BltOperation = 0x00000003;
+pub const BLT_OPERATION_MAX: BltOperation = 0x00000004;
 
 #[repr(C)]
 pub struct Protocol {
