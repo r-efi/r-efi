@@ -131,14 +131,12 @@ pub const OPTIONAL_POINTER: u32 = 0x00000001u32;
 // different possible resets.
 //
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub enum ResetType {
-    ResetCold,
-    ResetWarm,
-    ResetShutdown,
-    ResetPlatformSpecific,
-}
+pub type ResetType = u32;
+
+pub const RESET_COLD: ResetType = 0x00000000;
+pub const RESET_WARM: ResetType = 0x00000001;
+pub const RESET_SHUTDOWN: ResetType = 0x00000002;
+pub const RESET_PLATFORM_SPECIFIC: ResetType = 0x00000003;
 
 //
 // Update Capsules
@@ -275,13 +273,11 @@ pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_
     &[0xa3, 0xdd, 0x79, 0x12, 0xcb, 0x6b],
 );
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub enum TimerDelay {
-    TimerCancel,
-    TimerPeriodic,
-    TimerRelative,
-}
+pub type TimerDelay = u32;
+
+pub const TIMER_CANCEL: TimerDelay = 0x00000000;
+pub const TIMER_PERIODIC: TimerDelay = 0x00000001;
+pub const TIMER_RELATIVE: TimerDelay = 0x00000002;
 
 pub const TPL_APPLICATION: crate::base::Tpl = 4;
 pub const TPL_CALLBACK: crate::base::Tpl = 8;
@@ -297,33 +293,29 @@ pub const TPL_HIGH_LEVEL: crate::base::Tpl = 31;
 // dynamic modifications can be done once you exit boot services.
 //
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub enum AllocateType {
-    AllocateAnyPages,
-    AllocateMaxAddress,
-    AllocateAddress,
-}
+pub type AllocateType = u32;
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub enum MemoryType {
-    ReservedMemoryType,
-    LoaderCode,
-    LoaderData,
-    BootServicesCode,
-    BootServicesData,
-    RuntimeServicesCode,
-    RuntimeServicesData,
-    ConventionalMemory,
-    UnusableMemory,
-    AcpiReclaimMemory,
-    AcpiMemoryNvs,
-    MemoryMappedIO,
-    MemoryMappedIOPortSpace,
-    PalCode,
-    PersistentMemory,
-}
+pub const ALLOCATE_ANY_PAGES: AllocateType = 0x00000000;
+pub const ALLOCATE_MAX_ADDRESS: AllocateType = 0x00000001;
+pub const ALLOCATE_ADDRESS: AllocateType = 0x00000002;
+
+pub type MemoryType = u32;
+
+pub const RESERVED_MEMORY_TYPE: MemoryType = 0x00000000;
+pub const LOADER_CODE: MemoryType = 0x00000001;
+pub const LOADER_DATA: MemoryType = 0x00000002;
+pub const BOOT_SERVICES_CODE: MemoryType = 0x00000003;
+pub const BOOT_SERVICES_DATA: MemoryType = 0x00000004;
+pub const RUNTIME_SERVICES_CODE: MemoryType = 0x00000005;
+pub const RUNTIME_SERVICES_DATA: MemoryType = 0x00000006;
+pub const CONVENTIONAL_MEMORY: MemoryType = 0x00000007;
+pub const UNUSABLE_MEMORY: MemoryType = 0x00000008;
+pub const ACPI_RECLAIM_MEMORY: MemoryType = 0x00000009;
+pub const ACPI_MEMORY_NVS: MemoryType = 0x0000000a;
+pub const MEMORY_MAPPED_IO: MemoryType = 0x0000000b;
+pub const MEMORY_MAPPED_IO_PORT_SPACE: MemoryType = 0x0000000c;
+pub const PAL_CODE: MemoryType = 0x0000000d;
+pub const PERSISTENT_MEMORY: MemoryType = 0x0000000e;
 
 pub const MEMORY_UC: u64 = 0x0000000000000001u64;
 pub const MEMORY_WC: u64 = 0x0000000000000002u64;
@@ -359,19 +351,15 @@ pub struct MemoryDescriptor {
 // hotplugging.
 //
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub enum InterfaceType {
-    NativeInterface,
-}
+pub type InterfaceType = u32;
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub enum LocateSearchType {
-    AllHandles,
-    ByRegisterNotify,
-    ByProtocol,
-}
+pub const NATIVE_INTERFACE: InterfaceType = 0x00000000;
+
+pub type LocateSearchType = u32;
+
+pub const ALL_HANDLES: LocateSearchType = 0x00000000;
+pub const BY_REGISTER_NOTIFY: LocateSearchType = 0x00000001;
+pub const BY_PROTOCOL: LocateSearchType = 0x00000002;
 
 pub const OPEN_PROTOCOL_BY_HANDLE_PROTOCOL: u32 = 0x00000001u32;
 pub const OPEN_PROTOCOL_GET_PROTOCOL: u32 = 0x00000002u32;
@@ -828,36 +816,4 @@ pub struct SystemTable {
 
     pub number_of_table_entries: usize,
     pub configuration_table: *mut ConfigurationTable,
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    // Verify ABI of MemoryType
-    //
-    // The MemoryType implementation cannot perfectly mirror the UEFI
-    // specification, as rust does not allow enum discriminants outside the
-    // declared range. This test verifies the ABI of MemoryType matches our
-    // expectations, and the converters are correctly implemented.
-    //
-    // In particular, MemoryType reserves all values with the MSB set for
-    // platform and implementation purposes. We cannot define all those enum
-    // variants, so we must use `u32` wherever we accept MemoryType values.
-    // We therefore verify that `v as u32` conversions are valid and properly
-    // defined.
-    #[test]
-    fn memory_type_abi() {
-        assert_eq!(
-            std::mem::size_of::<MemoryType>(),
-            std::mem::size_of::<u32>(),
-        );
-        assert_eq!(
-            std::mem::align_of::<MemoryType>(),
-            std::mem::align_of::<u32>(),
-        );
-
-        assert_eq!(MemoryType::ReservedMemoryType as u32, 0);
-        assert_eq!(MemoryType::PersistentMemory as u32, 14);
-    }
 }

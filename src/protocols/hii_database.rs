@@ -110,115 +110,113 @@ pub const AFFECTED_BY_STANDARD_SHIFT: u16 = 0x0001;
 pub const AFFECTED_BY_CAPS_LOCK: u16 = 0x0002;
 pub const AFFECTED_BY_NUM_LOCK: u16 = 0x0004;
 
-#[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub enum Key {
-    EfiKeyLCtrl,
-    EfiKeyA0,
-    EfiKeyLAlt,
-    EfiKeySpaceBar,
-    EfiKeyA2,
-    EfiKeyA3,
-    EfiKeyA4,
-    EfiKeyRCtrl,
-    EfiKeyLeftArrow,
-    EfiKeyDownArrow,
-    EfiKeyRightArrow,
-    EfiKeyZero,
-    EfiKeyPeriod,
-    EfiKeyEnter,
-    EfiKeyLShift,
-    EfiKeyB0,
-    EfiKeyB1,
-    EfiKeyB2,
-    EfiKeyB3,
-    EfiKeyB4,
-    EfiKeyB5,
-    EfiKeyB6,
-    EfiKeyB7,
-    EfiKeyB8,
-    EfiKeyB9,
-    EfiKeyB10,
-    EfiKeyRShift,
-    EfiKeyUpArrow,
-    EfiKeyOne,
-    EfiKeyTwo,
-    EfiKeyThree,
-    EfiKeyCapsLock,
-    EfiKeyC1,
-    EfiKeyC2,
-    EfiKeyC3,
-    EfiKeyC4,
-    EfiKeyC5,
-    EfiKeyC6,
-    EfiKeyC7,
-    EfiKeyC8,
-    EfiKeyC9,
-    EfiKeyC10,
-    EfiKeyC11,
-    EfiKeyC12,
-    EfiKeyFour,
-    EfiKeyFive,
-    EfiKeySix,
-    EfiKeyPlus,
-    EfiKeyTab,
-    EfiKeyD1,
-    EfiKeyD2,
-    EfiKeyD3,
-    EfiKeyD4,
-    EfiKeyD5,
-    EfiKeyD6,
-    EfiKeyD7,
-    EfiKeyD8,
-    EfiKeyD9,
-    EfiKeyD10,
-    EfiKeyD11,
-    EfiKeyD12,
-    EfiKeyD13,
-    EfiKeyDel,
-    EfiKeyEnd,
-    EfiKeyPgDn,
-    EfiKeySeven,
-    EfiKeyEight,
-    EfiKeyNine,
-    EfiKeyE0,
-    EfiKeyE1,
-    EfiKeyE2,
-    EfiKeyE3,
-    EfiKeyE4,
-    EfiKeyE5,
-    EfiKeyE6,
-    EfiKeyE7,
-    EfiKeyE8,
-    EfiKeyE9,
-    EfiKeyE10,
-    EfiKeyE11,
-    EfiKeyE12,
-    EfiKeyBackSpace,
-    EfiKeyIns,
-    EfiKeyHome,
-    EfiKeyPgUp,
-    EfiKeyNLck,
-    EfiKeySlash,
-    EfiKeyAsterisk,
-    EfiKeyMinus,
-    EfiKeyEsc,
-    EfiKeyF1,
-    EfiKeyF2,
-    EfiKeyF3,
-    EfiKeyF4,
-    EfiKeyF5,
-    EfiKeyF6,
-    EfiKeyF7,
-    EfiKeyF8,
-    EfiKeyF9,
-    EfiKeyF10,
-    EfiKeyF11,
-    EfiKeyF12,
-    EfiKeyPrint,
-    EfiKeySLck,
-    EfiKeyPause,
-}
+pub type Key = u32;
+
+pub const EFI_KEY_LCTRL: Key = 0x00000000;
+pub const EFI_KEY_A0: Key = 0x00000001;
+pub const EFI_KEY_LALT: Key = 0x00000002;
+pub const EFI_KEY_SPACE_BAR: Key = 0x00000003;
+pub const EFI_KEY_A2: Key = 0x00000004;
+pub const EFI_KEY_A3: Key = 0x00000005;
+pub const EFI_KEY_A4: Key = 0x00000006;
+pub const EFI_KEY_RCTRL: Key = 0x00000007;
+pub const EFI_KEY_LEFT_ARROW: Key = 0x00000008;
+pub const EFI_KEY_DOWN_ARROW: Key = 0x00000009;
+pub const EFI_KEY_RIGHT_ARROW: Key = 0x0000000a;
+pub const EFI_KEY_ZERO: Key = 0x0000000b;
+pub const EFI_KEY_PERIOD: Key = 0x0000000c;
+pub const EFI_KEY_ENTER: Key = 0x0000000d;
+pub const EFI_KEY_LSHIFT: Key = 0x0000000e;
+pub const EFI_KEY_B0: Key = 0x0000000f;
+pub const EFI_KEY_B1: Key = 0x00000010;
+pub const EFI_KEY_B2: Key = 0x00000011;
+pub const EFI_KEY_B3: Key = 0x00000012;
+pub const EFI_KEY_B4: Key = 0x00000013;
+pub const EFI_KEY_B5: Key = 0x00000014;
+pub const EFI_KEY_B6: Key = 0x00000015;
+pub const EFI_KEY_B7: Key = 0x00000016;
+pub const EFI_KEY_B8: Key = 0x00000017;
+pub const EFI_KEY_B9: Key = 0x00000018;
+pub const EFI_KEY_B10: Key = 0x00000019;
+pub const EFI_KEY_RSHIFT: Key = 0x0000001a;
+pub const EFI_KEY_UP_ARROW: Key = 0x0000001b;
+pub const EFI_KEY_ONE: Key = 0x0000001c;
+pub const EFI_KEY_TWO: Key = 0x0000001d;
+pub const EFI_KEY_THREE: Key = 0x0000001e;
+pub const EFI_KEY_CAPS_LOCK: Key = 0x0000001f;
+pub const EFI_KEY_C1: Key = 0x00000020;
+pub const EFI_KEY_C2: Key = 0x00000021;
+pub const EFI_KEY_C3: Key = 0x00000022;
+pub const EFI_KEY_C4: Key = 0x00000023;
+pub const EFI_KEY_C5: Key = 0x00000024;
+pub const EFI_KEY_C6: Key = 0x00000025;
+pub const EFI_KEY_C7: Key = 0x00000026;
+pub const EFI_KEY_C8: Key = 0x00000027;
+pub const EFI_KEY_C9: Key = 0x00000028;
+pub const EFI_KEY_C10: Key = 0x00000029;
+pub const EFI_KEY_C11: Key = 0x0000002a;
+pub const EFI_KEY_C12: Key = 0x0000002b;
+pub const EFI_KEY_FOUR: Key = 0x0000002c;
+pub const EFI_KEY_FIVE: Key = 0x0000002d;
+pub const EFI_KEY_SIX: Key = 0x0000002e;
+pub const EFI_KEY_PLUS: Key = 0x0000002f;
+pub const EFI_KEY_TAB: Key = 0x00000030;
+pub const EFI_KEY_D1: Key = 0x00000031;
+pub const EFI_KEY_D2: Key = 0x00000032;
+pub const EFI_KEY_D3: Key = 0x00000033;
+pub const EFI_KEY_D4: Key = 0x00000034;
+pub const EFI_KEY_D5: Key = 0x00000035;
+pub const EFI_KEY_D6: Key = 0x00000036;
+pub const EFI_KEY_D7: Key = 0x00000037;
+pub const EFI_KEY_D8: Key = 0x00000038;
+pub const EFI_KEY_D9: Key = 0x00000039;
+pub const EFI_KEY_D10: Key = 0x0000003a;
+pub const EFI_KEY_D11: Key = 0x0000003b;
+pub const EFI_KEY_D12: Key = 0x0000003c;
+pub const EFI_KEY_D13: Key = 0x0000003d;
+pub const EFI_KEY_DEL: Key = 0x0000003e;
+pub const EFI_KEY_END: Key = 0x0000003f;
+pub const EFI_KEY_PGDN: Key = 0x00000040;
+pub const EFI_KEY_SEVEN: Key = 0x00000041;
+pub const EFI_KEY_EIGHT: Key = 0x00000042;
+pub const EFI_KEY_NINE: Key = 0x00000043;
+pub const EFI_KEY_E0: Key = 0x00000044;
+pub const EFI_KEY_E1: Key = 0x00000045;
+pub const EFI_KEY_E2: Key = 0x00000046;
+pub const EFI_KEY_E3: Key = 0x00000047;
+pub const EFI_KEY_E4: Key = 0x00000048;
+pub const EFI_KEY_E5: Key = 0x00000049;
+pub const EFI_KEY_E6: Key = 0x0000004a;
+pub const EFI_KEY_E7: Key = 0x0000004b;
+pub const EFI_KEY_E8: Key = 0x0000004c;
+pub const EFI_KEY_E9: Key = 0x0000004d;
+pub const EFI_KEY_E10: Key = 0x0000004e;
+pub const EFI_KEY_E11: Key = 0x0000004f;
+pub const EFI_KEY_E12: Key = 0x00000050;
+pub const EFI_KEY_BACK_SPACE: Key = 0x00000051;
+pub const EFI_KEY_INS: Key = 0x00000052;
+pub const EFI_KEY_HOME: Key = 0x00000053;
+pub const EFI_KEY_PGUP: Key = 0x00000054;
+pub const EFI_KEY_NLCK: Key = 0x00000055;
+pub const EFI_KEY_SLASH: Key = 0x00000056;
+pub const EFI_KEY_ASTERISK: Key = 0x00000057;
+pub const EFI_KEY_MINUS: Key = 0x00000058;
+pub const EFI_KEY_ESC: Key = 0x00000059;
+pub const EFI_KEY_F1: Key = 0x0000005a;
+pub const EFI_KEY_F2: Key = 0x0000005b;
+pub const EFI_KEY_F3: Key = 0x0000005c;
+pub const EFI_KEY_F4: Key = 0x0000005d;
+pub const EFI_KEY_F5: Key = 0x0000005e;
+pub const EFI_KEY_F6: Key = 0x0000005f;
+pub const EFI_KEY_F7: Key = 0x00000060;
+pub const EFI_KEY_F8: Key = 0x00000061;
+pub const EFI_KEY_F9: Key = 0x00000062;
+pub const EFI_KEY_F10: Key = 0x00000063;
+pub const EFI_KEY_F11: Key = 0x00000064;
+pub const EFI_KEY_F12: Key = 0x00000065;
+pub const EFI_KEY_PRINT: Key = 0x00000066;
+pub const EFI_KEY_SLCK: Key = 0x00000067;
+pub const EFI_KEY_PAUSE: Key = 0x00000068;
 
 pub const NULL_MODIFIER: u16 = 0x0000;
 pub const LEFT_CONTROL_MODIFIER: u16 = 0x0001;
