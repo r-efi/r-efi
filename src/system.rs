@@ -22,7 +22,7 @@ pub const TIME_IN_DAYLIGHT: u8 = 0x02u8;
 pub const UNSPECIFIED_TIMEZONE: i16 = 0x07ffi16;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct Time {
     pub year: u16,
     pub month: u8,
@@ -38,7 +38,7 @@ pub struct Time {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct TimeCapabilities {
     pub resolution: u32,
     pub accuracy: u32,
@@ -89,7 +89,7 @@ pub const VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE: u32 = 0x1u32;
 pub const VARIABLE_AUTHENTICATION_3_NONCE_TYPE: u32 = 0x2u32;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct VariableAuthentication3 {
     pub version: u8,
     pub r#type: u8,
@@ -147,6 +147,7 @@ pub enum ResetType {
 //
 
 #[repr(C)]
+#[derive(Copy, Clone)]
 pub union CapsuleBlockDescriptorUnion {
     pub data_block: crate::base::PhysicalAddress,
     pub continuation_pointer: crate::base::PhysicalAddress,
@@ -163,7 +164,7 @@ pub const CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE: u32 = 0x00020000u32;
 pub const CAPSULE_FLAGS_INITIATE_RESET: u32 = 0x00040000u32;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct CapsuleHeader {
     pub capsule_guid: crate::base::Guid,
     pub header_size: u32,
@@ -338,7 +339,7 @@ pub const MEMORY_RUNTIME: u64 = 0x8000000000000000u64;
 pub const MEMORY_DESCRIPTOR_VERSION: u32 = 0x00000001u32;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct MemoryDescriptor {
     pub r#type: u32,
     pub physical_start: crate::base::PhysicalAddress,
@@ -414,7 +415,7 @@ pub const PROPERTIES_TABLE_VERSION: u32 = 0x00010000u32;
 pub const PROPERTIES_RUNTIME_MEMORY_PROTECTION_NON_EXECUTABLE_PE_DATA: u64 = 0x1u64;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct PropertiesTable {
     pub version: u32,
     pub length: u32,
@@ -454,7 +455,7 @@ pub struct MemoryAttributesTable {
 pub const SPECIFICATION_REVISION: u32 = SYSTEM_TABLE_REVISION;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub struct TableHeader {
     pub signature: u64,
     pub revision: u32,
