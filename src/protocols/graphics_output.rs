@@ -1,7 +1,8 @@
 //! Graphics Output Protocol
 //!
-//! Provides means to configure graphics hardware and get access to framebuffers. Replaces the old
-//! UVA interface from EFI with a VGA-independent API.
+//! Provides means to configure graphics hardware and get access to
+//! framebuffers. Replaces the old UGA interface from EFI with a
+//! VGA-independent API.
 
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x9042a9de,
