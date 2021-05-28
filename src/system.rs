@@ -21,8 +21,9 @@ pub const TIME_IN_DAYLIGHT: u8 = 0x02u8;
 
 pub const UNSPECIFIED_TIMEZONE: i16 = 0x07ffi16;
 
+// Cannot derive `Eq` etc. due to uninitialized `pad2` field.
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct Time {
     pub year: u16,
     pub month: u8,
@@ -38,7 +39,7 @@ pub struct Time {
 }
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct TimeCapabilities {
     pub resolution: u32,
     pub accuracy: u32,
@@ -89,7 +90,7 @@ pub const VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE: u32 = 0x1u32;
 pub const VARIABLE_AUTHENTICATION_3_NONCE_TYPE: u32 = 0x2u32;
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct VariableAuthentication3 {
     pub version: u8,
     pub r#type: u8,
@@ -131,7 +132,7 @@ pub const OPTIONAL_POINTER: u32 = 0x00000001u32;
 //
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum ResetType {
     ResetCold,
     ResetWarm,
@@ -147,13 +148,14 @@ pub enum ResetType {
 //
 
 #[repr(C)]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy)]
 pub union CapsuleBlockDescriptorUnion {
     pub data_block: crate::base::PhysicalAddress,
     pub continuation_pointer: crate::base::PhysicalAddress,
 }
 
 #[repr(C)]
+#[derive(Clone, Copy)]
 pub struct CapsuleBlockDescriptor {
     pub length: u64,
     pub data: CapsuleBlockDescriptorUnion,
@@ -164,7 +166,7 @@ pub const CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE: u32 = 0x00020000u32;
 pub const CAPSULE_FLAGS_INITIATE_RESET: u32 = 0x00040000u32;
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct CapsuleHeader {
     pub capsule_guid: crate::base::Guid,
     pub header_size: u32,
@@ -190,7 +192,7 @@ pub const CAPSULE_REPORT_GUID: crate::base::Guid = crate::base::Guid::from_field
 );
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct CapsuleResultVariableHeader {
     pub variable_total_size: u32,
     pub reserved: u32,
@@ -274,7 +276,7 @@ pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_
 );
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum TimerDelay {
     TimerCancel,
     TimerPeriodic,
@@ -296,7 +298,7 @@ pub const TPL_HIGH_LEVEL: crate::base::Tpl = 31;
 //
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum AllocateType {
     AllocateAnyPages,
     AllocateMaxAddress,
@@ -304,7 +306,7 @@ pub enum AllocateType {
 }
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum MemoryType {
     ReservedMemoryType,
     LoaderCode,
@@ -339,7 +341,7 @@ pub const MEMORY_RUNTIME: u64 = 0x8000000000000000u64;
 pub const MEMORY_DESCRIPTOR_VERSION: u32 = 0x00000001u32;
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct MemoryDescriptor {
     pub r#type: u32,
     pub physical_start: crate::base::PhysicalAddress,
@@ -358,13 +360,13 @@ pub struct MemoryDescriptor {
 //
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum InterfaceType {
     NativeInterface,
 }
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub enum LocateSearchType {
     AllHandles,
     ByRegisterNotify,
@@ -379,7 +381,7 @@ pub const OPEN_PROTOCOL_BY_DRIVER: u32 = 0x00000010u32;
 pub const OPEN_PROTOCOL_EXCLUSIVE: u32 = 0x00000020u32;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct OpenProtocolInformationEntry {
     pub agent_handle: crate::base::Handle,
     pub controller_handle: crate::base::Handle,
@@ -395,7 +397,7 @@ pub struct OpenProtocolInformationEntry {
 //
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct ConfigurationTable {
     pub vendor_guid: crate::base::Guid,
     pub vendor_table: *mut core::ffi::c_void,
@@ -415,7 +417,7 @@ pub const PROPERTIES_TABLE_VERSION: u32 = 0x00010000u32;
 pub const PROPERTIES_RUNTIME_MEMORY_PROTECTION_NON_EXECUTABLE_PE_DATA: u64 = 0x1u64;
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct PropertiesTable {
     pub version: u32,
     pub length: u32,
@@ -455,7 +457,7 @@ pub struct MemoryAttributesTable {
 pub const SPECIFICATION_REVISION: u32 = SYSTEM_TABLE_REVISION;
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct TableHeader {
     pub signature: u64,
     pub revision: u32,
