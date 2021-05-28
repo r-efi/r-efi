@@ -14,7 +14,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 );
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug, Default)]
+#[derive(Clone, Copy, Debug, Default)]
 pub struct InputKey {
     pub scan_code: u16,
     pub unicode_char: crate::base::Char16,

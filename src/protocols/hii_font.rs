@@ -67,7 +67,7 @@ pub const DIRECT_TO_SCREEN: OutFlags = 0x00000080;
 pub type String = *mut crate::base::Char16;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct RowInfo {
     pub start_index: usize,
     pub end_index: usize,

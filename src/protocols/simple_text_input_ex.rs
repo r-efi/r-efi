@@ -34,14 +34,14 @@ pub type KeyToggleState = u8;
 pub type KeyNotifyFunction = eficall! {fn(*mut KeyData) -> crate::base::Status};
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug, Default)]
+#[derive(Clone, Copy, Debug, Default)]
 pub struct KeyState {
     pub key_shift_state: u32,
     pub key_toggle_state: KeyToggleState,
 }
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug, Default)]
+#[derive(Clone, Copy, Debug, Default)]
 pub struct KeyData {
     pub key: crate::protocols::simple_text_input::InputKey,
     pub key_state: KeyState,

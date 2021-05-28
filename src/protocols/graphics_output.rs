@@ -14,7 +14,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 );
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct PixelBitmask {
     pub red_mask: u32,
     pub green_mask: u32,
@@ -23,7 +23,7 @@ pub struct PixelBitmask {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum GraphicsPixelFormat {
     PixelRedGreenBlueReserved8BitPerColor,
     PixelBlueGreenRedReserved8BitPerColor,
@@ -33,7 +33,7 @@ pub enum GraphicsPixelFormat {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct ModeInformation {
     pub version: u32,
     pub horizontal_resolution: u32,
@@ -44,7 +44,7 @@ pub struct ModeInformation {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Mode {
     pub max_mode: u32,
     pub mode: u32,
@@ -55,7 +55,7 @@ pub struct Mode {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct BltPixel {
     pub blue: u8,
     pub green: u8,
@@ -64,7 +64,7 @@ pub struct BltPixel {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum BltOperation {
     BltVideoFill,
     BltVideoToBltBuffer,

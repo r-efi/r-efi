@@ -20,7 +20,7 @@ pub const TYPE_BIOS: u8 = 0x05;
 pub const TYPE_END: u8 = 0x7f;
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct Protocol {
     pub r#type: u8,
     pub sub_type: u8,
@@ -28,7 +28,7 @@ pub struct Protocol {
 }
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct End {
     pub header: Protocol,
 }
@@ -39,7 +39,7 @@ impl End {
 }
 
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct Hardware {
     pub header: Protocol,
 }

@@ -95,7 +95,7 @@ pub struct KeyboardLayout {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct KeyDescriptor {
     pub key: Key,
     pub unicode: crate::base::Char16,
@@ -111,7 +111,7 @@ pub const AFFECTED_BY_CAPS_LOCK: u16 = 0x0002;
 pub const AFFECTED_BY_NUM_LOCK: u16 = 0x0004;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum Key {
     EfiKeyLCtrl,
     EfiKeyA0,

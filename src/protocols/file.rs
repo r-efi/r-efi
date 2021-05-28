@@ -45,7 +45,7 @@ pub const SYSTEM_VOLUME_LABEL_ID: crate::base::Guid = crate::base::Guid::from_fi
 );
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct IoToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,

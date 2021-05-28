@@ -28,7 +28,7 @@ pub const COMMAND_INTERRUPT: u32 = 0x00000004u32;
 pub const SOFTWARE_INTERRUPT: u32 = 0x000000008u32;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Mode {
     pub state: u32,
     pub hw_address_size: u32,
@@ -52,7 +52,7 @@ pub struct Mode {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub enum NetworkState {
     NetworkStopped,
     NetworkStarted,
@@ -61,7 +61,7 @@ pub enum NetworkState {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Statistics {
     pub rx_total_frames: u64,
     pub rx_good_frames: u64,

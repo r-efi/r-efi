@@ -18,7 +18,7 @@ pub const REVISION2: u64 = 0x0000000000020001u64;
 pub const REVISION3: u64 = 0x000000000002001fu64;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Media {
     pub media_id: u32,
     pub removable_media: bool,
