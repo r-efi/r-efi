@@ -17,7 +17,7 @@ pub type Handle = *mut core::ffi::c_void;
 //
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct PackageHeader {
     pub length: [u8; 3],
     pub r#type: u8,
@@ -39,7 +39,7 @@ pub const PACKAGE_TYPE_SYSTEM_BEGIN: u8 = 0xE0;
 pub const PACKAGE_TYPE_SYSTEM_END: u8 = 0xFF;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct PackageListHeader {
     pub package_list_guid: crate::base::Guid,
     pub package_length: u32,
@@ -72,7 +72,7 @@ pub const FONT_STYLE_UNDERLINE: FontStyle = 0x00080000;
 pub const FONT_STYLE_DBL_UNDER: FontStyle = 0x00100000;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GlyphBlock {
     pub block_type: u8,
     // pub block_body: [u8] // Discarded to allow embedding elsewhere.
@@ -93,7 +93,7 @@ pub const GIBT_EXT2: u8 = 0x31;
 pub const GIBT_EXT4: u8 = 0x32;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GlyphInfo {
     pub width: u16,
     pub height: u16,
@@ -103,27 +103,27 @@ pub struct GlyphInfo {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtDefaultsBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtDuplicateBlock {
     pub header: GlyphBlock,
     pub char_value: crate::base::Char16,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GlyphGibtEndBlock {
     pub header: GlyphBlock,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtExt1Block {
     pub header: GlyphBlock,
     pub block_type_2: u8,
@@ -131,7 +131,7 @@ pub struct GibtExt1Block {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtExt2Block {
     pub header: GlyphBlock,
     pub block_type_2: u8,
@@ -139,7 +139,7 @@ pub struct GibtExt2Block {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtExt4Block {
     pub header: GlyphBlock,
     pub block_type_2: u8,
@@ -147,7 +147,7 @@ pub struct GibtExt4Block {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtGlyphBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
@@ -155,7 +155,7 @@ pub struct GibtGlyphBlock {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtGlyphsBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
@@ -179,14 +179,14 @@ pub struct GibtGlypshDefaultBlock {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtSkip2Block {
     pub header: GlyphBlock,
     pub skip_count: u16,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtSkip1Block {
     pub header: GlyphBlock,
     pub skip_count: u8,
@@ -206,7 +206,7 @@ pub struct GibtVariabilityBlock {
 //
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct FormPackageHdr {
     pub header: PackageHeader,
     pub op_code_header: IfrOpHeader,
@@ -214,7 +214,7 @@ pub struct FormPackageHdr {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrOpHeader {
     pub op_code: u8,
     pub length_and_scope: u8, // Length:7, Scope:1
@@ -252,7 +252,7 @@ pub const IFR_FLAG_RECONNECT_REQUIRED: u8 = 0x40;
 pub const IFR_FLAG_OPTIONS_ONLY: u8 = 0x80;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrStatementHeader {
     pub prompt: StringId,
     pub help: StringId,
@@ -375,44 +375,44 @@ pub struct IfrAction1 {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrAnimation {
     pub header: IfrOpHeader,
     pub id: AnimationId,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrAdd {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrAnd {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrBitwiseAnd {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrBitwiseNot {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrBitwiseOr {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrCatenate {
     pub header: IfrOpHeader,
 }
@@ -429,7 +429,7 @@ pub const IFR_CHECKBOX_DEFAULT: u8 = 0x01;
 pub const IFR_CHECKBOX_DEFAULT_MFG: u8 = 0x02;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrConditional {
     pub header: IfrOpHeader,
 }
@@ -461,7 +461,7 @@ pub struct IfrDefault {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrDefault2 {
     pub header: IfrOpHeader,
     pub default_id: u16,
@@ -469,7 +469,7 @@ pub struct IfrDefault2 {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrDefaultstore {
     pub header: IfrOpHeader,
     pub default_name: StringId,
@@ -477,37 +477,37 @@ pub struct IfrDefaultstore {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrDisableIf {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrDivide {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrDup {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrEnd {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrEqual {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrEqIdId {
     pub header: IfrOpHeader,
     pub question_id_1: QuestionId,
@@ -515,7 +515,7 @@ pub struct IfrEqIdId {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrEqIdValList {
     pub header: IfrOpHeader,
     pub question_id: QuestionId,
@@ -524,7 +524,7 @@ pub struct IfrEqIdValList {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrEqIdVal {
     pub header: IfrOpHeader,
     pub question_id: QuestionId,
@@ -532,13 +532,13 @@ pub struct IfrEqIdVal {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrFalse {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrFind {
     pub header: IfrOpHeader,
     pub format: u8,
@@ -548,7 +548,7 @@ pub const IFR_FF_CASE_SENSITIVE: u8 = 0x00;
 pub const IFR_FF_CASE_INSENSITIVE: u8 = 0x01;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrForm {
     pub header: IfrOpHeader,
     pub form_id: FormId,
@@ -556,14 +556,14 @@ pub struct IfrForm {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrFormMapMethod {
     pub method_title: StringId,
     pub method_identifier: crate::base::Guid,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrFormMap {
     pub header: IfrOpHeader,
     pub form_id: FormId,
@@ -580,7 +580,7 @@ pub const STANDARD_FORM_GUID: crate::base::Guid = crate::base::Guid::from_fields
 );
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrFormSet {
     pub header: IfrOpHeader,
     pub guid: crate::base::Guid,
@@ -607,124 +607,124 @@ pub union IfrGetVarStoreInfo {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrGrayOutIf {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrGreaterEqual {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrGreaterThan {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrGuid {
     pub header: IfrOpHeader,
     pub guid: crate::base::Guid,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrImage {
     pub id: ImageId,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrInconsistentIf {
     pub header: IfrOpHeader,
     pub error: StringId,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrLength {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrLessEqual {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrLessThan {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrLocked {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrMap {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrMatch {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrMid {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrModalTag {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrModulo {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrMultiply {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrNot {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrNotEqual {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrNoSubmitIf {
     pub header: IfrOpHeader,
     pub error: StringId,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrNumericDataU8 {
     pub min_value: u8,
     pub max_value: u8,
@@ -732,7 +732,7 @@ pub struct IfrNumericDataU8 {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrNumericDataU16 {
     pub min_value: u16,
     pub max_value: u16,
@@ -740,7 +740,7 @@ pub struct IfrNumericDataU16 {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrNumericDataU32 {
     pub min_value: u32,
     pub max_value: u32,
@@ -748,7 +748,7 @@ pub struct IfrNumericDataU32 {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrNumericDataU64 {
     pub min_value: u64,
     pub max_value: u64,
@@ -785,13 +785,13 @@ pub const IFR_DISPLAY_UINT_DEC: u8 = 0x10;
 pub const IFR_DISPLAY_UINT_HEX: u8 = 0x20;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrOne {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrOnes {
     pub header: IfrOpHeader,
 }
@@ -833,7 +833,7 @@ pub union IfrTypeValue {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Time {
     pub hour: u8,
     pub minute: u8,
@@ -841,7 +841,7 @@ pub struct Time {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Date {
     pub year: u16,
     pub month: u8,
@@ -849,7 +849,7 @@ pub struct Date {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct Ref {
     pub question_id: QuestionId,
     pub form_id: FormId,
@@ -875,7 +875,7 @@ pub const IFR_OPTION_DEFAULT: u8 = 0x10;
 pub const IFR_OPTION_DEFAULT_MFG: u8 = 0x20;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrOr {
     pub header: IfrOpHeader,
 }
@@ -902,33 +902,33 @@ pub struct IfrPassword {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrQuestionRef1 {
     pub header: IfrOpHeader,
     pub question_id: QuestionId,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrQuestionRef2 {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrQuestionRef3 {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrQuestionRef32 {
     pub header: IfrOpHeader,
     pub device_path: StringId,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrQuestionRef33 {
     pub header: IfrOpHeader,
     pub device_path: StringId,
@@ -936,7 +936,7 @@ pub struct IfrQuestionRef33 {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrRead {
     pub header: IfrOpHeader,
 }
@@ -987,21 +987,21 @@ pub struct IfrRef5 {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrRefresh {
     pub header: IfrOpHeader,
     pub refresh_interval: u8,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrRefreshId {
     pub header: IfrOpHeader,
     pub refresh_event_group_id: crate::base::Guid,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrResetButton {
     pub header: IfrOpHeader,
     pub statement: IfrStatementHeader,
@@ -1011,21 +1011,21 @@ pub struct IfrResetButton {
 pub type DefaultId = u16;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrRule {
     pub header: IfrOpHeader,
     pub rule_id: u8,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrRuleRef {
     pub header: IfrOpHeader,
     pub rule_id: u8,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrSecurity {
     pub header: IfrOpHeader,
     pub permissions: crate::base::Guid,
@@ -1048,19 +1048,19 @@ pub struct IfrSet {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrShiftLeft {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrShiftRight {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrSpan {
     pub header: IfrOpHeader,
     pub flags: u8,
@@ -1082,20 +1082,20 @@ pub struct IfrString {
 pub const IFR_STRING_MULTI_LINE: u8 = 0x01;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrStringRef1 {
     pub header: IfrOpHeader,
     pub string_id: StringId,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrStringRef2 {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrSubtitle {
     pub header: IfrOpHeader,
     pub statement: IfrStatementHeader,
@@ -1105,19 +1105,19 @@ pub struct IfrSubtitle {
 pub const IFR_FLAGS_HORIZONTAL: u8 = 0x01;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrSubtract {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrSuppressIf {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrText {
     pub header: IfrOpHeader,
     pub statement: IfrStatementHeader,
@@ -1125,7 +1125,7 @@ pub struct IfrText {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrThis {
     pub header: IfrOpHeader,
 }
@@ -1148,90 +1148,90 @@ pub const QF_TIME_STORAGE_TIME: u8 = 0x10;
 pub const QF_TIME_STORAGE_WAKEUP: u8 = 0x20;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrToken {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrToBoolean {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrToLower {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrToString {
     pub header: IfrOpHeader,
     pub format: u8,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrToUint {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrToUpper {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrTrue {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrUint8 {
     pub header: IfrOpHeader,
     pub value: u8,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrUint16 {
     pub header: IfrOpHeader,
     pub value: u16,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrUint32 {
     pub header: IfrOpHeader,
     pub value: u32,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrUint64 {
     pub header: IfrOpHeader,
     pub value: u64,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrUndefined {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrValue {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrVarstore {
     pub header: IfrOpHeader,
     pub guid: crate::base::Guid,
@@ -1241,7 +1241,7 @@ pub struct IfrVarstore {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrVarstoreNameValue {
     pub header: IfrOpHeader,
     pub var_store_id: VarstoreId,
@@ -1249,7 +1249,7 @@ pub struct IfrVarstoreNameValue {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrVarstoreEfi {
     pub header: IfrOpHeader,
     pub var_store_id: VarstoreId,
@@ -1260,32 +1260,32 @@ pub struct IfrVarstoreEfi {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrVarstoreDevice {
     pub header: IfrOpHeader,
     pub device_path: StringId,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrVersion {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrWrite {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrZero {
     pub header: IfrOpHeader,
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrWarningIf {
     pub header: IfrOpHeader,
     pub warning: StringId,
@@ -1293,7 +1293,7 @@ pub struct IfrWarningIf {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct IfrMatch2 {
     pub header: IfrOpHeader,
     pub syntax_type: crate::base::Guid,

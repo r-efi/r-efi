@@ -303,7 +303,7 @@ macro_rules! eficall {
 /// However, on the rust side you will never see the integer value. It instead behaves truly as a
 /// boolean. If you need access to the integer value, you have to transmute it back to `u8`.
 #[repr(C)]
-#[derive(Copy, Clone, Debug, Eq)]
+#[derive(Clone, Copy, Debug, Eq)]
 pub struct Boolean(u8);
 
 /// Single-byte Character Type
@@ -325,7 +325,7 @@ pub type Char16 = u16;
 /// on the context, different state is stored in it. Note that it is always binary compatible to a
 /// usize!
 #[repr(C)]
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Status(usize);
 
 /// Object Handles
@@ -413,7 +413,7 @@ pub type ImageEntryPoint = fn(Handle, *mut crate::system::SystemTable) -> Status
 /// The individual fields are encoded as little-endian. Accessors are provided for the Guid
 /// structure allowing access to these fields in native endian byte order.
 #[repr(C, align(8))]
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Guid {
     time_low: [u8; 4],
     time_mid: [u8; 2],
@@ -434,7 +434,7 @@ pub struct Guid {
 /// used with. See each documentation for details. In most cases this contains
 /// an Ethernet address.
 #[repr(C)]
-#[derive(Copy, Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct MacAddress {
     pub addr: [u8; 32],
 }
@@ -445,7 +445,7 @@ pub struct MacAddress {
 /// order (i.e., big endian). Note that no special alignment restrictions are
 /// defined by the standard specification.
 #[repr(C)]
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Ipv4Address {
     pub addr: [u8; 4],
 }
@@ -456,7 +456,7 @@ pub struct Ipv4Address {
 /// (i.e., big endian). Similar to the IPv4 address, no special alignment
 /// restrictions are defined by the standard specification.
 #[repr(C)]
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Ipv6Address {
     pub addr: [u8; 16],
 }
@@ -467,7 +467,7 @@ pub struct Ipv6Address {
 /// fixed to 4-bytes. Note that trailing bytes might be random, so no
 /// comparison functions are derived.
 #[repr(C, align(4))]
-#[derive(Copy, Clone)]
+#[derive(Clone, Copy)]
 pub union IpAddress {
     pub addr: [u32; 4],
     pub v4: Ipv4Address,
