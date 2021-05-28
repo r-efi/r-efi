@@ -82,6 +82,10 @@ pub mod system;
 // not violates its own namespacing).
 pub mod protocols;
 
+// Import vendor protocols. They are just like protocols in `protocols`, but
+// separated for better namespacing.
+pub mod vendor;
+
 /// Flat EFI Namespace
 ///
 /// The EFI namespace re-exports all symbols in a single, flat namespace. This allows mirroring
@@ -251,4 +255,10 @@ pub mod efi {
     //
 
     pub use crate::protocols;
+
+    //
+    // Re-export vendor.
+    //
+
+    pub use crate::vendor;
 }
