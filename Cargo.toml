@@ -33,6 +33,10 @@ repository = "https://github.com/r-efi/r-efi"
 examples = []
 
 [[example]]
+name = "gop-query"
+required-features = ["examples"]
+
+[[example]]
 name = "hello-world"
 required-features = ["examples"]
 

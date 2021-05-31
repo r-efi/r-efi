@@ -61,10 +61,7 @@ fn print_xy(st: *mut efi::SystemTable, x: u32, y: u32) {
     utoa(y, &mut s[15..25]);
 
     unsafe {
-        let r = ((*(*st).con_out).output_string)(
-            (*st).con_out,
-            s.as_ptr() as *mut efi::Char16
-        );
+        let r = ((*(*st).con_out).output_string)((*st).con_out, s.as_ptr() as *mut efi::Char16);
         if r.is_error() {
             fail(r);
         }
@@ -97,10 +94,10 @@ fn locate_singleton(
             guid as *mut _,
             core::ptr::null_mut(),
             &mut n_handles,
-            &mut handles
+            &mut handles,
         );
         match r {
-            efi::Status::SUCCESS => {},
+            efi::Status::SUCCESS => {}
             efi::Status::NOT_FOUND => return Err(r),
             efi::Status::OUT_OF_RESOURCES => return Err(r),
             _ => panic!(),
@@ -117,9 +114,7 @@ fn locate_singleton(
         r = efi::Status::NOT_FOUND;
         for i in 0..n_handles {
             r = ((*(*st).boot_services).handle_protocol)(
-                *handles.offset(
-                        core::convert::TryFrom::<usize>::try_from(i).unwrap()
-                ),
+                *handles.offset(core::convert::TryFrom::<usize>::try_from(i).unwrap()),
                 guid as *mut _,
                 &mut interface,
             );
@@ -149,7 +144,7 @@ fn locate_singleton(
 // A simple helper that queries the current mode of the GraphicsOutputProtocol
 // and returns the x and y dimensions on success.
 fn query_gop(
-    gop: *mut efi::protocols::graphics_output::Protocol
+    gop: *mut efi::protocols::graphics_output::Protocol,
 ) -> Result<(u32, u32), efi::Status> {
     let mut info: *mut efi::protocols::graphics_output::ModeInformation = core::ptr::null_mut();
     let mut z_info: usize = 0;
@@ -157,14 +152,9 @@ fn query_gop(
     unsafe {
         // We could just look at `gop->mode->info`, but lets query the mode
         // instead to show how to query other modes than the active one.
-        let r = ((*gop).query_mode)(
-            gop,
-            (*(*gop).mode).mode,
-            &mut z_info,
-            &mut info,
-        );
+        let r = ((*gop).query_mode)(gop, (*(*gop).mode).mode, &mut z_info, &mut info);
         match r {
-            efi::Status::SUCCESS => {},
+            efi::Status::SUCCESS => {}
             efi::Status::DEVICE_ERROR => return Err(r),
             _ => panic!(),
         };
@@ -180,10 +170,7 @@ fn query_gop(
 // pointer, query the current mode, and then print it to the system console.
 #[export_name = "efi_main"]
 pub extern "C" fn main(_h: efi::Handle, st: *mut efi::SystemTable) -> efi::Status {
-    let r = locate_singleton(
-        st,
-        &efi::protocols::graphics_output::PROTOCOL_GUID,
-    );
+    let r = locate_singleton(st, &efi::protocols::graphics_output::PROTOCOL_GUID);
     let gop = match r {
         Ok(v) => v,
         Err(r) => fail(r),
