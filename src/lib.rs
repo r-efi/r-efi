@@ -28,6 +28,41 @@
 //! If none of these targets match your architecture, you have to create the target specification
 //! yourself. Feel free to contact the `r-efi` project for help.
 //!
+//! # Transpose Guidelines
+//!
+//! The UEFI specification provides C language symbols and definitions of all
+//! its protocols and features. Those are integral parts of the specification
+//! and UEFI programming is often tightly coupled with the C language. For
+//! better compatibility to existing UEFI documentation, all the rust symbols
+//! are transposed from C following strict rules, aiming for close similarity
+//! to specification. This section gives a rationale on some of the less
+//! obvious choices and tries to describe as many of those rules as possible.
+//!
+//!  * `no enums`: Rust enums do not allow random discriminant values. However,
+//!    many UEFI enumerations use reserved ranges for vendor defined values.
+//!    These cannot be represented with rust enums in an efficient manner.
+//!    Hence, any enumerations are turned into rust constants with an
+//!    accompanying type alias.
+//!
+//!    A detailed discussion can be found in:
+//!
+//!    ```gitlog
+//!        commit 401a91901e860a5c0cd0f92b75dda0a72cf65322
+//!        Author: David Rheinsberg <david.rheinsberg@gmail.com>
+//!        Date:   Wed Apr 21 12:07:07 2021 +0200
+//!
+//!            r-efi: convert enums to constants
+//!    ```
+//!
+//!  * `no incomplete types`: Several structures use incomplete structure types
+//!    by using an unbound array as last member. While rust can easily
+//!    represent those within its type-system, such structures become DSTs,
+//!    hence even raw pointers to them become fat-pointers, and would thus
+//!    violate the UEFI ABI.
+//!
+//!    As a workaround, trailing unbound arrays are transposed as zero-sized
+//!    arrays for now.
+//!
 //! # Examples
 //!
 //! To write free-standing UEFI applications, you need to disable the entry-point provided by rust
