@@ -1,5 +1,42 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 4.0.0:
+
+        * Convert all enums to constants with type-aliases. This is an API
+          break, but it is needed for spec-compliance. With the old enums, one
+          couldn't encode all the possible values defined by the spec.
+          Especially, the vendor-reserved ranges were unable to be encoded in
+          a safe manner. Also see commit 401a91901e860 for a detailed
+          discussion.
+          API users likely need to convert their CamelCase enum usage to the
+          new UPPER_CASE constants.
+
+        * Convert all incomplete types to empty arrays. This affects all
+          structures that use trailing unbound arrays. These are actually ABI
+          incompatible with UEFI, since rust represents raw-pointers to such
+          types as fat-pointers. Such arrays have now been converted to empty
+          arrays, which should still allow accessing the memory location and
+          retaining structure properties, but avoids fat-pointers.
+          This is an API break, so you might have to adjust your accessors of
+          those trailing structure members.
+
+        * Implement `Clone` and `Copy` for most basic structures. Since these
+          are used as plain carriers, no higher clone/copy logic is needed. It
+          should be clear from the project-description, that only basic UEFI
+          compatibility is provided.
+
+        * Add the console-control vendor protocol. This protocol allows
+          controlling console properties. It is not part of the UEFI
+          specification, but rather defined by the TianoCore project.
+
+        * Add a new example showing how to use the GOP functions to query the
+          active graphics device.
+
+        Contributions from: David Rheinsberg, GGRei, Hiroki Tokunaga,
+                            Richard Wiedenhöft
+
+        - Tübingen, 2021-06-23
+
 ## CHANGES WITH 3.2.0:
 
         * Add new protocols: DiskIo, DiskIo2, BlockIo, DriverBinding
