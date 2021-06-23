@@ -185,6 +185,10 @@ pub mod efi {
     pub use crate::system::OPTIONAL_POINTER;
 
     pub use crate::system::ResetType;
+    pub use crate::system::RESET_COLD;
+    pub use crate::system::RESET_PLATFORM_SPECIFIC;
+    pub use crate::system::RESET_SHUTDOWN;
+    pub use crate::system::RESET_WARM;
 
     pub use crate::system::CapsuleBlockDescriptor;
     pub use crate::system::CapsuleBlockDescriptorUnion;
@@ -216,6 +220,9 @@ pub mod efi {
     pub use crate::system::EVT_SIGNAL_EXIT_BOOT_SERVICES;
     pub use crate::system::EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE;
     pub use crate::system::EVT_TIMER;
+    pub use crate::system::TIMER_CANCEL;
+    pub use crate::system::TIMER_PERIODIC;
+    pub use crate::system::TIMER_RELATIVE;
     pub use crate::system::TPL_APPLICATION;
     pub use crate::system::TPL_CALLBACK;
     pub use crate::system::TPL_HIGH_LEVEL;
@@ -224,7 +231,19 @@ pub mod efi {
     pub use crate::system::AllocateType;
     pub use crate::system::MemoryDescriptor;
     pub use crate::system::MemoryType;
+    pub use crate::system::ACPI_MEMORY_NVS;
+    pub use crate::system::ACPI_RECLAIM_MEMORY;
+    pub use crate::system::ALLOCATE_ADDRESS;
+    pub use crate::system::ALLOCATE_ANY_PAGES;
+    pub use crate::system::ALLOCATE_MAX_ADDRESS;
+    pub use crate::system::BOOT_SERVICES_CODE;
+    pub use crate::system::BOOT_SERVICES_DATA;
+    pub use crate::system::CONVENTIONAL_MEMORY;
+    pub use crate::system::LOADER_CODE;
+    pub use crate::system::LOADER_DATA;
     pub use crate::system::MEMORY_DESCRIPTOR_VERSION;
+    pub use crate::system::MEMORY_MAPPED_IO;
+    pub use crate::system::MEMORY_MAPPED_IO_PORT_SPACE;
     pub use crate::system::MEMORY_MORE_RELIABLE;
     pub use crate::system::MEMORY_NV;
     pub use crate::system::MEMORY_RO;
@@ -237,10 +256,20 @@ pub mod efi {
     pub use crate::system::MEMORY_WP;
     pub use crate::system::MEMORY_WT;
     pub use crate::system::MEMORY_XP;
+    pub use crate::system::PAL_CODE;
+    pub use crate::system::PERSISTENT_MEMORY;
+    pub use crate::system::RESERVED_MEMORY_TYPE;
+    pub use crate::system::RUNTIME_SERVICES_CODE;
+    pub use crate::system::RUNTIME_SERVICES_DATA;
+    pub use crate::system::UNUSABLE_MEMORY;
 
     pub use crate::system::InterfaceType;
     pub use crate::system::LocateSearchType;
     pub use crate::system::OpenProtocolInformationEntry;
+    pub use crate::system::ALL_HANDLES;
+    pub use crate::system::BY_PROTOCOL;
+    pub use crate::system::BY_REGISTER_NOTIFY;
+    pub use crate::system::NATIVE_INTERFACE;
     pub use crate::system::OPEN_PROTOCOL_BY_CHILD_CONTROLLER;
     pub use crate::system::OPEN_PROTOCOL_BY_DRIVER;
     pub use crate::system::OPEN_PROTOCOL_BY_HANDLE_PROTOCOL;
