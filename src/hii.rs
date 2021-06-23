@@ -21,7 +21,7 @@ pub type Handle = *mut core::ffi::c_void;
 pub struct PackageHeader {
     pub length: [u8; 3],
     pub r#type: u8,
-    // pub data: [u8], // Discarded to allow embedding in other definitions.
+    pub data: [u8; 0],
 }
 
 pub const PACKAGE_TYPE_ALL: u8 = 0x00;
@@ -50,14 +50,14 @@ pub struct PackageListHeader {
 //
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct FontPackageHdr {
     pub header: PackageHeader,
     pub hdr_size: u32,
     pub glyph_block_offset: u32,
     pub cell: GlyphInfo,
     pub font_style: FontStyle,
-    pub font_family: [crate::base::Char16],
+    pub font_family: [crate::base::Char16; 0],
 }
 
 pub type FontStyle = u32;
@@ -75,7 +75,7 @@ pub const FONT_STYLE_DBL_UNDER: FontStyle = 0x00100000;
 #[derive(Clone, Copy, Debug)]
 pub struct GlyphBlock {
     pub block_type: u8,
-    // pub block_body: [u8] // Discarded to allow embedding elsewhere.
+    pub block_body: [u8; 0],
 }
 
 pub const GIBT_END: u8 = 0x00;
@@ -151,7 +151,7 @@ pub struct GibtExt4Block {
 pub struct GibtGlyphBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
-    // pub bitmap_data: [u8], // Discarded to allow embedding elsewhere.
+    pub bitmap_data: [u8; 0],
 }
 
 #[repr(C)]
@@ -160,22 +160,22 @@ pub struct GibtGlyphsBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
     pub count: u16,
-    // pub bitmap_data: [u8], // Discarded to allow embedding elsewhere.
+    pub bitmap_data: [u8; 0],
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtGlyphDefaultBlock {
     pub header: GlyphBlock,
-    pub bitmap_data: [u8],
+    pub bitmap_data: [u8; 0],
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtGlypshDefaultBlock {
     pub header: GlyphBlock,
     pub count: u16,
-    pub bitmap_data: [u8],
+    pub bitmap_data: [u8; 0],
 }
 
 #[repr(C)]
@@ -193,12 +193,12 @@ pub struct GibtSkip1Block {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct GibtVariabilityBlock {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
     pub glyph_pack_in_bits: u8,
-    pub bitmap_data: [u8],
+    pub bitmap_data: [u8; 0],
 }
 
 //
@@ -520,7 +520,7 @@ pub struct IfrEqIdValList {
     pub header: IfrOpHeader,
     pub question_id: QuestionId,
     pub list_length: u16,
-    // pub value_list: [u16], // Discarded to allow embedding elsewhere.
+    pub value_list: [u16; 0],
 }
 
 #[repr(C)]
@@ -567,7 +567,7 @@ pub struct IfrFormMapMethod {
 pub struct IfrFormMap {
     pub header: IfrOpHeader,
     pub form_id: FormId,
-    // pub methods: [IfrFormMapMethod], // Discarded to allow embedding elsewhere.
+    pub methods: [IfrFormMapMethod; 0],
 }
 
 pub const STANDARD_FORM_GUID: crate::base::Guid = crate::base::Guid::from_fields(
@@ -587,7 +587,7 @@ pub struct IfrFormSet {
     pub form_set_title: StringId,
     pub help: StringId,
     pub flags: u8,
-    // pub class_guid: [crate::base::Guid], // Discarded to allow embedding elsewhere.
+    pub class_guid: [crate::base::Guid; 0],
 }
 
 #[repr(C)]
@@ -829,7 +829,7 @@ pub union IfrTypeValue {
     pub date: Date,
     pub string: StringId,
     pub r#ref: Ref,
-    // pub buffer: [u8], // Discarded to allow embedding elsewhere.
+    pub buffer: [u8; 0],
 }
 
 #[repr(C)]
@@ -1237,7 +1237,7 @@ pub struct IfrVarstore {
     pub guid: crate::base::Guid,
     pub var_store_id: VarstoreId,
     pub size: u16,
-    // pub name: [u8], // Discarded to allow embedding elsewhere.
+    pub name: [u8; 0],
 }
 
 #[repr(C)]
@@ -1256,7 +1256,7 @@ pub struct IfrVarstoreEfi {
     pub guid: crate::base::Guid,
     pub attributes: u32,
     pub size: u16,
-    // pub name: [u8], // Discarded to allow embedding elsewhere.
+    pub name: [u8; 0],
 }
 
 #[repr(C)]

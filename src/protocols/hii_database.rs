@@ -85,13 +85,13 @@ pub struct Protocol {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct KeyboardLayout {
     pub layout_length: u16,
     pub guid: crate::base::Guid,
     pub layout_descriptor_string_offset: u32,
     pub descriptor_count: u8,
-    pub descriptors: [KeyDescriptor],
+    pub descriptors: [KeyDescriptor; 0],
 }
 
 #[repr(C)]

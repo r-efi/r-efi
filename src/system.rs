@@ -65,25 +65,25 @@ pub const VARIABLE_ENHANCED_AUTHENTICATED_ACCESS: u32 = 0x00000080u32;
 pub const VARIABLE_AUTHENTICATION_3_CERT_ID_SHA256: u32 = 0x1u32;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct VariableAuthentication3CertId {
     pub r#type: u8,
     pub id_size: u32,
-    pub id: [u8],
+    pub id: [u8; 0],
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct VariableAuthentication {
     pub monotonic_count: u64,
-    pub auth_info: [u8], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
+    pub auth_info: [u8; 0], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct VariableAuthentication2 {
     pub timestamp: Time,
-    pub auth_info: [u8], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
+    pub auth_info: [u8; 0], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
 }
 
 pub const VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE: u32 = 0x1u32;
@@ -99,10 +99,10 @@ pub struct VariableAuthentication3 {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct VariableAuthentication3Nonce {
     pub nonce_size: u32,
-    pub nonce: [u8],
+    pub nonce: [u8; 0],
 }
 
 pub const HARDWARE_ERROR_VARIABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
@@ -200,13 +200,13 @@ pub struct CapsuleResultVariableHeader {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct CapsuleResultVariableFMP {
     pub version: u16,
     pub payload_index: u8,
     pub update_image_index: u8,
     pub update_image_type_id: crate::base::Guid,
-    pub capsule_file_name_and_target: [crate::base::Char16],
+    pub capsule_file_name_and_target: [crate::base::Char16; 0],
 }
 
 //
@@ -424,13 +424,13 @@ pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::f
 pub const MEMORY_ATTRIBUTES_TABLE_VERSION: u32 = 0x00000001u32;
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct MemoryAttributesTable {
     pub version: u32,
     pub number_of_entries: u32,
     pub descriptor_size: u32,
     pub reserved: u32,
-    pub entry: [MemoryDescriptor],
+    pub entry: [MemoryDescriptor; 0],
 }
 
 //

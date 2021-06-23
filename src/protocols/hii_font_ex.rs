@@ -60,7 +60,7 @@ pub struct Protocol {
 }
 
 #[repr(C)]
-#[derive(Debug)]
+#[derive(Clone, Copy, Debug)]
 pub struct DisplayInfo {
     pub foreground_color: super::graphics_output::BltPixel,
     pub background_color: super::graphics_output::BltPixel,
