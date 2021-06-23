@@ -51,12 +51,12 @@ pub struct Mode {
     pub media_present: crate::base::Boolean,
 }
 
-pub type NetworkState = u32;
+pub type State = u32;
 
-pub const NETWORK_STOPPED: NetworkState = 0x00000000;
-pub const NETWORK_STARTED: NetworkState = 0x00000001;
-pub const NETWORK_INITIALIZED: NetworkState = 0x00000002;
-pub const NETWORK_MAX_STATE: NetworkState = 0x00000003;
+pub const STOPPED: State = 0x00000000;
+pub const STARTED: State = 0x00000001;
+pub const INITIALIZED: State = 0x00000002;
+pub const MAX_STATE: State = 0x00000003;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
