@@ -90,7 +90,7 @@ fn locate_singleton(
         }
 
         let r = ((*(*st).boot_services).locate_handle_buffer)(
-            efi::LocateSearchType::ByProtocol,
+            efi::BY_PROTOCOL,
             guid as *mut _,
             core::ptr::null_mut(),
             &mut n_handles,
