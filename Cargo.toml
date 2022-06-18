@@ -26,11 +26,17 @@ license = "MIT OR Apache-2.0 OR LGPL-2.1-or-later"
 readme = "README.md"
 repository = "https://github.com/r-efi/r-efi"
 
+[dependencies]
+# Required setup to build as part of rustc.
+compiler_builtins = { version = '0.1.0', optional = true }
+core = { version = '1.0.0', optional = true, package = 'rustc-std-workspace-core' }
+
 [features]
 # We feature-gate all examples, since they will not link correctly, unless you
 # use a UEFI target configuration. To make `cargo test` work, we exclude all
 # examples from normal runs.
 examples = []
+rustc-dep-of-std = ['compiler_builtins/rustc-dep-of-std', 'core']
 
 [[example]]
 name = "gop-query"
