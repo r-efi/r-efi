@@ -119,6 +119,7 @@ pub mod protocols;
 
 // Import vendor protocols. They are just like protocols in `protocols`, but
 // separated for better namespacing.
+#[cfg(feature = "vendor")]
 pub mod vendor;
 
 // Import signatures for functions in UEFI. This helps using the same function signatures in other
@@ -327,6 +328,6 @@ pub mod efi {
     //
     // Re-export vendor.
     //
-
+    #[cfg(feature = "vendor")]
     pub use crate::vendor;
 }

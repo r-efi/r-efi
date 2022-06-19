@@ -37,6 +37,7 @@ compiler_builtins = { version = '0.1.0', optional = true }
 # examples from normal runs.
 examples = []
 rustc-dep-of-std = ['core', 'compiler_builtins/rustc-dep-of-std']
+vendor = []
 
 [[example]]
 name = "gop-query"

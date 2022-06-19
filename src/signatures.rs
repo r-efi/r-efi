@@ -964,6 +964,7 @@ pub mod protocols {
     }
 }
 
+#[cfg(feature = "vendor")]
 pub mod vendor {
     pub mod intel {
         pub mod console_control {
