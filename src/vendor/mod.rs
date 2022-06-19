@@ -5,6 +5,4 @@
 //! them. Note that we separate them by vendor-name, which is not the best
 //! name-space but should be acceptible.
 
-pub mod intel {
-    pub mod console_control;
-}
+pub mod intel;
