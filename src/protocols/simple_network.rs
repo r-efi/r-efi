@@ -3,6 +3,8 @@
 //! The simple network protcol provides services to initialize a network interface, transmit
 //! packets, receive packets, and close a network interface.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xa19832b9,
     0xac25,
@@ -92,79 +94,19 @@ pub struct Statistics {
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
-    pub start: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub stop: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub initialize: eficall! {fn(
-        *mut Protocol,
-        usize,
-        usize,
-    ) -> crate::base::Status},
-    pub reset: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub shutdown: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub receive_filters: eficall! {fn(
-        *mut Protocol,
-        u32,
-        u32,
-        crate::base::Boolean,
-        usize,
-        *mut crate::base::MacAddress,
-    ) -> crate::base::Status},
-    pub station_address: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-        *mut crate::base::MacAddress,
-    ) -> crate::base::Status},
-    pub statistics: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-        *mut usize,
-        *mut Statistics,
-    ) -> crate::base::Status},
-    pub mcast_ip_to_mac: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-        *mut crate::base::IpAddress,
-        *mut crate::base::MacAddress,
-    ) -> crate::base::Status},
-    pub nv_data: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-        usize,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub get_status: eficall! {fn(
-        *mut Protocol,
-        *mut u32,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub transmit: eficall! {fn(
-        *mut Protocol,
-        usize,
-        usize,
-        *mut core::ffi::c_void,
-        *mut crate::base::MacAddress,
-        *mut crate::base::MacAddress,
-        *mut u16,
-    ) -> crate::base::Status},
-    pub receive: eficall! {fn(
-        *mut Protocol,
-        *mut usize,
-        *mut usize,
-        *mut core::ffi::c_void,
-        *mut crate::base::MacAddress,
-        *mut crate::base::MacAddress,
-        *mut u16,
-    ) -> crate::base::Status},
+    pub start: signatures::protocols::simple_network::StartSignature,
+    pub stop: signatures::protocols::simple_network::StopSignature,
+    pub initialize: signatures::protocols::simple_network::InitializeSignature,
+    pub reset: signatures::protocols::simple_network::ResetSignature,
+    pub shutdown: signatures::protocols::simple_network::ShutdownSignature,
+    pub receive_filters: signatures::protocols::simple_network::ReceiveFiltersSignature,
+    pub station_address: signatures::protocols::simple_network::StationAddressSignature,
+    pub statistics: signatures::protocols::simple_network::StatisticsSignature,
+    pub mcast_ip_to_mac: signatures::protocols::simple_network::McastIpToMacSignature,
+    pub nv_data: signatures::protocols::simple_network::NvDataSignature,
+    pub get_status: signatures::protocols::simple_network::GetStatusSignature,
+    pub transmit: signatures::protocols::simple_network::TransmitSignature,
+    pub receive: signatures::protocols::simple_network::ReceiveSignature,
     pub wait_for_packet: crate::base::Event,
     pub mode: *mut Mode,
 }

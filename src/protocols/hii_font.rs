@@ -1,5 +1,7 @@
 //! HII Font Protocol
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xe9ca4775,
     0x8657,
@@ -11,46 +13,10 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 #[repr(C)]
 pub struct Protocol {
-    pub string_to_image: eficall! {fn(
-        *const Protocol,
-        OutFlags,
-        String,
-        *const super::hii_font_ex::DisplayInfo,
-        *mut *mut super::hii_font_ex::ImageOutput,
-        usize,
-        usize,
-        *mut *mut RowInfo,
-        *mut usize,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub string_id_to_image: eficall! {fn(
-        *const Protocol,
-        OutFlags,
-        crate::hii::Handle,
-        crate::hii::StringId,
-        *const crate::base::Char8,
-        *const super::hii_font_ex::DisplayInfo,
-        *mut *mut super::hii_font_ex::ImageOutput,
-        usize,
-        usize,
-        *mut *mut RowInfo,
-        *mut usize,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub get_glyph: eficall! {fn(
-        *const Protocol,
-        crate::base::Char16,
-        *const super::hii_font_ex::DisplayInfo,
-        *mut *mut super::hii_font_ex::ImageOutput,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub get_font_info: eficall! {fn(
-        *const Protocol,
-        *mut Handle,
-        *const super::hii_font_ex::DisplayInfo,
-        *mut *mut super::hii_font_ex::DisplayInfo,
-        String,
-    ) -> crate::base::Status},
+    pub string_to_image: signatures::protocols::hii_font::StringToImageSignature,
+    pub string_id_to_image: signatures::protocols::hii_font::StringIdToImageSignature,
+    pub get_glyph: signatures::protocols::hii_font::GetGlyphSignature,
+    pub get_font_info: signatures::protocols::hii_font::GetFontInfoSignature,
 }
 
 pub type OutFlags = u32;

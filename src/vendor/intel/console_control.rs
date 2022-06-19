@@ -3,6 +3,8 @@
 //! The console-control protocols allows modifying the behavior of the default
 //! console device. It is supported by TianoCore and widely adopted.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xf42f7782,
     0x012e,
@@ -20,18 +22,7 @@ pub const SCREEN_MAX_VALUE: ScreenMode = 0x00000002;
 
 #[repr(C)]
 pub struct Protocol {
-    pub get_mode: eficall! {fn(
-        *mut Protocol,
-        *mut ScreenMode,
-        *mut crate::base::Boolean,
-        *mut crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub set_mode: eficall! {fn(
-        *mut Protocol,
-        ScreenMode,
-    ) -> crate::base::Status},
-    pub lock_std_in: eficall! {fn(
-        *mut Protocol,
-        *mut crate::base::Char16,
-    ) -> crate::base::Status},
+    pub get_mode: signatures::vendor::intel::console_control::GetModeSignature,
+    pub set_mode: signatures::vendor::intel::console_control::SetModeSignature,
+    pub lock_std_in: signatures::vendor::intel::console_control::LockStdInSignature,
 }

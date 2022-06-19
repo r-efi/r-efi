@@ -3,6 +3,8 @@
 //! The decompress protocol provides a decompression service that allows a compressed source
 //! buffer in memory to be decompressed into a destination buffer in memory.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xd8117cfe,
     0x94a6,
@@ -14,20 +16,6 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 #[repr(C)]
 pub struct Protocol {
-    pub get_info: eficall! {fn(
-        *mut Protocol,
-        *mut core::ffi::c_void,
-        u32,
-        *mut u32,
-        *mut u32,
-    ) -> crate::base::Status},
-    pub decompress: eficall! {fn(
-        *mut Protocol,
-        *mut core::ffi::c_void,
-        u32,
-        *mut core::ffi::c_void,
-        u32,
-        *mut core::ffi::c_void,
-        u32,
-    ) -> crate::base::Status},
+    pub get_info: signatures::protocols::decompress::GetInfoSignature,
+    pub decompress: signatures::protocols::decompress::DecompressSignature,
 }

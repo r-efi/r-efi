@@ -3,6 +3,8 @@
 //! The simple-text-input-ex protocol extends the simple-text-input protocol by allowing more
 //! details reporting about modifiers, etc.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xdd9e7534,
     0x7762,
@@ -31,7 +33,8 @@ pub const NUM_LOCK_ACTIVE: u8 = 0x02u8;
 pub const CAPS_LOCK_ACTIVE: u8 = 0x04u8;
 
 pub type KeyToggleState = u8;
-pub type KeyNotifyFunction = eficall! {fn(*mut KeyData) -> crate::base::Status};
+pub type KeyNotifyFunction =
+    signatures::protocols::simple_text_input_ex::KeyNotifyFunctionSignature;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, Default)]
@@ -49,27 +52,11 @@ pub struct KeyData {
 
 #[repr(C)]
 pub struct Protocol {
-    pub reset: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub read_key_stroke_ex: eficall! {fn(
-        *mut Protocol,
-        *mut KeyData,
-    ) -> crate::base::Status},
+    pub reset: signatures::protocols::simple_text_input_ex::ResetSignature,
+    pub read_key_stroke_ex: signatures::protocols::simple_text_input_ex::ReadKeyStrokeExSignature,
     pub wait_for_key_ex: crate::base::Event,
-    pub set_state: eficall! {fn(
-        *mut Protocol,
-        *mut KeyToggleState,
-    ) -> crate::base::Status},
-    pub register_key_notify: eficall! {fn(
-        *mut Protocol,
-        *mut KeyData,
-        KeyNotifyFunction,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub unregister_key_notify: eficall! {fn(
-        *mut Protocol,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub register_key_notify:
+        signatures::protocols::simple_text_input_ex::RegisterKeyNotifySignature,
+    pub unregister_key_notify:
+        signatures::protocols::simple_text_input_ex::UnregisterKeyNotifySignature,
 }

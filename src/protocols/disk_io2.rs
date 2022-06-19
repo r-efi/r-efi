@@ -3,6 +3,8 @@
 //! Extends the Disk I/O protocol interface to enable non-blocking /
 //! asynchronous byte-oriented disk operation.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x151c8eae,
     0x7f2c,
@@ -24,27 +26,8 @@ pub struct Token {
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
-    pub cancel: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub read_disk_ex: eficall! {fn(
-        *mut Protocol,
-        u32,
-        u64,
-        *mut Token,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub write_disk_ex: eficall! {fn(
-        *mut Protocol,
-        u32,
-        u64,
-        *mut Token,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub flush_disk_ex: eficall! {fn(
-        *mut Protocol,
-        *mut Token,
-    ) -> crate::base::Status},
+    pub cancel: signatures::protocols::disk_io2::CancelSignature,
+    pub read_disk_ex: signatures::protocols::disk_io2::ReadDiskExSignature,
+    pub write_disk_ex: signatures::protocols::disk_io2::WriteDiskExSignature,
+    pub flush_disk_ex: signatures::protocols::disk_io2::FlushDiskExSignature,
 }

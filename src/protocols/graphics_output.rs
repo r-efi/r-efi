@@ -4,6 +4,8 @@
 //! framebuffers. Replaces the old UGA interface from EFI with a
 //! VGA-independent API.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x9042a9de,
     0x23dc,
@@ -71,27 +73,8 @@ pub const BLT_OPERATION_MAX: BltOperation = 0x00000004;
 
 #[repr(C)]
 pub struct Protocol {
-    pub query_mode: eficall! {fn(
-        *mut Protocol,
-        u32,
-        *mut usize,
-        *mut *mut ModeInformation,
-    ) -> crate::base::Status},
-    pub set_mode: eficall! {fn(
-        *mut Protocol,
-        u32,
-    ) -> crate::base::Status},
-    pub blt: eficall! {fn(
-        *mut Protocol,
-        *mut BltPixel,
-        BltOperation,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-    ) -> crate::base::Status},
+    pub query_mode: signatures::protocols::graphics_output::QueryModeSignature,
+    pub set_mode: signatures::protocols::graphics_output::SetModeSignature,
+    pub blt: signatures::protocols::graphics_output::BltSignature,
     pub mode: *mut Mode,
 }

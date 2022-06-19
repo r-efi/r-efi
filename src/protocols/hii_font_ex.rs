@@ -1,5 +1,7 @@
 //! HII Font Ex Protocol
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x849e6875,
     0xdb35,
@@ -11,52 +13,11 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 #[repr(C)]
 pub struct Protocol {
-    pub string_to_image_ex: eficall! {fn(
-        *const Protocol,
-        super::hii_font::OutFlags,
-        super::hii_font::String,
-        *const DisplayInfo,
-        *mut *mut ImageOutput,
-        usize,
-        usize,
-        *mut *mut super::hii_font::RowInfo,
-        *mut usize,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub string_id_to_image_ex: eficall! {fn(
-        *const Protocol,
-        super::hii_font::OutFlags,
-        crate::hii::Handle,
-        crate::hii::StringId,
-        *const crate::base::Char8,
-        *const DisplayInfo,
-        *mut *mut ImageOutput,
-        usize,
-        usize,
-        *mut *mut super::hii_font::RowInfo,
-        *mut usize,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub get_glyph_ex: eficall! {fn(
-        *const Protocol,
-        crate::base::Char16,
-        *const DisplayInfo,
-        *mut *mut ImageOutput,
-        usize,
-    ) -> crate::base::Status},
-    pub get_font_info_ex: eficall! {fn(
-        *const Protocol,
-        *mut super::hii_font::Handle,
-        *const DisplayInfo,
-        *mut *mut DisplayInfo,
-        super::hii_font::String,
-    ) -> crate::base::Status},
-    pub get_glyph_info: eficall! {fn(
-        *const Protocol,
-        crate::base::Char16,
-        *const DisplayInfo,
-        *mut crate::hii::GlyphInfo,
-    ) -> crate::base::Status},
+    pub string_to_image_ex: signatures::protocols::hii_font_ex::StringIdToImageExSignature,
+    pub string_id_to_image_ex: signatures::protocols::hii_font_ex::StringIdToImageExSignature,
+    pub get_glyph_ex: signatures::protocols::hii_font_ex::GetGlyphExSignature,
+    pub get_font_info_ex: signatures::protocols::hii_font_ex::GetFontInfoExSignature,
+    pub get_glyph_info: signatures::protocols::hii_font_ex::GetGlyphInfoSignature,
 }
 
 #[repr(C)]

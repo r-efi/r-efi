@@ -2,6 +2,8 @@
 //!
 //! Database manager for HII-related data structures.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xef9fc172,
     0xa1b2,
@@ -22,66 +24,19 @@ pub const SET_KEYBOARD_LAYOUT_EVENT_GUID: crate::base::Guid = crate::base::Guid:
 
 #[repr(C)]
 pub struct Protocol {
-    pub new_package_list: eficall! {fn(
-        *const Protocol,
-        *const crate::hii::PackageListHeader,
-        crate::base::Handle,
-        *mut crate::hii::Handle,
-    ) -> crate::base::Status},
-    pub remove_package_list: eficall! {fn(
-        *const Protocol,
-        crate::hii::Handle,
-    ) -> crate::base::Status},
-    pub update_package_list: eficall! {fn(
-        *const Protocol,
-        crate::hii::Handle,
-        *const crate::hii::PackageListHeader,
-    ) -> crate::base::Status},
-    pub list_package_lists: eficall! {fn(
-        *const Protocol,
-        u8,
-        *const crate::base::Guid,
-        *mut usize,
-        *mut crate::hii::Handle,
-    ) -> crate::base::Status},
-    pub export_package_lists: eficall! {fn(
-        *const Protocol,
-        crate::hii::Handle,
-        *mut usize,
-        *mut crate::hii::PackageListHeader,
-    ) -> crate::base::Status},
-    pub register_package_notify: eficall! {fn(
-        *const Protocol,
-        u8,
-        *const crate::base::Guid,
-        Notify,
-        NotifyType,
-        *mut crate::base::Handle,
-    ) -> crate::base::Status},
-    pub unregister_package_notify: eficall! {fn(
-        *const Protocol,
-        crate::base::Handle,
-    ) -> crate::base::Status},
-    pub find_keyboard_layouts: eficall! {fn(
-        *const Protocol,
-        *mut u16,
-        *mut crate::base::Guid,
-    ) -> crate::base::Status},
-    pub get_keyboard_layout: eficall! {fn(
-        *const Protocol,
-        *const crate::base::Guid,
-        *mut u16,
-        *mut KeyboardLayout,
-    ) -> crate::base::Status},
-    pub set_keyboard_layout: eficall! {fn(
-        *const Protocol,
-        *mut crate::base::Guid,
-    ) -> crate::base::Status},
-    pub get_package_list_handle: eficall! {fn(
-        *const Protocol,
-        crate::hii::Handle,
-        *mut crate::base::Handle,
-    ) -> crate::base::Status},
+    pub new_package_list: signatures::protocols::hii_database::NewPackageListSignature,
+    pub remove_package_list: signatures::protocols::hii_database::RemovePackageListSignature,
+    pub update_package_list: signatures::protocols::hii_database::UpdatePackageListSignature,
+    pub list_package_lists: signatures::protocols::hii_database::ListPackageListsSignature,
+    pub export_package_lists: signatures::protocols::hii_database::ExportPackageListsSignature,
+    pub register_package_notify:
+        signatures::protocols::hii_database::RegisterPackageNotifySignature,
+    pub unregister_package_notify:
+        signatures::protocols::hii_database::UnregisterPackageNotifySignature,
+    pub find_keyboard_layouts: signatures::protocols::hii_database::FindKeyboardLayoutsSignature,
+    pub get_keyboard_layout: signatures::protocols::hii_database::GetKeyboardLayoutSignature,
+    pub set_keyboard_layout: signatures::protocols::hii_database::SetKeyboardLayoutSignature,
+    pub get_package_list_handle: signatures::protocols::hii_database::GetPackageListHandleSignature,
 }
 
 #[repr(C)]
@@ -261,13 +216,7 @@ pub const LEFT_LOGO_MODIFIER: u16 = 0x0027;
 pub const RIGHT_LOGO_MODIFIER: u16 = 0x0028;
 pub const MENU_MODIFIER: u16 = 0x0029;
 
-pub type Notify = eficall! {fn(
-    u8,
-    *const crate::base::Guid,
-    *const crate::hii::PackageHeader,
-    crate::hii::Handle,
-    NotifyType,
-) -> crate::base::Status};
+pub type Notify = signatures::protocols::hii_database::NotifySignature;
 
 pub type NotifyType = usize;
 

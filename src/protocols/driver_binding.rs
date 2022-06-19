@@ -3,6 +3,8 @@
 //! Provides the services required to determine if a driver supports a given controller. If
 //! a controller is supported, then it also provides routines to start and stop the controller.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x18a031ab,
     0xb443,
@@ -14,22 +16,9 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 #[repr(C)]
 pub struct Protocol {
-    pub supported: eficall! {fn(
-        *mut Protocol,
-        crate::base::Handle,
-        *mut crate::protocols::device_path::Protocol,
-    ) -> crate::base::Status},
-    pub start: eficall! {fn(
-        *mut Protocol,
-        crate::base::Handle,
-        *mut crate::protocols::device_path::Protocol,
-    ) -> crate::base::Status},
-    pub stop: eficall! {fn(
-        *mut Protocol,
-        crate::base::Handle,
-        usize,
-        *mut crate::base::Handle,
-    ) -> crate::base::Status},
+    pub supported: signatures::protocols::driver_binding::SupportedSignature,
+    pub start: signatures::protocols::driver_binding::StartSignature,
+    pub stop: signatures::protocols::driver_binding::StopSignature,
     pub version: u32,
     pub image_handle: crate::base::Handle,
     pub driver_binding_handle: crate::base::Handle,

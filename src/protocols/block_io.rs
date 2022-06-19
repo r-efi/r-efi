@@ -4,6 +4,8 @@
 //! to access the storage devices without specific knowledge of the type of device or controller that
 //! manages the device.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x964e5b21,
     0x6459,
@@ -38,25 +40,8 @@ pub struct Media {
 pub struct Protocol {
     pub revision: u64,
     pub media: *const Media,
-    pub reset: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub read_blocks: eficall! {fn(
-        *mut Protocol,
-        u32,
-        crate::base::Lba,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub write_blocks: eficall! {fn(
-        *mut Protocol,
-        u32,
-        crate::base::Lba,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub flush_blocks: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
+    pub reset: signatures::protocols::block_io::ResetSignature,
+    pub read_blocks: signatures::protocols::block_io::ReadBlocksSignature,
+    pub write_blocks: signatures::protocols::block_io::WriteBlocksSignature,
+    pub flush_blocks: signatures::protocols::block_io::FlushBlocksSignature,
 }

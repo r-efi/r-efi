@@ -121,6 +121,10 @@ pub mod protocols;
 // separated for better namespacing.
 pub mod vendor;
 
+// Import signatures for functions in UEFI. This helps using the same function signatures in other
+// projects that might depend on this.
+pub mod signatures;
+
 /// Flat EFI Namespace
 ///
 /// The EFI namespace re-exports all symbols in a single, flat namespace. This allows mirroring

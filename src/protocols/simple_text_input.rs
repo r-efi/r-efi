@@ -4,6 +4,8 @@
 //! non-modifiers and lacks any detailed reporting. It is mostly useful for debugging and admin
 //! interaction.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x387477c1,
     0x69c7,
@@ -22,13 +24,7 @@ pub struct InputKey {
 
 #[repr(C)]
 pub struct Protocol {
-    pub reset: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub read_key_stroke: eficall! {fn(
-        *mut Protocol,
-        *mut InputKey,
-    ) -> crate::base::Status},
+    pub reset: signatures::protocols::simple_text_input::ResetSignature,
+    pub read_key_stroke: signatures::protocols::simple_text_input::ReadKeyStorkeSignature,
     pub wait_for_key: crate::base::Event,
 }

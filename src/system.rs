@@ -16,6 +16,8 @@
 // time.
 //
 
+use crate::signatures;
+
 pub const TIME_ADJUST_DAYLIGHT: u8 = 0x01u8;
 pub const TIME_IN_DAYLIGHT: u8 = 0x02u8;
 
@@ -230,7 +232,7 @@ pub const EVT_NOTIFY_SIGNAL: u32 = 0x00000200u32;
 pub const EVT_SIGNAL_EXIT_BOOT_SERVICES: u32 = 0x00000201u32;
 pub const EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE: u32 = 0x60000202u32;
 
-pub type EventNotify = eficall! {fn(crate::base::Event, *mut core::ffi::c_void)};
+pub type EventNotify = signatures::system::EventNotifySignature;
 
 pub const EVENT_GROUP_EXIT_BOOT_SERVICES: crate::base::Guid = crate::base::Guid::from_fields(
     0x27abf055,
@@ -461,81 +463,27 @@ pub const RUNTIME_SERVICES_REVISION: u32 = SPECIFICATION_REVISION;
 pub struct RuntimeServices {
     pub hdr: TableHeader,
 
-    pub get_time: eficall! {fn(
-        *mut Time,
-        *mut TimeCapabilities,
-    ) -> crate::base::Status},
-    pub set_time: eficall! {fn(
-        *mut Time,
-    ) -> crate::base::Status},
-    pub get_wakeup_time: eficall! {fn(
-        *mut crate::base::Boolean,
-        *mut crate::base::Boolean,
-        *mut Time,
-    ) -> crate::base::Status},
-    pub set_wakeup_time: eficall! {fn(
-        crate::base::Boolean,
-        *mut Time,
-    ) -> crate::base::Status},
+    pub get_time: signatures::system::runtime_services::GetTimeSignature,
+    pub set_time: signatures::system::runtime_services::SetTimeSignature,
+    pub get_wakeup_time: signatures::system::runtime_services::GetWakeupTimeSignature,
+    pub set_wakeup_time: signatures::system::runtime_services::SetWakeupTimeSignature,
 
-    pub set_virtual_address_map: eficall! {fn(
-        usize,
-        usize,
-        u32,
-        *mut MemoryDescriptor,
-    ) -> crate::base::Status},
-    pub convert_pointer: eficall! {fn(
-        usize,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub set_virtual_address_map:
+        signatures::system::runtime_services::SetVirtualAddressMapSignature,
+    pub convert_pointer: signatures::system::runtime_services::ConvertPointerSignature,
 
-    pub get_variable: eficall! {fn(
-        *mut crate::base::Char16,
-        *mut crate::base::Guid,
-        *mut u32,
-        *mut usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub get_next_variable_name: eficall! {fn(
-        *mut usize,
-        *mut crate::base::Char16,
-        *mut crate::base::Guid,
-    ) -> crate::base::Status},
-    pub set_variable: eficall! {fn(
-        *mut crate::base::Char16,
-        *mut crate::base::Guid,
-        u32,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub get_variable: signatures::system::runtime_services::GetVariableSignature,
+    pub get_next_variable_name: signatures::system::runtime_services::GetNextVariableNameSignature,
+    pub set_variable: signatures::system::runtime_services::SetVariableSignature,
 
-    pub get_next_high_mono_count: eficall! {fn(
-        *mut u32,
-    ) -> crate::base::Status},
-    pub reset_system: eficall! {fn(
-        ResetType,
-        crate::base::Status,
-        usize,
-        *mut core::ffi::c_void,
-    )},
+    pub get_next_high_mono_count:
+        signatures::system::runtime_services::GetNextHighMonoCountSignature,
+    pub reset_system: signatures::system::runtime_services::ResetSystemSignature,
 
-    pub update_capsule: eficall! {fn(
-        *mut *mut CapsuleHeader,
-        usize,
-        crate::base::PhysicalAddress,
-    ) -> crate::base::Status},
-    pub query_capsule_capabilities: eficall! {fn(
-        *mut *mut CapsuleHeader,
-        usize,
-        *mut u64,
-        *mut ResetType,
-    ) -> crate::base::Status},
-    pub query_variable_info: eficall! {fn(
-        u32,
-        *mut u64,
-        *mut u64,
-        *mut u64,
-    ) -> crate::base::Status},
+    pub update_capsule: signatures::system::runtime_services::UpdateCapsuleSignature,
+    pub query_capsule_capabilities:
+        signatures::system::runtime_services::QueryCapsuleCapabilitiesSignature,
+    pub query_variable_info: signatures::system::runtime_services::QueryVariableInfoSignature,
 }
 
 pub const BOOT_SERVICES_SIGNATURE: u64 = 0x56524553544f4f42u64; // "BOOTSERV"
@@ -545,242 +493,72 @@ pub const BOOT_SERVICES_REVISION: u32 = SPECIFICATION_REVISION;
 pub struct BootServices {
     pub hdr: TableHeader,
 
-    pub raise_tpl: eficall! {fn(
-        crate::base::Tpl,
-    ) -> crate::base::Tpl},
-    pub restore_tpl: eficall! {fn(
-        crate::base::Tpl,
-    )},
+    pub raise_tpl: signatures::system::boot_services::RaiseTplSignature,
+    pub restore_tpl: signatures::system::boot_services::RestoreTplSignature,
 
-    pub allocate_pages: eficall! {fn(
-        AllocateType,
-        MemoryType,
-        usize,
-        *mut crate::base::PhysicalAddress,
-    ) -> crate::base::Status},
-    pub free_pages: eficall! {fn(
-        crate::base::PhysicalAddress,
-        usize,
-    ) -> crate::base::Status},
-    pub get_memory_map: eficall! {fn(
-        *mut usize,
-        *mut MemoryDescriptor,
-        *mut usize,
-        *mut usize,
-        *mut u32,
-    ) -> crate::base::Status},
-    pub allocate_pool: eficall! {fn(
-        MemoryType,
-        usize,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub free_pool: eficall! {fn(
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub allocate_pages: signatures::system::boot_services::AllocatePagesSignature,
+    pub free_pages: signatures::system::boot_services::FreePagesSignature,
+    pub get_memory_map: signatures::system::boot_services::GetMemoryMapSignature,
+    pub allocate_pool: signatures::system::boot_services::AllocatePoolSignature,
+    pub free_pool: signatures::system::boot_services::FreePoolSignature,
 
-    pub create_event: eficall! {fn(
-        u32,
-        crate::base::Tpl,
-        EventNotify,
-        *mut core::ffi::c_void,
-        *mut crate::base::Event,
-    ) -> crate::base::Status},
-    pub set_timer: eficall! {fn(
-        crate::base::Event,
-        TimerDelay,
-        u64,
-    ) -> crate::base::Status},
-    pub wait_for_event: eficall! {fn(
-        usize,
-        *mut crate::base::Event,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub signal_event: eficall! {fn(
-        crate::base::Event,
-    ) -> crate::base::Status},
-    pub close_event: eficall! {fn(
-        crate::base::Event,
-    ) -> crate::base::Status},
-    pub check_event: eficall! {fn(
-        crate::base::Event,
-    ) -> crate::base::Status},
+    pub create_event: signatures::system::boot_services::CreateEventSignature,
+    pub set_timer: signatures::system::boot_services::SetTimerSignature,
+    pub wait_for_event: signatures::system::boot_services::WaitForEventSignature,
+    pub signal_event: signatures::system::boot_services::SignalEventSignature,
+    pub close_event: signatures::system::boot_services::CloseEventSignature,
+    pub check_event: signatures::system::boot_services::CheckEventSignature,
 
-    pub install_protocol_interface: eficall! {fn(
-        *mut crate::base::Handle,
-        *mut crate::base::Guid,
-        InterfaceType,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub reinstall_protocol_interface: eficall! {fn(
-        crate::base::Handle,
-        *mut crate::base::Guid,
-        *mut core::ffi::c_void,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub uninstall_protocol_interface: eficall! {fn(
-        crate::base::Handle,
-        *mut crate::base::Guid,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub handle_protocol: eficall! {fn(
-        crate::base::Handle,
-        *mut crate::base::Guid,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub install_protocol_interface:
+        signatures::system::boot_services::InstallProtocolInterfaceSignature,
+    pub reinstall_protocol_interface:
+        signatures::system::boot_services::ReinstallProtocolInterfaceSignature,
+    pub uninstall_protocol_interface:
+        signatures::system::boot_services::UninstallProtocolInterfaceSignature,
+    pub handle_protocol: signatures::system::boot_services::HandleProtocolSignature,
     pub reserved: *mut core::ffi::c_void,
-    pub register_protocol_notify: eficall! {fn(
-        *mut crate::base::Guid,
-        crate::base::Event,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub locate_handle: eficall! {fn(
-        LocateSearchType,
-        *mut crate::base::Guid,
-        *mut core::ffi::c_void,
-        *mut usize,
-        *mut crate::base::Handle,
-    ) -> crate::base::Status},
-    pub locate_device_path: eficall! {fn(
-        *mut crate::base::Guid,
-        *mut *mut crate::protocols::device_path::Protocol,
-        *mut crate::base::Handle,
-    ) -> crate::base::Status},
+    pub register_protocol_notify:
+        signatures::system::boot_services::RegisterProtocolNotifySignature,
+    pub locate_handle: signatures::system::boot_services::LocateHandleSignature,
+    pub locate_device_path: signatures::system::boot_services::LocateDevicePathSignature,
 
-    pub install_configuration_table: eficall! {fn(
-        *mut crate::base::Guid,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub install_configuration_table:
+        signatures::system::boot_services::InstallConfigurationTableSignature,
 
-    pub load_image: eficall! {fn(
-        crate::base::Boolean,
-        crate::base::Handle,
-        *mut crate::protocols::device_path::Protocol,
-        *mut core::ffi::c_void,
-        usize,
-        *mut crate::base::Handle,
-    ) -> crate::base::Status},
-    pub start_image: eficall! {fn(
-        crate::base::Handle,
-        *mut usize,
-        *mut *mut crate::base::Char16,
-    ) -> crate::base::Status},
-    pub exit: eficall! {fn(
-        crate::base::Handle,
-        crate::base::Status,
-        usize,
-        *mut crate::base::Char16,
-    ) -> crate::base::Status},
-    pub unload_image: eficall! {fn(
-        crate::base::Handle,
-    ) -> crate::base::Status},
-    pub exit_boot_services: eficall! {fn(
-        crate::base::Handle,
-        usize,
-    ) -> crate::base::Status},
+    pub load_image: signatures::system::boot_services::LoadImageSignature,
+    pub start_image: signatures::system::boot_services::StartImageSignature,
+    pub exit: signatures::system::boot_services::ExitSignature,
+    pub unload_image: signatures::system::boot_services::UnloadImageSignature,
+    pub exit_boot_services: signatures::system::boot_services::ExitBootServicesSignature,
 
-    pub get_next_monotonic_count: eficall! {fn(
-        *mut u64,
-    ) -> crate::base::Status},
-    pub stall: eficall! {fn(
-        usize,
-    ) -> crate::base::Status},
-    pub set_watchdog_timer: eficall! {fn(
-        usize,
-        u64,
-        usize,
-        *mut crate::base::Char16,
-    ) -> crate::base::Status},
+    pub get_next_monotonic_count: signatures::system::boot_services::GetNextMonotonicCountSignature,
+    pub stall: signatures::system::boot_services::StallSignature,
+    pub set_watchdog_timer: signatures::system::boot_services::SetWatchdogTimerSignature,
 
     // 1.1+
-    pub connect_controller: eficall! {fn(
-        crate::base::Handle,
-        *mut crate::base::Handle,
-        *mut crate::protocols::device_path::Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub disconnect_controller: eficall! {fn(
-        crate::base::Handle,
-        crate::base::Handle,
-        crate::base::Handle,
-    ) -> crate::base::Status},
+    pub connect_controller: signatures::system::boot_services::ConnectControllerSignature,
+    pub disconnect_controller: signatures::system::boot_services::DisconnectControllerSignature,
 
-    pub open_protocol: eficall! {fn(
-        crate::base::Handle,
-        *mut crate::base::Guid,
-        *mut *mut core::ffi::c_void,
-        crate::base::Handle,
-        crate::base::Handle,
-        u32,
-    ) -> crate::base::Status},
-    pub close_protocol: eficall! {fn(
-        crate::base::Handle,
-        *mut crate::base::Guid,
-        crate::base::Handle,
-        crate::base::Handle,
-    ) -> crate::base::Status},
-    pub open_protocol_information: eficall! {fn(
-        crate::base::Handle,
-        *mut crate::base::Guid,
-        *mut *mut OpenProtocolInformationEntry,
-        *mut usize,
-    ) -> crate::base::Status},
+    pub open_protocol: signatures::system::boot_services::OpenProtocolSignature,
+    pub close_protocol: signatures::system::boot_services::CloseProtocolSignature,
+    pub open_protocol_information:
+        signatures::system::boot_services::OpenProtocolInformationSignature,
 
-    pub protocols_per_handle: eficall! {fn(
-        crate::base::Handle,
-        *mut *mut *mut crate::base::Guid,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub locate_handle_buffer: eficall! {fn(
-        LocateSearchType,
-        *mut crate::base::Guid,
-        *mut core::ffi::c_void,
-        *mut usize,
-        *mut *mut crate::base::Handle,
-    ) -> crate::base::Status},
-    pub locate_protocol: eficall! {fn(
-        *mut crate::base::Guid,
-        *mut core::ffi::c_void,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub install_multiple_protocol_interfaces: eficall! {fn(
-        *mut crate::base::Handle,
-        // XXX: Actual definition is variadic. See eficall!{} for details.
-        *mut core::ffi::c_void,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub uninstall_multiple_protocol_interfaces: eficall! {fn(
-        *mut crate::base::Handle,
-        // XXX: Actual definition is variadic. See eficall!{} for details.
-        *mut core::ffi::c_void,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub protocols_per_handle: signatures::system::boot_services::ProtocolsPerHandleSignature,
+    pub locate_handle_buffer: signatures::system::boot_services::LocateHandleBufferSignature,
+    pub locate_protocol: signatures::system::boot_services::LocateProtocolSignature,
+    pub install_multiple_protocol_interfaces:
+        signatures::system::boot_services::InstallMultipleProtocolInterfacesSignature,
+    pub uninstall_multiple_protocol_interfaces:
+        signatures::system::boot_services::UninstallMultipleProtocolInterfacesSignature,
 
-    pub calculate_crc32: eficall! {fn(
-        *mut core::ffi::c_void,
-        usize,
-        *mut u32,
-    ) -> crate::base::Status},
+    pub calculate_crc32: signatures::system::boot_services::CalculateCRC32Signature,
 
-    pub copy_mem: eficall! {fn(
-        *mut core::ffi::c_void,
-        *mut core::ffi::c_void,
-        usize,
-    )},
-    pub set_mem: eficall! {fn(
-        *mut core::ffi::c_void,
-        usize,
-        u8,
-    )},
+    pub copy_mem: signatures::system::boot_services::CopyMemSignature,
+    pub set_mem: signatures::system::boot_services::SetMemSignature,
 
     // 2.0+
-    pub create_event_ex: eficall! {fn(
-        u32,
-        crate::base::Tpl,
-        EventNotify,
-        *const core::ffi::c_void,
-        *const crate::base::Guid,
-        *mut crate::base::Event,
-    ) -> crate::base::Status},
+    pub create_event_ex: signatures::system::boot_services::CreateEventExSignature,
 }
 
 pub const SYSTEM_TABLE_REVISION_2_70: u32 = (2 << 16) | (70);

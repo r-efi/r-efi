@@ -1,5 +1,7 @@
 //! HII String Protocol
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xfd96974,
     0x23aa,
@@ -11,45 +13,11 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 #[repr(C)]
 pub struct Protocol {
-    pub new_string: eficall! {fn(
-        *const Protocol,
-        crate::hii::Handle,
-        *mut crate::hii::StringId,
-        *const crate::base::Char8,
-        *const crate::base::Char16,
-        super::hii_font::String,
-        *const Info,
-    ) -> crate::base::Status},
-    pub get_string: eficall! {fn(
-        *const Protocol,
-        *const crate::base::Char8,
-        crate::hii::Handle,
-        crate::hii::StringId,
-        super::hii_font::String,
-        *mut usize,
-        *mut *mut Info,
-    ) -> crate::base::Status},
-    pub set_string: eficall! {fn(
-        *const Protocol,
-        crate::hii::Handle,
-        crate::hii::StringId,
-        *const crate::base::Char8,
-        super::hii_font::String,
-        *const Info,
-    ) -> crate::base::Status},
-    pub get_languages: eficall! {fn(
-        *const Protocol,
-        crate::hii::Handle,
-        *mut crate::base::Char8,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub get_secondary_languages: eficall! {fn(
-        *const Protocol,
-        crate::hii::Handle,
-        *const crate::base::Char8,
-        *mut crate::base::Char8,
-        *mut usize,
-    ) -> crate::base::Status},
+    pub new_string: signatures::protocols::hii_string::NewStringSignature,
+    pub get_string: signatures::protocols::hii_string::GetStringSignature,
+    pub set_string: signatures::protocols::hii_string::SetStringSignature,
+    pub get_languages: signatures::protocols::hii_string::GetLanguagesSignature,
+    pub get_secondary_languages: signatures::protocols::hii_string::GetSecondaryLanguagesSignature,
 }
 
 #[repr(C)]

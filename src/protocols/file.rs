@@ -3,6 +3,8 @@
 //! Provides an interface to interact with both files and directories. This protocol is typically
 //! obtained via an EFI_SIMPLE_FILE_SYSTEM protocol or via another EFI_FILE_PROTOCOL.
 
+use crate::signatures;
+
 pub const REVISION: u64 = 0x0000_0000_0001_0000u64;
 pub const REVISION2: u64 = 0x0000_0000_0002_0000u64;
 pub const LATEST_REVISION: u64 = REVISION2;
@@ -86,70 +88,18 @@ pub struct SystemVolumeLabel {
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
-    pub open: eficall! {fn(
-        *mut Protocol,
-        *mut *mut Protocol,
-        *mut crate::base::Char16,
-        u64,
-        u64,
-    ) -> crate::base::Status},
-    pub close: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub delete: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub read: eficall! {fn(
-        *mut Protocol,
-        *mut usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub write: eficall! {fn(
-        *mut Protocol,
-        *mut usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub get_position: eficall! {fn(
-        *mut Protocol,
-        *mut u64,
-    ) -> crate::base::Status},
-    pub set_position: eficall! {fn(
-        *mut Protocol,
-        u64,
-    ) -> crate::base::Status},
-    pub get_info: eficall! {fn(
-        *mut Protocol,
-        *mut crate::base::Guid,
-        *mut usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub set_info: eficall! {fn(
-        *mut Protocol,
-        *mut crate::base::Guid,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub flush: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub open_ex: eficall! {fn(
-        *mut Protocol,
-        *mut *mut Protocol,
-        *mut crate::base::Char16,
-        u64,
-        u64,
-        *mut IoToken,
-    ) -> crate::base::Status},
-    pub read_ex: eficall! {fn(
-        *mut Protocol,
-        *mut IoToken,
-    ) -> crate::base::Status},
-    pub write_ex: eficall! {fn(
-        *mut Protocol,
-        *mut IoToken,
-    ) -> crate::base::Status},
-    pub flush_ex: eficall! {fn(
-        *mut Protocol,
-        *mut IoToken,
-    ) -> crate::base::Status},
+    pub open: signatures::protocols::file::OpenSignature,
+    pub close: signatures::protocols::file::CloseSignature,
+    pub delete: signatures::protocols::file::DeleteSignature,
+    pub read: signatures::protocols::file::ReadSignature,
+    pub write: signatures::protocols::file::WriteSignature,
+    pub get_position: signatures::protocols::file::GetPositionSignature,
+    pub set_position: signatures::protocols::file::SetPositionSignature,
+    pub get_info: signatures::protocols::file::GetInfoSignature,
+    pub set_info: signatures::protocols::file::SetInfoSignature,
+    pub flush: signatures::protocols::file::FlushSignature,
+    pub open_ex: signatures::protocols::file::OpenExSignature,
+    pub read_ex: signatures::protocols::file::ReadExSignature,
+    pub write_ex: signatures::protocols::file::WriteExSignature,
+    pub flush_ex: signatures::protocols::file::FlushExSignature,
 }

@@ -3,6 +3,8 @@
 //! The loaded image protocol defines how to obtain information about a loaded image from an
 //! image handle.
 
+use crate::signatures;
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x5b1b31a1,
     0x9562,
@@ -31,7 +33,5 @@ pub struct Protocol {
     pub image_size: u64,
     pub image_code_type: crate::system::MemoryType,
     pub image_data_type: crate::system::MemoryType,
-    pub unload: eficall! {fn(
-        crate::base::Handle,
-    ) -> crate::base::Status},
+    pub unload: signatures::protocols::loaded_image::UnloadSignature,
 }
