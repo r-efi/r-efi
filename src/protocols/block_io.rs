@@ -34,29 +34,37 @@ pub struct Media {
     pub optimal_transfer_length_granularity: u32,
 }
 
+pub type ProtocolReset = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+) -> crate::base::Status};
+
+pub type ProtocolReadBlocks = eficall! {fn(
+    *mut Protocol,
+    u32,
+    crate::base::Lba,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolWriteBlocks = eficall! {fn(
+    *mut Protocol,
+    u32,
+    crate::base::Lba,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolFlushBlocks = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
     pub media: *const Media,
-    pub reset: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub read_blocks: eficall! {fn(
-        *mut Protocol,
-        u32,
-        crate::base::Lba,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub write_blocks: eficall! {fn(
-        *mut Protocol,
-        u32,
-        crate::base::Lba,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub flush_blocks: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
+    pub reset: ProtocolReset,
+    pub read_blocks: ProtocolReadBlocks,
+    pub write_blocks: ProtocolWriteBlocks,
+    pub flush_blocks: ProtocolFlushBlocks,
 }

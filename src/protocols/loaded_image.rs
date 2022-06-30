@@ -14,6 +14,10 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 pub const REVISION: u32 = 0x00001000u32;
 
+pub type ProtocolUnload = eficall! {fn(
+    crate::base::Handle,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
     pub revision: u32,
@@ -31,7 +35,5 @@ pub struct Protocol {
     pub image_size: u64,
     pub image_code_type: crate::system::MemoryType,
     pub image_data_type: crate::system::MemoryType,
-    pub unload: eficall! {fn(
-        crate::base::Handle,
-    ) -> crate::base::Status},
+    pub unload: ProtocolUnload,
 }

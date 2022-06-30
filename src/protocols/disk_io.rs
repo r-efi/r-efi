@@ -16,21 +16,25 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 pub const REVISION: u64 = 0x0000000000010000u64;
 
+pub type ProtocolReadDisk = eficall! {fn(
+    *mut Protocol,
+    u32,
+    u64,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolWriteDisk = eficall! {fn(
+    *mut Protocol,
+    u32,
+    u64,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
-    pub read_disk: eficall! {fn(
-        *mut Protocol,
-        u32,
-        u64,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub write_disk: eficall! {fn(
-        *mut Protocol,
-        u32,
-        u64,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub read_disk: ProtocolReadDisk,
+    pub write_disk: ProtocolWriteDisk,
 }

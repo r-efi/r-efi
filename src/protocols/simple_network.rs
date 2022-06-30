@@ -89,82 +89,108 @@ pub struct Statistics {
     pub tx_retry_frames: u64,
 }
 
+pub type ProtocolStart = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolStop = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolInitialize = eficall! {fn(
+    *mut Protocol,
+    usize,
+    usize,
+) -> crate::base::Status};
+
+pub type ProtocolReset = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+) -> crate::base::Status};
+
+pub type ProtocolShutdown = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolReceiveFilters = eficall! {fn(
+    *mut Protocol,
+    u32,
+    u32,
+    crate::base::Boolean,
+    usize,
+    *mut crate::base::MacAddress,
+) -> crate::base::Status};
+
+pub type ProtocolStationAddress = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+    *mut crate::base::MacAddress,
+) -> crate::base::Status};
+
+pub type ProtocolStatistics = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+    *mut usize,
+    *mut Statistics,
+) -> crate::base::Status};
+
+pub type ProtocolMcastIpToMac = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+    *mut crate::base::IpAddress,
+    *mut crate::base::MacAddress,
+) -> crate::base::Status};
+
+pub type ProtocolNvData = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+    usize,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolGetStatus = eficall! {fn(
+    *mut Protocol,
+    *mut u32,
+    *mut *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolTransmit = eficall! {fn(
+    *mut Protocol,
+    usize,
+    usize,
+    *mut core::ffi::c_void,
+    *mut crate::base::MacAddress,
+    *mut crate::base::MacAddress,
+    *mut u16,
+) -> crate::base::Status};
+
+pub type ProtocolReceive = eficall! {fn(
+    *mut Protocol,
+    *mut usize,
+    *mut usize,
+    *mut core::ffi::c_void,
+    *mut crate::base::MacAddress,
+    *mut crate::base::MacAddress,
+    *mut u16,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
-    pub start: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub stop: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub initialize: eficall! {fn(
-        *mut Protocol,
-        usize,
-        usize,
-    ) -> crate::base::Status},
-    pub reset: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub shutdown: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub receive_filters: eficall! {fn(
-        *mut Protocol,
-        u32,
-        u32,
-        crate::base::Boolean,
-        usize,
-        *mut crate::base::MacAddress,
-    ) -> crate::base::Status},
-    pub station_address: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-        *mut crate::base::MacAddress,
-    ) -> crate::base::Status},
-    pub statistics: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-        *mut usize,
-        *mut Statistics,
-    ) -> crate::base::Status},
-    pub mcast_ip_to_mac: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-        *mut crate::base::IpAddress,
-        *mut crate::base::MacAddress,
-    ) -> crate::base::Status},
-    pub nv_data: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-        usize,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub get_status: eficall! {fn(
-        *mut Protocol,
-        *mut u32,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub transmit: eficall! {fn(
-        *mut Protocol,
-        usize,
-        usize,
-        *mut core::ffi::c_void,
-        *mut crate::base::MacAddress,
-        *mut crate::base::MacAddress,
-        *mut u16,
-    ) -> crate::base::Status},
-    pub receive: eficall! {fn(
-        *mut Protocol,
-        *mut usize,
-        *mut usize,
-        *mut core::ffi::c_void,
-        *mut crate::base::MacAddress,
-        *mut crate::base::MacAddress,
-        *mut u16,
-    ) -> crate::base::Status},
+    pub start: ProtocolStart,
+    pub stop: ProtocolStop,
+    pub initialize: ProtocolInitialize,
+    pub reset: ProtocolReset,
+    pub shutdown: ProtocolShutdown,
+    pub receive_filters: ProtocolReceiveFilters,
+    pub station_address: ProtocolStationAddress,
+    pub statistics: ProtocolStatistics,
+    pub mcast_ip_to_mac: ProtocolMcastIpToMac,
+    pub nv_data: ProtocolNvData,
+    pub get_status: ProtocolGetStatus,
+    pub transmit: ProtocolTransmit,
+    pub receive: ProtocolReceive,
     pub wait_for_packet: crate::base::Event,
     pub mode: *mut Mode,
 }

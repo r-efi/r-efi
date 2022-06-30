@@ -47,29 +47,39 @@ pub struct KeyData {
     pub key_state: KeyState,
 }
 
+pub type ProtocolReset = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+) -> crate::base::Status};
+
+pub type ProtocolReadKeyStrokeEx = eficall! {fn(
+    *mut Protocol,
+    *mut KeyData,
+) -> crate::base::Status};
+
+pub type ProtocolSetState = eficall! {fn(
+    *mut Protocol,
+    *mut KeyToggleState,
+) -> crate::base::Status};
+
+pub type ProtocolRegisterKeyNotify = eficall! {fn(
+    *mut Protocol,
+    *mut KeyData,
+    KeyNotifyFunction,
+    *mut *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolUnregisterKeyNotify = eficall! {fn(
+    *mut Protocol,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
-    pub reset: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub read_key_stroke_ex: eficall! {fn(
-        *mut Protocol,
-        *mut KeyData,
-    ) -> crate::base::Status},
+    pub reset: ProtocolReset,
+    pub read_key_stroke_ex: ProtocolReadKeyStrokeEx,
     pub wait_for_key_ex: crate::base::Event,
-    pub set_state: eficall! {fn(
-        *mut Protocol,
-        *mut KeyToggleState,
-    ) -> crate::base::Status},
-    pub register_key_notify: eficall! {fn(
-        *mut Protocol,
-        *mut KeyData,
-        KeyNotifyFunction,
-        *mut *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub unregister_key_notify: eficall! {fn(
-        *mut Protocol,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
+    pub set_state: ProtocolSetState,
+    pub register_key_notify: ProtocolRegisterKeyNotify,
+    pub unregister_key_notify: ProtocolUnregisterKeyNotify,
 }

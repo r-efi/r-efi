@@ -83,73 +83,101 @@ pub struct SystemVolumeLabel {
     pub volume_label: [crate::base::Char16; 0],
 }
 
+pub type ProtocolOpen = eficall! {fn(
+    *mut Protocol,
+    *mut *mut Protocol,
+    *mut crate::base::Char16,
+    u64,
+    u64,
+) -> crate::base::Status};
+
+pub type ProtocolClose = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolDelete = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolRead = eficall! {fn(
+    *mut Protocol,
+    *mut usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolWrite = eficall! {fn(
+    *mut Protocol,
+    *mut usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolGetPosition = eficall! {fn(
+    *mut Protocol,
+    *mut u64,
+) -> crate::base::Status};
+
+pub type ProtocolSetPosition = eficall! {fn(
+    *mut Protocol,
+    u64,
+) -> crate::base::Status};
+
+pub type ProtocolGetInfo = eficall! {fn(
+    *mut Protocol,
+    *mut crate::base::Guid,
+    *mut usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolSetInfo = eficall! {fn(
+    *mut Protocol,
+    *mut crate::base::Guid,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolFlush = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolOpenEx = eficall! {fn(
+    *mut Protocol,
+    *mut *mut Protocol,
+    *mut crate::base::Char16,
+    u64,
+    u64,
+    *mut IoToken,
+) -> crate::base::Status};
+
+pub type ProtocolReadEx = eficall! {fn(
+    *mut Protocol,
+    *mut IoToken,
+) -> crate::base::Status};
+
+pub type ProtocolWriteEx = eficall! {fn(
+    *mut Protocol,
+    *mut IoToken,
+) -> crate::base::Status};
+
+pub type ProtocolFlushEx = eficall! {fn(
+    *mut Protocol,
+    *mut IoToken,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
-    pub open: eficall! {fn(
-        *mut Protocol,
-        *mut *mut Protocol,
-        *mut crate::base::Char16,
-        u64,
-        u64,
-    ) -> crate::base::Status},
-    pub close: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub delete: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub read: eficall! {fn(
-        *mut Protocol,
-        *mut usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub write: eficall! {fn(
-        *mut Protocol,
-        *mut usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub get_position: eficall! {fn(
-        *mut Protocol,
-        *mut u64,
-    ) -> crate::base::Status},
-    pub set_position: eficall! {fn(
-        *mut Protocol,
-        u64,
-    ) -> crate::base::Status},
-    pub get_info: eficall! {fn(
-        *mut Protocol,
-        *mut crate::base::Guid,
-        *mut usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub set_info: eficall! {fn(
-        *mut Protocol,
-        *mut crate::base::Guid,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub flush: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub open_ex: eficall! {fn(
-        *mut Protocol,
-        *mut *mut Protocol,
-        *mut crate::base::Char16,
-        u64,
-        u64,
-        *mut IoToken,
-    ) -> crate::base::Status},
-    pub read_ex: eficall! {fn(
-        *mut Protocol,
-        *mut IoToken,
-    ) -> crate::base::Status},
-    pub write_ex: eficall! {fn(
-        *mut Protocol,
-        *mut IoToken,
-    ) -> crate::base::Status},
-    pub flush_ex: eficall! {fn(
-        *mut Protocol,
-        *mut IoToken,
-    ) -> crate::base::Status},
+    pub open: ProtocolOpen,
+    pub close: ProtocolClose,
+    pub delete: ProtocolDelete,
+    pub read: ProtocolRead,
+    pub write: ProtocolWrite,
+    pub get_position: ProtocolGetPosition,
+    pub set_position: ProtocolSetPosition,
+    pub get_info: ProtocolGetInfo,
+    pub set_info: ProtocolSetInfo,
+    pub flush: ProtocolFlush,
+    pub open_ex: ProtocolOpenEx,
+    pub read_ex: ProtocolReadEx,
+    pub write_ex: ProtocolWriteEx,
+    pub flush_ex: ProtocolFlushEx,
 }

@@ -12,24 +12,30 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0x0c, 0x09, 0x26, 0x1e, 0x9f, 0x71],
 );
 
+pub type ProtocolSupported = eficall! {fn(
+    *mut Protocol,
+    crate::base::Handle,
+    *mut crate::protocols::device_path::Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolStart = eficall! {fn(
+    *mut Protocol,
+    crate::base::Handle,
+    *mut crate::protocols::device_path::Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolStop = eficall! {fn(
+    *mut Protocol,
+    crate::base::Handle,
+    usize,
+    *mut crate::base::Handle,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
-    pub supported: eficall! {fn(
-        *mut Protocol,
-        crate::base::Handle,
-        *mut crate::protocols::device_path::Protocol,
-    ) -> crate::base::Status},
-    pub start: eficall! {fn(
-        *mut Protocol,
-        crate::base::Handle,
-        *mut crate::protocols::device_path::Protocol,
-    ) -> crate::base::Status},
-    pub stop: eficall! {fn(
-        *mut Protocol,
-        crate::base::Handle,
-        usize,
-        *mut crate::base::Handle,
-    ) -> crate::base::Status},
+    pub supported: ProtocolSupported,
+    pub start: ProtocolStart,
+    pub stop: ProtocolStop,
     pub version: u32,
     pub image_handle: crate::base::Handle,
     pub driver_binding_handle: crate::base::Handle,

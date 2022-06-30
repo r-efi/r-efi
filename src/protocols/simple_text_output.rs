@@ -24,45 +24,63 @@ pub struct Mode {
     pub cursor_visible: crate::base::Boolean,
 }
 
+pub type ProtocolReset = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+) -> crate::base::Status};
+
+pub type ProtocolOutputString = eficall! {fn(
+    *mut Protocol,
+    *mut crate::base::Char16,
+) -> crate::base::Status};
+
+pub type ProtocolTestString = eficall! {fn(
+    *mut Protocol,
+    *mut crate::base::Char16,
+) -> crate::base::Status};
+
+pub type ProtocolQueryMode = eficall! {fn(
+    *mut Protocol,
+    usize,
+    *mut usize,
+    *mut usize,
+) -> crate::base::Status};
+
+pub type ProtocolSetMode = eficall! {fn(
+    *mut Protocol,
+    usize,
+) -> crate::base::Status};
+
+pub type ProtocolSetAttribute = eficall! {fn(
+    *mut Protocol,
+    usize,
+) -> crate::base::Status};
+
+pub type ProtocolClearScreen = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolSetCursorPosition = eficall! {fn(
+    *mut Protocol,
+    usize,
+    usize,
+) -> crate::base::Status};
+
+pub type ProtocolEnableCursor = eficall! {fn(
+    *mut Protocol,
+    crate::base::Boolean,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
-    pub reset: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
-    pub output_string: eficall! {fn(
-        *mut Protocol,
-        *mut crate::base::Char16,
-    ) -> crate::base::Status},
-    pub test_string: eficall! {fn(
-        *mut Protocol,
-        *mut crate::base::Char16,
-    ) -> crate::base::Status},
-    pub query_mode: eficall! {fn(
-        *mut Protocol,
-        usize,
-        *mut usize,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub set_mode: eficall! {fn(
-        *mut Protocol,
-        usize,
-    ) -> crate::base::Status},
-    pub set_attribute: eficall! {fn(
-        *mut Protocol,
-        usize,
-    ) -> crate::base::Status},
-    pub clear_screen: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub set_cursor_position: eficall! {fn(
-        *mut Protocol,
-        usize,
-        usize,
-    ) -> crate::base::Status},
-    pub enable_cursor: eficall! {fn(
-        *mut Protocol,
-        crate::base::Boolean,
-    ) -> crate::base::Status},
+    pub reset: ProtocolReset,
+    pub output_string: ProtocolOutputString,
+    pub test_string: ProtocolTestString,
+    pub query_mode: ProtocolQueryMode,
+    pub set_mode: ProtocolSetMode,
+    pub set_attribute: ProtocolSetAttribute,
+    pub clear_screen: ProtocolClearScreen,
+    pub set_cursor_position: ProtocolSetCursorPosition,
+    pub enable_cursor: ProtocolEnableCursor,
     pub mode: *mut Mode,
 }

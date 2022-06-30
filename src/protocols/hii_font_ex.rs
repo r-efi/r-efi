@@ -9,54 +9,64 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0xc8, 0xf3, 0x37, 0x18, 0x07, 0x3f],
 );
 
+pub type ProtocolStringToImageEx = eficall! {fn(
+    *const Protocol,
+    super::hii_font::OutFlags,
+    super::hii_font::String,
+    *const DisplayInfo,
+    *mut *mut ImageOutput,
+    usize,
+    usize,
+    *mut *mut super::hii_font::RowInfo,
+    *mut usize,
+    *mut usize,
+) -> crate::base::Status};
+
+pub type ProtocolStringIdToImageEx = eficall! {fn(
+    *const Protocol,
+    super::hii_font::OutFlags,
+    crate::hii::Handle,
+    crate::hii::StringId,
+    *const crate::base::Char8,
+    *const DisplayInfo,
+    *mut *mut ImageOutput,
+    usize,
+    usize,
+    *mut *mut super::hii_font::RowInfo,
+    *mut usize,
+    *mut usize,
+) -> crate::base::Status};
+
+pub type ProtocolGetGlyphEx = eficall! {fn(
+    *const Protocol,
+    crate::base::Char16,
+    *const DisplayInfo,
+    *mut *mut ImageOutput,
+    usize,
+) -> crate::base::Status};
+
+pub type ProtocolGetFontInfoEx = eficall! {fn(
+    *const Protocol,
+    *mut super::hii_font::Handle,
+    *const DisplayInfo,
+    *mut *mut DisplayInfo,
+    super::hii_font::String,
+) -> crate::base::Status};
+
+pub type ProtocolGetGlyphInfo = eficall! {fn(
+    *const Protocol,
+    crate::base::Char16,
+    *const DisplayInfo,
+    *mut crate::hii::GlyphInfo,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
-    pub string_to_image_ex: eficall! {fn(
-        *const Protocol,
-        super::hii_font::OutFlags,
-        super::hii_font::String,
-        *const DisplayInfo,
-        *mut *mut ImageOutput,
-        usize,
-        usize,
-        *mut *mut super::hii_font::RowInfo,
-        *mut usize,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub string_id_to_image_ex: eficall! {fn(
-        *const Protocol,
-        super::hii_font::OutFlags,
-        crate::hii::Handle,
-        crate::hii::StringId,
-        *const crate::base::Char8,
-        *const DisplayInfo,
-        *mut *mut ImageOutput,
-        usize,
-        usize,
-        *mut *mut super::hii_font::RowInfo,
-        *mut usize,
-        *mut usize,
-    ) -> crate::base::Status},
-    pub get_glyph_ex: eficall! {fn(
-        *const Protocol,
-        crate::base::Char16,
-        *const DisplayInfo,
-        *mut *mut ImageOutput,
-        usize,
-    ) -> crate::base::Status},
-    pub get_font_info_ex: eficall! {fn(
-        *const Protocol,
-        *mut super::hii_font::Handle,
-        *const DisplayInfo,
-        *mut *mut DisplayInfo,
-        super::hii_font::String,
-    ) -> crate::base::Status},
-    pub get_glyph_info: eficall! {fn(
-        *const Protocol,
-        crate::base::Char16,
-        *const DisplayInfo,
-        *mut crate::hii::GlyphInfo,
-    ) -> crate::base::Status},
+    pub string_to_image_ex: ProtocolStringToImageEx,
+    pub string_id_to_image_ex: ProtocolStringIdToImageEx,
+    pub get_glyph_ex: ProtocolGetGlyphEx,
+    pub get_font_info_ex: ProtocolGetFontInfoEx,
+    pub get_glyph_info: ProtocolGetGlyphInfo,
 }
 
 #[repr(C)]

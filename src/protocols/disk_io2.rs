@@ -21,30 +21,38 @@ pub struct Token {
     transaction_status: crate::base::Status,
 }
 
+pub type ProtocolCancel = eficall! {fn(
+    *mut Protocol,
+) -> crate::base::Status};
+
+pub type ProtocolReadDiskEx = eficall! {fn(
+    *mut Protocol,
+    u32,
+    u64,
+    *mut Token,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolWriteDiskEx = eficall! {fn(
+    *mut Protocol,
+    u32,
+    u64,
+    *mut Token,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolFlushDiskEx = eficall! {fn(
+    *mut Protocol,
+    *mut Token,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
     pub revision: u64,
-    pub cancel: eficall! {fn(
-        *mut Protocol,
-    ) -> crate::base::Status},
-    pub read_disk_ex: eficall! {fn(
-        *mut Protocol,
-        u32,
-        u64,
-        *mut Token,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub write_disk_ex: eficall! {fn(
-        *mut Protocol,
-        u32,
-        u64,
-        *mut Token,
-        usize,
-        *mut core::ffi::c_void,
-    ) -> crate::base::Status},
-    pub flush_disk_ex: eficall! {fn(
-        *mut Protocol,
-        *mut Token,
-    ) -> crate::base::Status},
+    pub cancel: ProtocolCancel,
+    pub read_disk_ex: ProtocolReadDiskEx,
+    pub write_disk_ex: ProtocolWriteDiskEx,
+    pub flush_disk_ex: ProtocolFlushDiskEx,
 }

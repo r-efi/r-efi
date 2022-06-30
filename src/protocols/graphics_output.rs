@@ -69,29 +69,35 @@ pub const BLT_BUFFER_TO_VIDEO: BltOperation = 0x00000002;
 pub const BLT_VIDEO_TO_VIDEO: BltOperation = 0x00000003;
 pub const BLT_OPERATION_MAX: BltOperation = 0x00000004;
 
+pub type ProtocolQueryMode = eficall! {fn(
+    *mut Protocol,
+    u32,
+    *mut usize,
+    *mut *mut ModeInformation,
+) -> crate::base::Status};
+
+pub type ProtocolSetMode = eficall! {fn(
+    *mut Protocol,
+    u32,
+) -> crate::base::Status};
+
+pub type ProtocolBlt = eficall! {fn(
+    *mut Protocol,
+    *mut BltPixel,
+    BltOperation,
+    usize,
+    usize,
+    usize,
+    usize,
+    usize,
+    usize,
+    usize,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
-    pub query_mode: eficall! {fn(
-        *mut Protocol,
-        u32,
-        *mut usize,
-        *mut *mut ModeInformation,
-    ) -> crate::base::Status},
-    pub set_mode: eficall! {fn(
-        *mut Protocol,
-        u32,
-    ) -> crate::base::Status},
-    pub blt: eficall! {fn(
-        *mut Protocol,
-        *mut BltPixel,
-        BltOperation,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-        usize,
-    ) -> crate::base::Status},
+    pub query_mode: ProtocolQueryMode,
+    pub set_mode: ProtocolSetMode,
+    pub blt: ProtocolBlt,
     pub mode: *mut Mode,
 }
