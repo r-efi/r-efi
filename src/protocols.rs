@@ -19,6 +19,7 @@ pub mod hii_font_ex;
 pub mod hii_string;
 pub mod loaded_image;
 pub mod loaded_image_device_path;
+pub mod rng;
 pub mod simple_file_system;
 pub mod simple_network;
 pub mod simple_text_input;
