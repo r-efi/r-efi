@@ -29,5 +29,4 @@ pub mod simple_text_input;
 pub mod simple_text_input_ex;
 pub mod simple_text_output;
 pub mod tcp6;
-pub mod tcp6_service_binding;
 pub mod timestamp;
