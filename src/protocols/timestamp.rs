@@ -13,18 +13,20 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 );
 
 #[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct Properties {
-    frequence: u64,
+    frequency: u64,
     end_value: u64,
 }
 
-pub type GetTimestamp = eficall! {fn() -> u64};
-pub type GetProperties = eficall! {fn(
-    *mut Properties
+pub type ProtocolGetTimestamp = eficall! {fn() -> u64};
+
+pub type ProtocolGetProperties = eficall! {fn(
+    *mut Properties,
 ) -> crate::base::Status};
 
 #[repr(C)]
 pub struct Protocol {
-    get_timestamp: GetTimestamp,
-    get_properties: GetProperties,
+    pub get_timestamp: ProtocolGetTimestamp,
+    pub get_properties: ProtocolGetProperties,
 }
