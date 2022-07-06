@@ -1,9 +1,6 @@
 //! Transmission Control Protocol version 6
 //!
-//! It provides services to send and receive data stream.
-
-use crate::efi::{Boolean, Ipv6Address};
-use crate::protocols::{ip6, managed_network, simple_network};
+//! It provides services to send and receive data streams.
 
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x46e44855,
@@ -24,16 +21,18 @@ pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::
 );
 
 #[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct AccessPoint {
-    pub station_address: Ipv6Address,
+    pub station_address: crate::base::Ipv6Address,
     pub station_port: u16,
-    pub remote_address: Ipv6Address,
+    pub remote_address: crate::base::Ipv6Address,
     pub remote_port: u16,
-    pub active_flag: Boolean,
+    pub active_flag: crate::base::Boolean,
 }
 
 #[repr(C)]
-pub struct Tcp6Option {
+#[derive(Clone, Copy, Debug)]
+pub struct r#Option {
     pub receive_buffer_size: u32,
     pub send_buffer_size: u32,
     pub max_syn_back_log: u32,
@@ -44,144 +43,160 @@ pub struct Tcp6Option {
     pub keep_alive_probes: u32,
     pub keep_alive_time: u32,
     pub keep_alive_interval: u32,
-    pub enable_nagle: Boolean,
-    pub enable_time_stamp: Boolean,
-    pub enable_window_scaling: Boolean,
-    pub enable_selective_ack: Boolean,
-    pub enable_path_mtu_discovery: Boolean,
+    pub enable_nagle: crate::base::Boolean,
+    pub enable_time_stamp: crate::base::Boolean,
+    pub enable_window_scaling: crate::base::Boolean,
+    pub enable_selective_ack: crate::base::Boolean,
+    pub enable_path_mtu_discovery: crate::base::Boolean,
 }
 
 #[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct ConfigData {
     pub traffic_class: u8,
     pub hop_limit: u8,
     pub access_point: AccessPoint,
-    pub control_option: *mut Tcp6Option,
+    pub control_option: *mut r#Option,
 }
 
 pub type ConnectionState = u32;
 
-pub const CONNECTION_CLOSED: ConnectionState = 0;
-pub const STATE_LISTEN: ConnectionState = 1;
-pub const SYN_SENT: ConnectionState = 2;
-pub const SYN_RECEIVED: ConnectionState = 3;
-pub const ESTABLISHED: ConnectionState = 4;
-pub const FIN_WAIT1: ConnectionState = 5;
-pub const FIN_WAIT2: ConnectionState = 6;
-pub const CLOSING: ConnectionState = 7;
-pub const TIME_WAIT: ConnectionState = 8;
-pub const CLOSE_WAIT: ConnectionState = 9;
-pub const LAST_ACK: ConnectionState = 10;
+pub const STATE_CLOSED: ConnectionState = 0x00000000;
+pub const STATE_LISTEN: ConnectionState = 0x00000001;
+pub const STATE_SYN_SENT: ConnectionState = 0x00000002;
+pub const STATE_SYN_RECEIVED: ConnectionState = 0x00000003;
+pub const STATE_ESTABLISHED: ConnectionState = 0x00000004;
+pub const STATE_FIN_WAIT1: ConnectionState = 0x00000005;
+pub const STATE_FIN_WAIT2: ConnectionState = 0x00000006;
+pub const STATE_CLOSING: ConnectionState = 0x00000007;
+pub const STATE_TIME_WAIT: ConnectionState = 0x00000008;
+pub const STATE_CLOSE_WAIT: ConnectionState = 0x00000009;
+pub const STATE_LAST_ACK: ConnectionState = 0x0000000a;
 
 #[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct CompletionToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,
 }
 
 #[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct ConnectionToken {
     pub completion_token: CompletionToken,
 }
 
 #[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct ListenToken {
     pub completion_token: CompletionToken,
     pub new_child_handle: crate::base::Handle,
 }
 
 #[repr(C)]
+#[derive(Clone, Copy)]
+pub struct IoToken {
+    pub completion_token: CompletionToken,
+    pub packet: IoTokenPacket,
+}
+
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union IoTokenPacket {
+    pub rx_data: *mut ReceiveData,
+    pub tx_data: *mut TransmitData,
+}
+
+#[repr(C)]
+#[derive(Clone, Copy, Debug)]
+pub struct ReceiveData {
+    pub urgent_flag: crate::base::Boolean,
+    pub data_length: u32,
+    pub fragment_count: u32,
+    pub fragment_table: [FragmentData; 0],
+}
+
+#[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct FragmentData {
     pub fragment_length: u32,
     pub fragment_buffer: *mut core::ffi::c_void,
 }
 
 #[repr(C)]
-pub struct ReceiveData {
-    pub urgent_flag: Boolean,
-    pub data_length: u32,
-    pub fragment_count: u32,
-    pub fragment_table: *mut FragmentData,
-}
-
-#[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct TransmitData {
-    pub push: Boolean,
-    pub urgent: Boolean,
+    pub push: crate::base::Boolean,
+    pub urgent: crate::base::Boolean,
     pub data_length: u32,
     pub fragment_count: u32,
-    pub fragment_table: *mut FragmentData,
+    pub fragment_table: [FragmentData; 0],
 }
 
 #[repr(C)]
-pub struct IoToken {
-    pub rx_data: *mut ReceiveData,
-    pub tx_data: *mut TransmitData,
-}
-
-#[repr(C)]
+#[derive(Clone, Copy, Debug)]
 pub struct CloseToken {
     pub completion_token: CompletionToken,
-    pub abort_on_close: Boolean,
+    pub abort_on_close: crate::base::Boolean,
 }
 
-pub type GetModeData = eficall! {fn(
+pub type ProtocolGetModeData = eficall! {fn(
     *mut Protocol,
     *mut ConnectionState,
     *mut ConfigData,
-    *mut ip6::ModeData,
-    *mut managed_network::ConfigData,
-    *mut simple_network::Mode,
+    *mut crate::protocols::ip6::ModeData,
+    *mut crate::protocols::managed_network::ConfigData,
+    *mut crate::protocols::simple_network::Mode,
 ) -> crate::base::Status};
 
-pub type Configure = eficall! {fn(
+pub type ProtocolConfigure = eficall! {fn(
     *mut Protocol,
-    *mut ConfigData
+    *mut ConfigData,
 ) -> crate::base::Status};
 
-pub type Connect = eficall! {fn(
+pub type ProtocolConnect = eficall! {fn(
     *mut Protocol,
-    *mut ConnectionToken
+    *mut ConnectionToken,
 ) -> crate::base::Status};
 
-pub type Accept = eficall! {fn(
+pub type ProtocolAccept = eficall! {fn(
     *mut Protocol,
-    *mut ListenToken
+    *mut ListenToken,
 ) -> crate::base::Status};
 
-pub type Transmit = eficall! {fn(
+pub type ProtocolTransmit = eficall! {fn(
     *mut Protocol,
-    *mut IoToken
+    *mut IoToken,
 ) -> crate::base::Status};
 
-pub type Receive = eficall! {fn(
+pub type ProtocolReceive = eficall! {fn(
     *mut Protocol,
-    *mut IoToken
+    *mut IoToken,
 ) -> crate::base::Status};
 
-pub type Close = eficall! {fn(
+pub type ProtocolClose = eficall! {fn(
     *mut Protocol,
-    *mut CloseToken
+    *mut CloseToken,
 ) -> crate::base::Status};
 
-pub type Cancel = eficall! {fn(
+pub type ProtocolCancel = eficall! {fn(
     *mut Protocol,
-    *mut CompletionToken
+    *mut CompletionToken,
 ) -> crate::base::Status};
 
-pub type Poll = eficall! {fn(
+pub type ProtocolPoll = eficall! {fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
 #[repr(C)]
 pub struct Protocol {
-    pub get_mode_data: GetModeData,
-    pub configure: Configure,
-    pub connect: Connect,
-    pub accept: Accept,
-    pub transmit: Transmit,
-    pub receive: Receive,
-    pub close: Close,
-    pub cancel: Cancel,
-    pub poll: Poll,
+    pub get_mode_data: ProtocolGetModeData,
+    pub configure: ProtocolConfigure,
+    pub connect: ProtocolConnect,
+    pub accept: ProtocolAccept,
+    pub transmit: ProtocolTransmit,
+    pub receive: ProtocolReceive,
+    pub close: ProtocolClose,
+    pub cancel: ProtocolCancel,
+    pub poll: ProtocolPoll,
 }
