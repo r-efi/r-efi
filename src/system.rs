@@ -23,7 +23,7 @@ pub const UNSPECIFIED_TIMEZONE: i16 = 0x07ffi16;
 
 // Cannot derive `Eq` etc. due to uninitialized `pad2` field.
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Default)]
 pub struct Time {
     pub year: u16,
     pub month: u8,
