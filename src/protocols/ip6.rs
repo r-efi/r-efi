@@ -92,8 +92,8 @@ pub struct NeighborCache {
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct IcmpType {
-    r#type: u8,
-    code: u8,
+    pub r#type: u8,
+    pub code: u8,
 }
 
 pub const ICMP_V6_DEST_UNREACHABLE: u8 = 0x01;
