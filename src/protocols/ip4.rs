@@ -102,7 +102,7 @@ pub struct ReceiveData {
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct TransmitData {
-    pub destination_address: *mut crate::base::Ipv6Address,
+    pub destination_address: crate::base::Ipv4Address,
     pub override_data: *mut OverrideData,
     pub options_length: u32,
     pub options_buffer: *mut core::ffi::c_void,
@@ -114,8 +114,7 @@ pub struct TransmitData {
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct Header {
-    pub header_length: u8,
-    pub version: u8,
+    pub header_length_and_version: u8,
     pub type_of_service: u8,
     pub total_length: u16,
     pub identification: u16,
