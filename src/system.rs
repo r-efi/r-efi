@@ -610,7 +610,7 @@ pub type BootFreePool = eficall! {fn(
 pub type BootCreateEvent = eficall! {fn(
     u32,
     crate::base::Tpl,
-    EventNotify,
+    Option<EventNotify>,
     *mut core::ffi::c_void,
     *mut crate::base::Event,
 ) -> crate::base::Status};
@@ -827,7 +827,7 @@ pub type BootSetMem = eficall! {fn(
 pub type BootCreateEventEx = eficall! {fn(
     u32,
     crate::base::Tpl,
-    EventNotify,
+    Option<EventNotify>,
     *const core::ffi::c_void,
     *const crate::base::Guid,
     *mut crate::base::Event,
