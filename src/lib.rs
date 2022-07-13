@@ -63,6 +63,13 @@
 //!    As a workaround, trailing unbound arrays are transposed as zero-sized
 //!    arrays for now.
 //!
+//!  * `nullable callbacks as Option`: Rust has no raw function pointers, but
+//!    just normal Rust function pointers. Those, however, have no valid null
+//!    value. The Rust ABI guarantees that `Option<fn ...>` is an C-ABI
+//!    compatible replacement for nullable function pointers, with `None` being
+//!    mapped to `NULL`. Hence, whenever UEFI APIs require nullable function
+//!    pointers, we use `Option<fn ...>`.
+//!
 //! # Examples
 //!
 //! To write free-standing UEFI applications, you need to disable the entry-point provided by rust
