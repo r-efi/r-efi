@@ -106,7 +106,6 @@
 // basic unit-tests on the compilation host. For integration tests, we have separate compilation
 // units, so they will be unaffected by this.
 #![cfg_attr(not(test), no_std)]
-
 // The `efiapi` calling convention designator automatically picks the correct
 // EFI-compatible ABI for the target platform. It currently requires the
 // `abi_efiapi` unstable feature and is thus guarded by us behind the `efiapi`
