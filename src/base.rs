@@ -121,7 +121,7 @@
     target_arch = "x86_64"
 )))]
 compile_error!("The target architecture is not supported.");
-#[cfg(not(any(target_endian = "little")))]
+#[cfg(not(target_endian = "little"))]
 compile_error!("The target endianness is not supported.");
 
 // eficall_abi!()
