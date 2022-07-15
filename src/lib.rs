@@ -107,6 +107,12 @@
 // units, so they will be unaffected by this.
 #![cfg_attr(not(test), no_std)]
 
+// The `efiapi` calling convention designator automatically picks the correct
+// EFI-compatible ABI for the target platform. It currently requires the
+// `abi_efiapi` unstable feature and is thus guarded by us behind the `efiapi`
+// crate-feature.
+#![cfg_attr(feature = "efiapi", feature(abi_efiapi))]
+
 // Import the different core modules. We separate them into different modules to make it easier to
 // work on them and describe what each part implements. This is different to the reference
 // implementation, which uses a flat namespace due to its origins in the C language. For

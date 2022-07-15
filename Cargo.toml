@@ -32,6 +32,8 @@ compiler_builtins = { version = '0.1.0', optional = true }
 core = { version = '1.0.0', optional = true, package = 'rustc-std-workspace-core' }
 
 [features]
+# Use the 'efiapi' calling convention designator (nightly-only).
+efiapi = []
 # We feature-gate all examples, since they will not link correctly, unless you
 # use a UEFI target configuration. To make `cargo test` work, we exclude all
 # examples from normal runs.

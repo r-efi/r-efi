@@ -129,7 +129,14 @@ compile_error!("The target endianness is not supported.");
 // This macro is the architecture-dependent implementation of eficall!(). See the documentation of
 // the eficall!() macro for a description.
 
-#[cfg(target_arch = "arm")]
+#[cfg(feature = "efiapi")]
+#[macro_export]
+#[doc(hidden)]
+macro_rules! eficall_abi {
+    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "efiapi" $($suffix)* };
+}
+
+#[cfg(all(target_arch = "arm", not(feature = "efiapi")))]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
@@ -138,21 +145,21 @@ macro_rules! eficall_abi {
 
 // XXX: Rust does not define aapcs64, yet. Once it does, we should switch to it, rather than
 //      referring to the system default.
-#[cfg(target_arch = "aarch64")]
+#[cfg(all(target_arch = "aarch64", not(feature = "efiapi")))]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
     (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "C" $($suffix)* };
 }
 
-#[cfg(target_arch = "x86")]
+#[cfg(all(target_arch = "x86", not(feature = "efiapi")))]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
     (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "cdecl" $($suffix)* };
 }
 
-#[cfg(target_arch = "x86_64")]
+#[cfg(all(target_arch = "x86_64", not(feature = "efiapi")))]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
@@ -160,6 +167,7 @@ macro_rules! eficall_abi {
 }
 
 #[cfg(not(any(
+    feature = "efiapi",
     target_arch = "arm",
     target_arch = "aarch64",
     target_arch = "x86",
@@ -192,6 +200,7 @@ macro_rules! eficall_abi {
 /// inserted at the correct place:
 ///
 /// ```
+/// # #![cfg_attr(feature = "efiapi", feature(abi_efiapi))]
 /// use r_efi::{eficall, eficall_abi};
 ///
 /// eficall!{pub fn foobar() {
@@ -215,6 +224,7 @@ macro_rules! eficall_abi {
 /// is "C":
 ///
 /// ```
+/// # #![cfg_attr(feature = "efiapi", feature(abi_efiapi))]
 /// use r_efi::{eficall, eficall_abi};
 ///
 /// type FooBar1 = unsafe extern "C" fn(u8) -> (u8);
