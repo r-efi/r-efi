@@ -582,9 +582,15 @@ impl Status {
     pub const HTTP_ERROR: Status = Status::from_usize(35 | Status::ERROR_MASK);
 
     // List of error codes from protocols
+    // TCP
     pub const CONNECTION_FIN: Status = Status::from_usize(104 | Status::ERROR_MASK);
     pub const CONNECTION_RESET: Status = Status::from_usize(105 | Status::ERROR_MASK);
     pub const CONNECTION_REFUSED: Status = Status::from_usize(106 | Status::ERROR_MASK);
+    // ICMP
+    pub const NETWORK_UNREACHABLE: Status = Status::from_usize(100 | Status::ERROR_MASK);
+    pub const HOST_UNREACHABLE: Status = Status::from_usize(101 | Status::ERROR_MASK);
+    pub const PROTOCOL_UNREACHABLE: Status = Status::from_usize(102 | Status::ERROR_MASK);
+    pub const PORT_UNREACHABLE: Status = Status::from_usize(103 | Status::ERROR_MASK);
 
     // List of predefined warning codes
     pub const WARN_UNKNOWN_GLYPH: Status = Status::from_usize(1 | Status::WARNING_MASK);
