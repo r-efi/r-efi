@@ -7,6 +7,7 @@
 pub mod block_io;
 pub mod decompress;
 pub mod device_path;
+pub mod device_path_to_text;
 pub mod device_path_utilities;
 pub mod disk_io;
 pub mod disk_io2;
