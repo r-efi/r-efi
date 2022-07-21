@@ -12,16 +12,16 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 );
 
 pub type DevicePathToTextNode = eficall! {fn(
-    *const crate::protocols::device_path::Protocol,
+    *mut crate::protocols::device_path::Protocol,
     crate::base::Boolean,
     crate::base::Boolean,
-) -> *const crate::base::Char16};
+) -> *mut crate::base::Char16};
 
 pub type DevicePathToTextPath = eficall! {fn(
-    *const crate::protocols::device_path::Protocol,
+    *mut crate::protocols::device_path::Protocol,
     crate::base::Boolean,
     crate::base::Boolean,
-) -> *const crate::base::Char16};
+) -> *mut crate::base::Char16};
 
 #[repr(C)]
 pub struct Protocol {
