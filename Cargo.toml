@@ -41,6 +41,10 @@ examples = []
 rustc-dep-of-std = ['compiler_builtins/rustc-dep-of-std', 'core']
 
 [[example]]
+name = "freestanding"
+required-features = ["examples"]
+
+[[example]]
 name = "gop-query"
 required-features = ["examples"]
 
