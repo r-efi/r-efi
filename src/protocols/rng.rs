@@ -78,6 +78,6 @@ pub type ProtocolGetRng = eficall! {fn(
 
 #[repr(C)]
 pub struct Protocol {
-    get_info: ProtocolGetInfo,
-    get_rng: ProtocolGetRng,
+    pub get_info: ProtocolGetInfo,
+    pub get_rng: ProtocolGetRng,
 }
