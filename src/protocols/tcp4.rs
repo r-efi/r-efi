@@ -43,8 +43,19 @@ pub struct ConfigData {
     pub control_option: *mut r#Option,
 }
 
+impl Default for ConfigData {
+    fn default() -> Self {
+        Self {
+            type_of_service: Default::default(),
+            time_to_live: Default::default(),
+            access_point: Default::default(),
+            control_option: core::ptr::null_mut(),
+        }
+    }
+}
+
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Default)]
 pub struct AccessPoint {
     pub use_default_address: crate::base::Boolean,
     pub station_address: crate::base::Ipv4Address,
