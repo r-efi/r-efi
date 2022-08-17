@@ -15,8 +15,8 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
 pub struct Properties {
-    frequency: u64,
-    end_value: u64,
+    pub frequency: u64,
+    pub end_value: u64,
 }
 
 pub type ProtocolGetTimestamp = eficall! {fn() -> u64};
