@@ -455,7 +455,7 @@ pub struct MacAddress {
 /// order (i.e., big endian). Note that no special alignment restrictions are
 /// defined by the standard specification.
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Default)]
 pub struct Ipv4Address {
     pub addr: [u8; 4],
 }
@@ -508,6 +508,12 @@ impl From<bool> for Boolean {
             false => Boolean::FALSE,
             true => Boolean::TRUE,
         }
+    }
+}
+
+impl Default for Boolean {
+    fn default() -> Self {
+        Self::FALSE
     }
 }
 
