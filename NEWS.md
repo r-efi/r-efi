@@ -1,5 +1,31 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 4.1.0:
+
+        * New Protocols: device-path-{from,to}-text, ip4, ip6, managed-network,
+                         rng, service-binding, tcp4, tcp6, timestamp, udp4
+                         and udp6
+
+        * `ImageEntryPoint` is now correctly annotated as `eficall`.
+
+        * `Time` now derives `Default`.
+
+        * Fix nullable function pointers to use `Option<fn ...>`.
+
+        * Function prototypes now have an explicit type definition and can be
+          used independent of their protocol definition.
+
+        * The new `rust-dep-of-std` feature option allows pulling in r-efi
+          into the rust standard library. It prepares the crate workspace to
+          be suitable for the standard library. It has no use outside of this.
+
+        * Adopt the MIT license as 3rd licensing option to allow for
+          integration into the rust compiler and ecosystem.
+
+        Contributions from: Ayush Singh, David Rheinsberg, Joe Richey
+
+        - Tübingen, 2022-08-23
+
 ## CHANGES WITH 4.0.0:
 
         * Convert all enums to constants with type-aliases. This is an API
