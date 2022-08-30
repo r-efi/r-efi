@@ -26,6 +26,7 @@ pub mod loaded_image_device_path;
 pub mod managed_network;
 pub mod rng;
 pub mod service_binding;
+pub mod shell;
 pub mod simple_file_system;
 pub mod simple_network;
 pub mod simple_text_input;
