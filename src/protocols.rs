@@ -35,3 +35,4 @@ pub mod simple_text_output;
 pub mod tcp4;
 pub mod tcp6;
 pub mod timestamp;
+pub mod udp4;
