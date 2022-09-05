@@ -11,11 +11,14 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0x60, 0xc9, 0xfe, 0xf5, 0xda, 0x4e],
 );
 
-pub type ShellFileHandle = *mut core::ffi::c_void;
+pub const MAJOR_VERSION: u32 = 0x00000002;
+pub const MINOR_VERSION: u32 = 0x00000002;
+
+pub type FileHandle = *mut core::ffi::c_void;
 
 pub type DeviceNameFlags = u32;
-pub const USE_COMPONENT_NAME: DeviceNameFlags = 0x00000001;
-pub const USE_DEVICE_PATH: DeviceNameFlags = 0x00000002;
+pub const DEVICE_NAME_USE_COMPONENT_NAME: DeviceNameFlags = 0x00000001;
+pub const DEVICE_NAME_USE_DEVICE_PATH: DeviceNameFlags = 0x00000002;
 
 #[repr(C)]
 pub struct ListEntry {
@@ -24,12 +27,12 @@ pub struct ListEntry {
 }
 
 #[repr(C)]
-pub struct ShellFileInfo {
+pub struct FileInfo {
     pub link: ListEntry,
     pub status: crate::base::Status,
     pub full_name: *mut crate::base::Char16,
     pub file_name: *mut crate::base::Char16,
-    pub handle: ShellFileHandle,
+    pub handle: FileHandle,
     pub info: *mut crate::protocols::file::Info,
 }
 
@@ -81,7 +84,7 @@ pub type GetDevicePathFromFilePath = eficall! {fn(
 ) -> *mut crate::protocols::device_path::Protocol};
 
 pub type GetFilePathFromDevicePath = eficall! {fn(
-    *mut *mut crate::protocols::device_path::Protocol,
+    *mut crate::protocols::device_path::Protocol,
 ) -> *mut crate::base::Char16};
 
 pub type SetMap = eficall! {fn(
@@ -101,15 +104,15 @@ pub type SetCurDir = eficall! {fn(
 pub type OpenFileList = eficall! {fn(
     *mut crate::base::Char16,
     u64,
-    *mut *mut ShellFileInfo,
+    *mut *mut FileInfo,
 ) -> crate::base::Status};
 
 pub type FreeFileList = eficall! {fn(
-    *mut *mut ShellFileInfo,
+    *mut *mut FileInfo,
 ) -> crate::base::Status};
 
 pub type RemoveDupInFileList = eficall! {fn(
-    *mut *mut ShellFileInfo,
+    *mut *mut FileInfo,
 ) -> crate::base::Status};
 
 pub type BatchIsActive = eficall! {fn() -> crate::base::Boolean};
@@ -130,44 +133,44 @@ pub type GetDeviceName = eficall! {fn(
 ) -> crate::base::Status};
 
 pub type GetFileInfo = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
 ) -> *mut crate::protocols::file::Info};
 
 pub type SetFileInfo = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
     *mut crate::protocols::file::Info
 ) -> crate::base::Status};
 
 pub type OpenFileByName = eficall! {fn(
     *mut crate::base::Char16,
-    *mut ShellFileHandle,
+    *mut FileHandle,
     u64,
 ) -> crate::base::Status};
 
 pub type CloseFile = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
 ) -> crate::base::Status};
 
 pub type CreateFile = eficall! {fn(
     *mut crate::base::Char16,
     u64,
-    *mut ShellFileHandle,
+    *mut FileHandle,
 ) -> crate::base::Status};
 
 pub type ReadFile = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
     *mut usize,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
 pub type WriteFile = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
     *mut usize,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
 pub type DeleteFile = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
 ) -> crate::base::Status};
 
 pub type DeleteFileByName = eficall! {fn(
@@ -175,42 +178,42 @@ pub type DeleteFileByName = eficall! {fn(
 ) -> crate::base::Status};
 
 pub type GetFilePosition = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
     *mut u64,
 ) -> crate::base::Status};
 
 pub type SetFilePosition = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
     u64,
 ) -> crate::base::Status};
 
 pub type FlushFile = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
 ) -> crate::base::Status};
 
 pub type FindFiles = eficall! {fn(
     *mut crate::base::Char16,
-    *mut *mut ShellFileInfo,
+    *mut *mut FileInfo,
 ) -> crate::base::Status};
 
 pub type FindFilesInDir = eficall! {fn(
-    ShellFileHandle,
-    *mut *mut ShellFileInfo,
+    FileHandle,
+    *mut *mut FileInfo,
 ) -> crate::base::Status};
 
 pub type GetFileSize = eficall! {fn(
-    ShellFileHandle,
+    FileHandle,
     *mut u64,
 ) -> crate::base::Status};
 
 pub type OpenRoot = eficall! {fn(
     *mut crate::protocols::device_path::Protocol,
-    *mut ShellFileHandle,
+    *mut FileHandle,
 ) -> crate::base::Status};
 
 pub type OpenRootByHandle = eficall! {fn(
     crate::base::Handle,
-    *mut ShellFileHandle,
+    *mut FileHandle,
 ) -> crate::base::Status};
 
 pub type RegisterGuidName = eficall! {fn(
