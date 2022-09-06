@@ -30,18 +30,18 @@ pub struct ConfigData {
     pub hop_limit: u8,
     pub receive_timeout: u32,
     pub transmit_timeout: u32,
-    pub station_address: crate::base::Ipv4Address,
+    pub station_address: crate::base::Ipv6Address,
     pub station_port: u16,
-    pub remote_address: crate::base::Ipv4Address,
+    pub remote_address: crate::base::Ipv6Address,
     pub remote_port: u16,
 }
 
 #[repr(C)]
 #[derive(Clone, Copy)]
 pub struct SessionData {
-    pub source_address: crate::base::Ipv4Address,
+    pub source_address: crate::base::Ipv6Address,
     pub source_port: u16,
-    pub destination_address: crate::base::Ipv4Address,
+    pub destination_address: crate::base::Ipv6Address,
     pub destination_port: u16,
 }
 
@@ -103,7 +103,7 @@ pub type ProtocolConfigure = eficall! {fn(
 pub type ProtocolGroups = eficall! {fn(
     *mut Protocol,
     crate::base::Boolean,
-    *mut crate::base::Ipv4Address,
+    *mut crate::base::Ipv6Address,
 ) -> crate::base::Status};
 
 pub type ProtocolTransmit = eficall! {fn(
