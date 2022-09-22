@@ -74,14 +74,14 @@ pub struct ReceiveData {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct TransmitData {
+pub struct TransmitData<const N: usize = 0> {
     pub destination_address: *mut crate::base::MacAddress,
     pub source_address: *mut crate::base::MacAddress,
     pub protocol_type: u16,
     pub data_length: u32,
     pub header_length: u16,
     pub fragment_count: u16,
-    pub fragment_table: [FragmentData; 0],
+    pub fragment_table: [FragmentData; N],
 }
 
 #[repr(C)]

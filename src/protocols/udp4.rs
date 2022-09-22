@@ -58,23 +58,23 @@ pub struct FragmentData {
 
 #[repr(C)]
 #[derive(Clone, Copy)]
-pub struct ReceiveData {
+pub struct ReceiveData<const N: usize = 0> {
     pub time_stamp: crate::system::Time,
     pub recycle_signal: crate::base::Event,
     pub udp_session: SessionData,
     pub data_length: u32,
     pub fragment_count: u32,
-    pub fragment_table: [FragmentData; 0],
+    pub fragment_table: [FragmentData; N],
 }
 
 #[repr(C)]
 #[derive(Clone, Copy)]
-pub struct TransmitData {
+pub struct TransmitData<const N: usize = 0> {
     pub udp_session_data: *mut SessionData,
     pub gateway_address: *mut crate::base::Ipv4Address,
     pub data_length: u32,
     pub fragment_count: u32,
-    pub fragment_table: [FragmentData; 0],
+    pub fragment_table: [FragmentData; N],
 }
 
 #[repr(C)]

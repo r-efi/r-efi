@@ -108,12 +108,12 @@ pub struct Protocol {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct KeyboardLayout {
+pub struct KeyboardLayout<const N: usize = 0> {
     pub layout_length: u16,
     pub guid: crate::base::Guid,
     pub layout_descriptor_string_offset: u32,
     pub descriptor_count: u8,
-    pub descriptors: [KeyDescriptor; 0],
+    pub descriptors: [KeyDescriptor; N],
 }
 
 #[repr(C)]

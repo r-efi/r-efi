@@ -122,11 +122,11 @@ pub union IoTokenPacket {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct ReceiveData {
+pub struct ReceiveData<const N: usize = 0> {
     pub urgent_flag: crate::base::Boolean,
     pub data_length: u32,
     pub fragment_count: u32,
-    pub fragment_table: [FragmentData; 0],
+    pub fragment_table: [FragmentData; N],
 }
 
 #[repr(C)]
@@ -138,12 +138,12 @@ pub struct FragmentData {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct TransmitData {
+pub struct TransmitData<const N: usize = 0> {
     pub push: crate::base::Boolean,
     pub urgent: crate::base::Boolean,
     pub data_length: u32,
     pub fragment_count: u32,
-    pub fragment_table: [FragmentData; 0],
+    pub fragment_table: [FragmentData; N],
 }
 
 #[repr(C)]

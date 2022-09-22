@@ -64,8 +64,8 @@ pub struct Protocol {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct Info {
+pub struct Info<const N: usize = 0> {
     pub font_style: crate::hii::FontStyle,
     pub font_size: u16,
-    pub font_name: [crate::base::Char16; 0],
+    pub font_name: [crate::base::Char16; N],
 }

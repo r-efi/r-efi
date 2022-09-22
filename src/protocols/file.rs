@@ -55,7 +55,7 @@ pub struct IoToken {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct Info {
+pub struct Info<const N: usize = 0> {
     pub size: u64,
     pub file_size: u64,
     pub physical_size: u64,
@@ -63,24 +63,24 @@ pub struct Info {
     pub last_access_time: crate::system::Time,
     pub modification_time: crate::system::Time,
     pub attribute: u64,
-    pub file_name: [crate::base::Char16; 0],
+    pub file_name: [crate::base::Char16; N],
 }
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct SystemInfo {
+pub struct SystemInfo<const N: usize = 0> {
     pub size: u64,
     pub read_only: crate::base::Boolean,
     pub volume_size: u64,
     pub free_space: u64,
     pub block_size: u32,
-    pub volume_label: [crate::base::Char16; 0],
+    pub volume_label: [crate::base::Char16; N],
 }
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct SystemVolumeLabel {
-    pub volume_label: [crate::base::Char16; 0],
+pub struct SystemVolumeLabel<const N: usize = 0> {
+    pub volume_label: [crate::base::Char16; N],
 }
 
 pub type ProtocolOpen = eficall! {fn(
