@@ -87,7 +87,7 @@ pub union CompletionTokenPacket {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct ReceiveData {
+pub struct ReceiveData<const N: usize = 0> {
     pub time_stamp: crate::system::Time,
     pub recycle_signal: crate::base::Event,
     pub header_length: u32,
@@ -96,19 +96,19 @@ pub struct ReceiveData {
     pub options: *mut core::ffi::c_void,
     pub data_length: u32,
     pub fragment_count: u32,
-    pub fragment_table: [FragmentData; 0],
+    pub fragment_table: [FragmentData; N],
 }
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct TransmitData {
+pub struct TransmitData<const N: usize = 0> {
     pub destination_address: crate::base::Ipv4Address,
     pub override_data: *mut OverrideData,
     pub options_length: u32,
     pub options_buffer: *mut core::ffi::c_void,
     pub total_data_length: u32,
     pub fragment_count: u32,
-    pub fragment_table: [FragmentData; 0],
+    pub fragment_table: [FragmentData; N],
 }
 
 #[repr(C)]

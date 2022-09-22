@@ -18,10 +18,10 @@ pub type Handle = *mut core::ffi::c_void;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct PackageHeader {
+pub struct PackageHeader<const N: usize = 0> {
     pub length: [u8; 3],
     pub r#type: u8,
-    pub data: [u8; 0],
+    pub data: [u8; N],
 }
 
 pub const PACKAGE_TYPE_ALL: u8 = 0x00;
@@ -51,13 +51,13 @@ pub struct PackageListHeader {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct FontPackageHdr {
+pub struct FontPackageHdr<const N: usize = 0> {
     pub header: PackageHeader,
     pub hdr_size: u32,
     pub glyph_block_offset: u32,
     pub cell: GlyphInfo,
     pub font_style: FontStyle,
-    pub font_family: [crate::base::Char16; 0],
+    pub font_family: [crate::base::Char16; N],
 }
 
 pub type FontStyle = u32;
@@ -73,9 +73,9 @@ pub const FONT_STYLE_DBL_UNDER: FontStyle = 0x00100000;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct GlyphBlock {
+pub struct GlyphBlock<const N: usize = 0> {
     pub block_type: u8,
-    pub block_body: [u8; 0],
+    pub block_body: [u8; N],
 }
 
 pub const GIBT_END: u8 = 0x00;
@@ -148,34 +148,34 @@ pub struct GibtExt4Block {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct GibtGlyphBlock {
+pub struct GibtGlyphBlock<const N: usize = 0> {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
-    pub bitmap_data: [u8; 0],
+    pub bitmap_data: [u8; N],
 }
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct GibtGlyphsBlock {
+pub struct GibtGlyphsBlock<const N: usize = 0> {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
     pub count: u16,
-    pub bitmap_data: [u8; 0],
+    pub bitmap_data: [u8; N],
 }
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct GibtGlyphDefaultBlock {
+pub struct GibtGlyphDefaultBlock<const N: usize = 0> {
     pub header: GlyphBlock,
-    pub bitmap_data: [u8; 0],
+    pub bitmap_data: [u8; N],
 }
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct GibtGlypshDefaultBlock {
+pub struct GibtGlypshDefaultBlock<const N: usize = 0> {
     pub header: GlyphBlock,
     pub count: u16,
-    pub bitmap_data: [u8; 0],
+    pub bitmap_data: [u8; N],
 }
 
 #[repr(C)]
@@ -194,11 +194,11 @@ pub struct GibtSkip1Block {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct GibtVariabilityBlock {
+pub struct GibtVariabilityBlock<const N: usize = 0> {
     pub header: GlyphBlock,
     pub cell: GlyphInfo,
     pub glyph_pack_in_bits: u8,
-    pub bitmap_data: [u8; 0],
+    pub bitmap_data: [u8; N],
 }
 
 //
@@ -516,11 +516,11 @@ pub struct IfrEqIdId {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct IfrEqIdValList {
+pub struct IfrEqIdValList<const N: usize = 0> {
     pub header: IfrOpHeader,
     pub question_id: QuestionId,
     pub list_length: u16,
-    pub value_list: [u16; 0],
+    pub value_list: [u16; N],
 }
 
 #[repr(C)]
@@ -564,10 +564,10 @@ pub struct IfrFormMapMethod {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct IfrFormMap {
+pub struct IfrFormMap<const N: usize = 0> {
     pub header: IfrOpHeader,
     pub form_id: FormId,
-    pub methods: [IfrFormMapMethod; 0],
+    pub methods: [IfrFormMapMethod; N],
 }
 
 pub const STANDARD_FORM_GUID: crate::base::Guid = crate::base::Guid::from_fields(
@@ -581,13 +581,13 @@ pub const STANDARD_FORM_GUID: crate::base::Guid = crate::base::Guid::from_fields
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct IfrFormSet {
+pub struct IfrFormSet<const N: usize = 0> {
     pub header: IfrOpHeader,
     pub guid: crate::base::Guid,
     pub form_set_title: StringId,
     pub help: StringId,
     pub flags: u8,
-    pub class_guid: [crate::base::Guid; 0],
+    pub class_guid: [crate::base::Guid; N],
 }
 
 #[repr(C)]
@@ -819,7 +819,7 @@ pub struct IfrOneOfOption {
 
 #[repr(C)]
 #[derive(Clone, Copy)]
-pub union IfrTypeValue {
+pub union IfrTypeValue<const N: usize = 0> {
     pub r#u8: u8,
     pub r#u16: u16,
     pub r#u32: u32,
@@ -829,7 +829,7 @@ pub union IfrTypeValue {
     pub date: Date,
     pub string: StringId,
     pub r#ref: Ref,
-    pub buffer: [u8; 0],
+    pub buffer: [u8; N],
 }
 
 #[repr(C)]
@@ -1232,12 +1232,12 @@ pub struct IfrValue {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct IfrVarstore {
+pub struct IfrVarstore<const N: usize = 0> {
     pub header: IfrOpHeader,
     pub guid: crate::base::Guid,
     pub var_store_id: VarstoreId,
     pub size: u16,
-    pub name: [u8; 0],
+    pub name: [u8; N],
 }
 
 #[repr(C)]
@@ -1250,13 +1250,13 @@ pub struct IfrVarstoreNameValue {
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
-pub struct IfrVarstoreEfi {
+pub struct IfrVarstoreEfi<const N: usize = 0> {
     pub header: IfrOpHeader,
     pub var_store_id: VarstoreId,
     pub guid: crate::base::Guid,
     pub attributes: u32,
     pub size: u16,
-    pub name: [u8; 0],
+    pub name: [u8; N],
 }
 
 #[repr(C)]
