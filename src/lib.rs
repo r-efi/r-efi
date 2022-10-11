@@ -59,8 +59,9 @@
 //!    hence even raw pointers to them become fat-pointers, and would thus
 //!    violate the UEFI ABI.
 //!
-//!    As a workaround, trailing unbound arrays are transposed as zero-sized
-//!    arrays for now.
+//!    Instead, we use const-generics to allow compile-time adjustment of the
+//!    variable-sized structures, with a default value of 0. This allows
+//!    computing different sizes of the structures without any runtime overhead.
 //!
 //!  * `nullable callbacks as Option`: Rust has no raw function pointers, but
 //!    just normal Rust function pointers. Those, however, have no valid null
