@@ -48,9 +48,6 @@ jobs:
         rustup default nightly
         rustup component add --toolchain nightly rust-src
     - name: Build Project
-      # XXX: This fails on nightly with linker errors. Avoid failing CI for
-      #      now, and lets see when this works again.
-      continue-on-error: true
       run: |
         cargo +nightly build \
           -Zbuild-std=core,compiler_builtins,alloc \
