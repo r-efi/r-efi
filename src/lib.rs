@@ -70,6 +70,23 @@
 //!    mapped to `NULL`. Hence, whenever UEFI APIs require nullable function
 //!    pointers, we use `Option<fn ...>`.
 //!
+//!  * `prefer *mut over *const`: Whenever we transpose pointers from the
+//!    specification into Rust, we prefer `*mut` in almost all cases. `*const`
+//!    should only be used if the underlying value is known not to be accessible
+//!    via any other mutable pointer type. Since this is rarely the case in
+//!    UEFI, we avoid it.
+//!
+//!    The reasoning is that Rust allows coercing immutable types into `*const`
+//!    pointers, without any explicit casting required. However, immutable Rust
+//!    references require that no other mutable reference exists simultaneously.
+//!    This is not a guarantee of `const`-pointers in C / UEFI, hence this
+//!    coercion is usually ill-advised or even wrong.
+//!
+//!    Lastly, note that `*mut` and `*const` and be `as`-casted in both
+//!    directions without violating any Rust guarantees. Any UB concerns always
+//!    stem from the safety guarantees of the surrounding code, not of the
+//!    raw-pointer handling.
+//!
 //! # Examples
 //!
 //! To write free-standing UEFI applications, you need to disable the entry-point provided by rust
