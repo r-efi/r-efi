@@ -5,6 +5,7 @@
 //! each protocol as a separate module, so it is clearly defined where a symbol belongs to.
 
 pub mod block_io;
+pub mod debugport;
 pub mod decompress;
 pub mod device_path;
 pub mod device_path_from_text;
