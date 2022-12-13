@@ -26,6 +26,7 @@ pub mod ip6;
 pub mod loaded_image;
 pub mod loaded_image_device_path;
 pub mod managed_network;
+pub mod mp_services;
 pub mod rng;
 pub mod service_binding;
 pub mod shell;
