@@ -31,6 +31,7 @@ pub mod mp_services;
 pub mod rng;
 pub mod service_binding;
 pub mod shell;
+pub mod shell_dynamic_command;
 pub mod shell_parameters;
 pub mod simple_file_system;
 pub mod simple_network;
