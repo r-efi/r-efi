@@ -1,9 +1,10 @@
-//! MP Services Protocol
+//! Multi-Processor Services Protocol
 //!
-//! This Protocol is defined in UEFI Platform Integration Specification, Section 13.4
+//! This Protocol is defined in the UEFI Platform Integration Specification,
+//! Section 13.4.
 //!
-//! The MP Services Protocol provides a generalized way of performing following tasks:
-//! - Retrieving information of multi-processor environment and MP-related status of specific processors.
+//! This provides a generalized way of performing the following tasks:
+//! - Retrieving information of multi-processor environments.
 //! - Dispatching user-provided function to APs.
 //! - Maintain MP-related processor status.
 
@@ -16,13 +17,11 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0x12, 0xf4, 0x53, 0x1b, 0x3d, 0x08],
 );
 
-pub type StatusFlag = u32;
+pub const PROCESSOR_AS_BSP_BIT: u32 = 0x00000001;
+pub const PROCESSOR_ENABLED_BIT: u32 = 0x00000002;
+pub const PROCESSOR_HEALTH_STATUS_BIT: u32 = 0x00000004;
 
-pub const PROCESSOR_AS_BSP_BIT: StatusFlag = 0x00000001;
-pub const PROCESSOR_ENABLED_BIT: StatusFlag = 0x00000002;
-pub const PROCESSOR_HEALTH_STATUS_BIT: StatusFlag = 0x00000004;
-
-pub const END_OF_CPU_LIST: usize = 0xffffffff;
+pub const END_OF_CPU_LIST: usize = usize::MAX;
 
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]
@@ -51,9 +50,9 @@ pub union ExtendedProcessorInformation {
 
 #[repr(C)]
 #[derive(Clone, Copy)]
-pub struct ProcessorInfoBuffer {
+pub struct ProcessorInformation {
     pub processor_id: u64,
-    pub status_flag: StatusFlag,
+    pub status_flag: u32,
     pub location: CpuPhysicalLocation,
     pub extended_information: ExtendedProcessorInformation,
 }
@@ -69,10 +68,10 @@ pub type GetNumberOfProcessors = eficall! {fn(
 pub type GetProcessorInfo = eficall! {fn(
     *mut Protocol,
     usize,
-    *mut ProcessorInfoBuffer,
+    *mut ProcessorInformation,
 ) -> crate::base::Status};
 
-pub type StartupAllAPs = eficall! {fn(
+pub type StartupAllAps = eficall! {fn(
     *mut Protocol,
     ApProcedure,
     crate::base::Boolean,
@@ -82,7 +81,7 @@ pub type StartupAllAPs = eficall! {fn(
     *mut *mut usize,
 ) -> crate::base::Status};
 
-pub type StartupThisAP = eficall! {fn(
+pub type StartupThisAp = eficall! {fn(
     *mut Protocol,
     ApProcedure,
     usize,
@@ -92,13 +91,13 @@ pub type StartupThisAP = eficall! {fn(
     *mut crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type SwitchBSP = eficall! {fn(
+pub type SwitchBsp = eficall! {fn(
     *mut Protocol,
     usize,
     crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type EnableDisableAP = eficall! {fn(
+pub type EnableDisableAp = eficall! {fn(
     *mut Protocol,
     usize,
     crate::base::Boolean,
@@ -114,9 +113,9 @@ pub type WhoAmI = eficall! {fn(
 pub struct Protocol {
     pub get_number_of_processors: GetNumberOfProcessors,
     pub get_processor_info: GetProcessorInfo,
-    pub startup_all_aps: StartupAllAPs,
-    pub startup_this_ap: StartupThisAP,
-    pub switch_bsp: SwitchBSP,
-    pub enable_disable_ap: EnableDisableAP,
+    pub startup_all_aps: StartupAllAps,
+    pub startup_this_ap: StartupThisAp,
+    pub switch_bsp: SwitchBsp,
+    pub enable_disable_ap: EnableDisableAp,
     pub who_am_i: WhoAmI,
 }
