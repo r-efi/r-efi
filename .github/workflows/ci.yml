@@ -1,28 +1,34 @@
-name: Continuous Integration
+name: "Continuous Integration"
 
-on:
-  push:
-  pull_request:
-  schedule:
-  - cron:  '0 0 * * *'
+on: [pull_request, push]
 
 jobs:
   #
   # CI with Default Configuration
   #
   # This simply runs `cargo build && cargo test` on all sources. We want to
-  # explicitly ensure that `r-efi` stays compatible to the stable channel and
-  # the standard build setup.
+  # explicitly ensure that this project stays compatible to the stable channel
+  # and the standard build setup.
   #
   ci:
-    name: CI with Default Configuration
+    name: "CI via Default Configuration"
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        rust:
+        - "nightly"
+        - "stable"
+
     steps:
-    - name: Fetch Sources
-      uses: actions/checkout@v2
-    - name: Build Project
+    - name: "Fetch Sources"
+      uses: actions/checkout@v3
+    - name: "Install Rust Components"
+      run: rustup default "${{ matrix.rust }}"
+    - name: "Build Project"
       run: cargo build --verbose --all-targets
-    - name: Run Tests
+    - name: "Run Tests"
       run: cargo test --verbose
 
   #
@@ -32,54 +38,74 @@ jobs:
   # targets. This test ensures that we can actually compile for our main target
   # platforms.
   #
-  # XXX: Note that we need nightly for `-Zbuild-std`. This is still under
-  #      development and marked as unstable. It will hopefully be stabilized
-  #      in the future.
-  #
-  crossuefi:
-    name: Cross-Compilation To UEFI Target (nightly)
+  ci-cross:
+    name: "CI via Cross-Compilation"
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        rust:
+        - "nightly"
+#       - "stable" # XXX: Once rust-1.68 is released, we can use stable.
+        target:
+        - "aarch64-unknown-uefi"
+        - "i686-unknown-uefi"
+        - "x86_64-unknown-uefi"
+
     steps:
-    - name: Fetch Sources
-      uses: actions/checkout@v2
-    - name: Install Rust Components
+    - name: "Fetch Sources"
+      uses: actions/checkout@v3
+    - name: "Install Rust Components"
       run: |
-        rustup toolchain install nightly
-        rustup default nightly
-        rustup component add --toolchain nightly rust-src
-    - name: Build Project
+        rustup default "${{ matrix.rust }}"
+        rustup target add --toolchain "${{ matrix.rust }}" "${{ matrix.target }}"
+    - name: "Build Project"
       run: |
-        cargo +nightly build \
-          -Zbuild-std=core,compiler_builtins,alloc \
-          -Zbuild-std-features=compiler-builtins-mem \
-          --target x86_64-unknown-uefi \
-          --features examples \
-          --lib --bins --examples
+        cargo build \
+          --examples \
+          --features native \
+          --lib \
+          --target "${{ matrix.target }}" \
+          --verbose
 
   #
-  # Cross-Compilation to UEFI Target (cargo-xbuild)
+  # Bootstrap to UEFI Target
   #
-  # This is the old way of cross-compiling the standard libraries. We keep it
-  # around in CI to make sure we do not accidentally break it.
+  # This uses the `-Zbuild-std` feature to fully bootstrap a native UEFI target
+  # via cross-compilation. This currently requires a nightly compiler.
   #
-  crossuefi-xbuild:
-    name: Cross-Compilation To UEFI Target (cargo-xbuild)
+  ci-bootstrap:
+    name: "CI via Bootstap"
     runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        rust:
+        - "nightly"
+        target:
+        - "aarch64-unknown-uefi"
+        - "i686-unknown-uefi"
+        - "x86_64-unknown-uefi"
+
     steps:
-    - name: Fetch Sources
-      uses: actions/checkout@v2
-    - name: Install Rust Components
+    - name: "Fetch Sources"
+      uses: actions/checkout@v3
+    - name: "Install Rust Components"
       run: |
-        rustup toolchain install nightly
-        rustup default nightly
-        rustup component add --toolchain nightly rust-src
-        cargo install --force cargo-xbuild
-    - name: Build Project
+        rustup default "${{ matrix.rust }}"
+        rustup component add --toolchain "${{ matrix.rust }}" rust-src
+    - name: "Build Project"
       run: |
-        cargo xbuild --verbose \
-          --target x86_64-unknown-uefi \
-          --features examples \
-          --lib --bins --examples
+        cargo build \
+          -Zbuild-std=core,compiler_builtins,alloc \
+          -Zbuild-std-features=compiler-builtins-mem \
+          --examples \
+          --features native \
+          --lib \
+          --target "${{ matrix.target }}" \
+          --verbose
 
   #
   # Check Rust Formatting
@@ -88,12 +114,12 @@ jobs:
   # run `rustfmt` on the entire codebase and complain on any errors.
   #
   rustfmt:
-    name: Check Rust Formatting
+    name: "Check Rust Formatting"
     runs-on: ubuntu-latest
     steps:
-    - name: Fetch Sources
-      uses: actions/checkout@v2
-    - name: Install Rust Components
+    - name: "Fetch Sources"
+      uses: actions/checkout@v3
+    - name: "Install Rust Components"
       run: rustup component add rustfmt
-    - name: Verify Code Formatting
+    - name: "Verify Code Formatting"
       run: cargo fmt --all -- --check
