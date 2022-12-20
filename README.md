@@ -18,7 +18,7 @@ needs to interact with UEFI, or implement (parts of) the UEFI specification.
 
 The requirements for this project are:
 
- * `rustc >= 1.51.0`
+ * `rustc >= 1.68.0`
 
 ### Build
 
@@ -30,48 +30,62 @@ cargo build
 
 Available configuration options are:
 
- * **examples**: This feature-selector enables compilation of examples. This
-                 is disabled by default, since they will only compile
-                 successfully on UEFI targets.
+ * **native**: This feature-selector enables compilation of modules and
+               examples that require native UEFI targets. Those will not
+               compile on foreign targets and thus are guarded by this flag.
 
-No special requirements exist to compile for UEFI targets. Native compilations
-work out of the box without any adjustments. For cross-compilations, you have
-to use either `cargo-xbuild` or the nightly versions of `cargo` and `rustc`. In
-both cases, you need a nightly toolchain and the compiler sources:
+##### Build via: official toolchains
+
+Starting with rust-version 1.68, rustup distributes pre-compiled toolchains for
+many UEFI targets. You can enumerate and install them via `rustup`. This
+example shows how to enumerate all available targets for your stable toolchain
+and then install the UEFI target for the `x86_64` architecture:
 
 ```sh
-rustup toolchain install nightly
-# OR
-rustup update
-
-rustup component add --toolchain nightly rust-src
+rustup target list --toolchain=stable
+rustup target add --toolchain=stable x86_64-unknown-uefi
 ```
 
-Be sure to update all components to the most recent version.
+This project can then be compiled directly for the selected target:
 
-##### Build via: cargo/rustc nightly
+```sh
+cargo +stable build \
+    --examples \
+    --features native \
+    --lib \
+    --target x86_64-unknown-uefi
+```
+
+##### Build via: cargo/rustc nightly with -Zbuild-std
+
+If no pre-compiled toolchains are available for your selected target, you can
+compile the project and the required parts of the standard library via the
+experimental `-Zbuild-std` feature of rustc. This requires a nightly compiler:
 
 ```sh
 cargo +nightly build \
     -Zbuild-std=core,compiler_builtins,alloc \
     -Zbuild-std-features=compiler-builtins-mem \
-    --target x86_64-unknown-uefi \
-    --features examples \
-    --examples
+    --examples \
+    --features native \
+    --lib \
+    --target x86_64-unknown-uefi
 ```
 
-##### Build via: cargo-xbuild
+##### Build via: foreign target
+
+The project can be built for non-UEFI targets via the standard rust toolchains.
+This allows non-UEFI targets to interact with UEFI systems or otherwise host
+UEFI operations. Furthermore, this allows running the foreign test-suite of
+this project as long as the target supports the full standard library:
 
 ```sh
-cargo install --force cargo-xbuild
-
-cargo \
-    +nightly \
-    xbuild \
-    --target x86_64-unknown-uefi \
-    --features examples \
-    --examples
+cargo +stable build --all-targets
+cargo +stable test --all-targets
 ```
+
+Note that the `native` feature must not be enabled for foreign targets as it
+will not compile on non-UEFI systems.
 
 ### Repository:
 
