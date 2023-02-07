@@ -32,7 +32,7 @@ compiler_builtins = { version = '0.1.0', optional = true }
 core = { version = '1.0.0', optional = true, package = 'rustc-std-workspace-core' }
 
 [features]
-# Use the 'efiapi' calling convention designator (nightly-only).
+# No-op for backwards compatibility.
 efiapi = []
 # Maps to `native` for backwards compatibility.
 examples = ['native']

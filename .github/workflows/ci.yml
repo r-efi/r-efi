@@ -19,7 +19,8 @@ jobs:
       matrix:
         rust:
         - "nightly"
-        - "stable"
+#        - "stable"
+        - "1.68" # XXX: Workaround until github-runners update `stable`.
 
     steps:
     - name: "Fetch Sources"
