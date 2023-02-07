@@ -23,7 +23,7 @@
 
 // compile-flags: --target x86_64-unknown-uefi
 
-#![feature(abi_efiapi, lang_items, no_core)]
+#![feature(lang_items, no_core)]
 #![no_core]
 #![no_main]
 

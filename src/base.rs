@@ -127,59 +127,20 @@ compile_error!("The target endianness is not supported.");
 // eficall_abi!()
 //
 // This macro is the architecture-dependent implementation of eficall!(). See the documentation of
-// the eficall!() macro for a description.
+// the eficall!() macro for a description. Nowadays, this simply maps to `extern "efiapi"`, since
+// this has been stabilized with rust-1.68.
 
-#[cfg(feature = "efiapi")]
 #[macro_export]
 #[doc(hidden)]
 macro_rules! eficall_abi {
     (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "efiapi" $($suffix)* };
 }
 
-#[cfg(all(target_arch = "arm", not(feature = "efiapi")))]
-#[macro_export]
-#[doc(hidden)]
-macro_rules! eficall_abi {
-    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "aapcs" $($suffix)* };
-}
-
-// XXX: Rust does not define aapcs64, yet. Once it does, we should switch to it, rather than
-//      referring to the system default.
-#[cfg(all(target_arch = "aarch64", not(feature = "efiapi")))]
-#[macro_export]
-#[doc(hidden)]
-macro_rules! eficall_abi {
-    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "C" $($suffix)* };
-}
-
-#[cfg(all(target_arch = "x86", not(feature = "efiapi")))]
-#[macro_export]
-#[doc(hidden)]
-macro_rules! eficall_abi {
-    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "cdecl" $($suffix)* };
-}
-
-#[cfg(all(target_arch = "x86_64", not(feature = "efiapi")))]
-#[macro_export]
-#[doc(hidden)]
-macro_rules! eficall_abi {
-    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "win64" $($suffix)* };
-}
-
-#[cfg(not(any(
-    feature = "efiapi",
-    target_arch = "arm",
-    target_arch = "aarch64",
-    target_arch = "x86",
-    target_arch = "x86_64"
-)))]
-#[macro_export]
-#[doc(hidden)]
-macro_rules! eficall_abi {
-    (($($prefix:tt)*),($($suffix:tt)*)) => { $($prefix)* extern "C" $($suffix)* };
-}
-
 /// Annotate function with UEFI calling convention
+///
+/// Since rust-1.68 you can use `extern "efiapi"` as calling-convention to achieve the same
+/// behavior as this macro. This macro is kept for backwards-compatibility only, but will nowadays
+/// map to `extern "efiapi"`.
 ///
 /// This macro takes a function-declaration as argument and produces the same function-declaration
 /// but annotated with the correct calling convention. Since the default `extern "C"` annotation
@@ -200,7 +161,6 @@ macro_rules! eficall_abi {
 /// inserted at the correct place:
 ///
 /// ```
-/// # #![cfg_attr(feature = "efiapi", feature(abi_efiapi))]
 /// use r_efi::{eficall, eficall_abi};
 ///
 /// eficall!{pub fn foobar() {
@@ -224,7 +184,6 @@ macro_rules! eficall_abi {
 /// is "C":
 ///
 /// ```
-/// # #![cfg_attr(feature = "efiapi", feature(abi_efiapi))]
 /// use r_efi::{eficall, eficall_abi};
 ///
 /// type FooBar1 = unsafe extern "C" fn(u8) -> (u8);
