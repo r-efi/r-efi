@@ -1,10 +1,32 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 4.2.0:
+
+        * Bump required compiler version to: rust-1.68
+
+        * New Protocols: debugport, debug-support, driver-diagnostics2,
+                         mp-services, shell, shell-dynamic-command,
+                         shell-parameters, udp-4, udp-6
+
+        * Use const-generics instead of ZSTs to represent dynamic trailing
+          members in C structs.
+
+        * The `examples` feature has been renamed to `native` (a backwards
+          compatible feature is left in place).
+
+        * Add support for riscv64.
+
+        * Use the official rust `efiapi` calling convention. This was
+          stabilized with rust-1.68.
+
+        Contributions from: Ayush Singh, David Rheinsberg, Rob Bradford
+
+        - Dußlingen, 2023-03-20
+
 ## CHANGES WITH 4.1.0:
 
         * New Protocols: device-path-{from,to}-text, ip4, ip6, managed-network,
-                         rng, service-binding, tcp4, tcp6, timestamp, udp4
-                         and udp6
+                         rng, service-binding, tcp4, tcp6, timestamp
 
         * `ImageEntryPoint` is now correctly annotated as `eficall`.
 
