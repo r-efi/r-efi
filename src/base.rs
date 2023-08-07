@@ -654,6 +654,17 @@ impl Guid {
     ///
     /// In other words, this takes the individual fields in native endian and converts them to the
     /// correct endianness for a UEFI Guid.
+    ///
+    /// Due to the fact that UEFI Guids use variant 2 of the UUID specification in a little-endian
+    /// (or even mixed-endian) format, the following transformation is likely applied from text
+    /// representation to binary representation:
+    ///
+    ///   00112233-4455-6677-8899-aabbccddeeff
+    ///   =>
+    ///   33 22 11 00 55 44 77 66 88 99 aa bb cc dd ee ff
+    ///
+    /// (Note that UEFI protocols often use `88-99` instead of `8899`)
+    /// The first 3 parts use little-endian notation, the last 2 use big-endian.
     pub const fn from_fields(
         time_low: u32,
         time_mid: u16,
@@ -685,6 +696,19 @@ impl Guid {
             self.clk_seq_low,
             &self.node,
         )
+    }
+
+    /// Initialize a Guid from its byte representation
+    ///
+    /// Create a new Guid object from its byte representation. This
+    /// reinterprets the bytes as a Guid and copies them into a new Guid
+    /// instance. Note that you can safely transmute instead.
+    ///
+    /// See `as_bytes()` for the inverse operation.
+    pub fn from_bytes(bytes: &[u8; 16]) -> Self {
+        unsafe {
+            core::mem::transmute::<[u8; 16], Guid>(*bytes)
+        }
     }
 
     /// Access a Guid as raw byte array
@@ -863,5 +887,36 @@ mod tests {
                 }
             }
         }
+    }
+
+    // Verify Guid Manipulations
+    //
+    // Test that creation of Guids from fields and bytes yields the expected
+    // values, and conversions work as expected.
+    #[test]
+    fn guid() {
+        let fields = (
+            0x550e8400,
+            0xe29b,
+            0x41d4,
+            0xa7,
+            0x16,
+            &[0x44, 0x66, 0x55, 0x44, 0x00, 0x00],
+        );
+        let bytes = [
+            0x00, 0x84, 0x0e, 0x55,
+            0x9b, 0xe2,
+            0xd4, 0x41,
+            0xa7,
+            0x16,
+            0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
+        ];
+        let (f0, f1, f2, f3, f4, f5) = fields;
+        let g_fields = Guid::from_fields(f0, f1, f2, f3, f4, f5);
+        let g_bytes = Guid::from_bytes(&bytes);
+
+        assert_eq!(g_fields, g_bytes);
+        assert_eq!(g_fields.as_bytes(), &bytes);
+        assert_eq!(g_bytes.as_fields(), fields);
     }
 }
