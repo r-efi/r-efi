@@ -53,7 +53,3 @@ required-features = ["native"]
 [[example]]
 name = "hello-world"
 required-features = ["native"]
-
-[[example]]
-name = "uefi-cross-compile"
-required-features = ["native"]
