@@ -706,9 +706,7 @@ impl Guid {
     ///
     /// See `as_bytes()` for the inverse operation.
     pub fn from_bytes(bytes: &[u8; 16]) -> Self {
-        unsafe {
-            core::mem::transmute::<[u8; 16], Guid>(*bytes)
-        }
+        unsafe { core::mem::transmute::<[u8; 16], Guid>(*bytes) }
     }
 
     /// Access a Guid as raw byte array
@@ -903,6 +901,7 @@ mod tests {
             0x16,
             &[0x44, 0x66, 0x55, 0x44, 0x00, 0x00],
         );
+        #[rustfmt::skip]
         let bytes = [
             0x00, 0x84, 0x0e, 0x55,
             0x9b, 0xe2,
