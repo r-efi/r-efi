@@ -356,11 +356,13 @@ pub type ImageEntryPoint = eficall! {fn(Handle, *mut crate::system::SystemTable)
 /// Globally Unique Identifiers
 ///
 /// The `Guid` type represents globally unique identifiers as defined by RFC-4122 (i.e., only the
-/// `10x` variant is used), with the caveat that LE is used instead of BE. The type must be 64-bit
-/// aligned.
+/// `10x` variant is used), with the caveat that LE is used instead of BE.
 ///
 /// Note that only the binary representation of Guids is stable. You are highly recommended to
 /// interpret Guids as 128bit integers.
+///
+/// The UEFI specification requires the type to be 64-bit aligned, yet EDK2 uses a mere 32-bit
+/// alignment. Hence, for compatibility, a 32-bit alignment is used.
 ///
 /// UEFI uses the Microsoft-style Guid format. Hence, a lot of documentation and code refers to
 /// these Guids. If you thusly cannot treat Guids as 128-bit integers, this Guid type allows you
@@ -382,7 +384,7 @@ pub type ImageEntryPoint = eficall! {fn(Handle, *mut crate::system::SystemTable)
 ///
 /// The individual fields are encoded as little-endian. Accessors are provided for the Guid
 /// structure allowing access to these fields in native endian byte order.
-#[repr(C, align(8))]
+#[repr(C, align(4))]
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Guid {
     time_low: [u8; 4],
@@ -802,7 +804,7 @@ mod tests {
         //
 
         assert_eq!(size_of::<Guid>(), 16);
-        assert_eq!(align_of::<Guid>(), 8);
+        assert_eq!(align_of::<Guid>(), 4);
 
         //
         // Networking Types
