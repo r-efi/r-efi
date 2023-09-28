@@ -21,6 +21,7 @@ pub mod graphics_output;
 pub mod hii_database;
 pub mod hii_font;
 pub mod hii_font_ex;
+pub mod hii_package_list;
 pub mod hii_string;
 pub mod ip4;
 pub mod ip6;
