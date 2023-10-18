@@ -12,11 +12,11 @@ description = "UEFI Reference Specification Protocol Constants and Definitions"
 edition = "2018"
 homepage = "https://github.com/r-efi/r-efi/wiki"
 keywords = [
-        "efi",
-        "uefi",
         "boot",
+        "efi",
         "firmware",
         "specification",
+        "uefi",
 ]
 license = "MIT OR Apache-2.0 OR LGPL-2.1-or-later"
 readme = "README.md"
