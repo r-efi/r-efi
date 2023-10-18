@@ -2,10 +2,6 @@
 name = "r-efi"
 version = "4.2.0"
 
-authors = [
-        "David Rheinsberg <david.rheinsberg@gmail.com>",
-        "Tom Gundersen <teg@jklm.no>",
-]
 categories = [
         "embedded",
         "hardware-support",
