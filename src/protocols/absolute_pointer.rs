@@ -1,17 +1,19 @@
 //! Absolute Pointer Protocol
 //!
-//! Provides a simple method for accessing absolute pointer devices. This includes devices such as
-//! touch screens and digitizers. The Absolute Pointer Protocol allows information about a pointer
-//! device to be retrieved. The protocol is attached to the device handle of an absolute pointer device,
+//! Provides a simple method for accessing absolute pointer devices. This
+//! includes devices such as touch screens and digitizers. The Absolute Pointer
+//! Protocol allows information about a pointer device to be retrieved. The
+//! protocol is attached to the device handle of an absolute pointer device,
 //! and can be used for input from the user in the preboot environment.
 //!
-//! Supported devices may return 1, 2, or 3 axis of information. The Z axis may optionally be used to
-//! return pressure data measurements derived from user pen force.
+//! Supported devices may return 1, 2, or 3 axis of information. The Z axis may
+//! optionally be used to return pressure data measurements derived from user
+//! pen force.
 //!
-//! All supported devices must support a touch-active status. Supported devices may optionally support a
-//! second input button, for example a pen side-button.
+//! All supported devices must support a touch-active status. Supported devices
+//! may optionally support a second input button, for example a pen
+//! side-button.
 
-/// Absolute pointer interface GUID: 8D59D32B-C655-4AE9-9B15-F25904992A43
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x8d59d32b,
     0xc655,
@@ -21,96 +23,47 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0xf2, 0x59, 0x04, 0x99, 0x2a, 0x43],
 );
 
-/// This function resets the pointer device hardware. As part of initialization process, the firmware/device will make
-/// a quick but reasonable attempt to verify that the device is functioning. If the ExtendedVerification flag is TRUE
-/// the firmware may take an extended amount of time to verify the device is operating on reset. Otherwise the reset
-/// operation is to occur as quickly as possible. The hardware verification process is not defined by this
-/// specification and is left up to the platform firmware or driver to implement.
-///
-/// # Arguments
-/// * `this` - A pointer to the AbsolutePointer Instance
-/// * `extended_verification` - indicates whether extended reset is requested.
-///
-/// # Return Values
-/// * `Status::SUCCESS` - The device was reset
-/// * `Status::DEVICE_ERROR` - The device is not functioning correctly and could not be reset.
-///
-pub type AbsolutePointerReset =
-    eficall! {fn(this: *const Protocol, extended_verification: bool) -> crate::base::Status};
+pub const SUPPORTS_ALT_ACTIVE: u32 = 0x00000001;
+pub const SUPPORTS_PRESSURE_AS_Z: u32 = 0x00000002;
 
-/// This function retrieves the current state of a pointer device. This includes information on the active state
-/// associated with the pointer device and the current position of the axes associated with the pointer device.
-/// If the state of the pointer device has not changed since the last call to GetState(), then EFI_NOT_READY is
-/// returned. If the state of the pointer device has changed since the last call to GetState(), then the state
-/// information is placed in State, and efi::Status::SUCCESS is returned. If a device error occurs while attempting to
-/// retrieve the state information, then efi::Status::DEVICE_ERROR is returned.
-///
-/// # Arguments
-/// * `this` - A pointer to the AbsolutePointer Instance
-/// * `state` - A pointer to the state information on the pointer device.
-///
-/// # Return Values
-/// * `Status::SUCCESS` - The state of the pointer device was returned in state.
-/// * `Status::NOT_READY` - The state of the pointer device has not changed since the last call to this function.
-/// * `Status::DEVICE_ERROR` - A device error occurred while attempting to retrieve the pointer device current state.
-///
-pub type AbsolutePointerGetState =
-    eficall! {fn(this: *const Protocol, state: *mut AbsolutePointerState) -> crate::base::Status};
-
-/// Describes the current state of the pointer.
-#[derive(Debug, Default, Clone, Copy)]
+#[derive(Clone, Copy, Debug, Default)]
 #[repr(C)]
-pub struct AbsolutePointerState {
-    /// The unsigned position of the activation on the x-axis. If the absolute_min_x and the absolute_max_x fields of
-    /// the AbsolutePointerMode structure are both 0, then this pointer device does not support an x-axis, and this
-    /// field must be ignored.
-    pub current_x: u64,
-    /// The unsigned position of the activation on the y-axis. If the absolute_min_y and the absolute_max_y fields of
-    /// the AbsolutePointerMode structure are both 0, then this pointer device does not support an y-axis, and this
-    /// field must be ignored.
-    pub current_y: u64,
-    /// The unsigned position of the activation on the z-axis. If the absolute_min_z and the absolute_max_z fields of
-    /// the AbsolutePointerMode structure are both 0, then this pointer device does not support an z-axis, and this
-    /// field must be ignored.
-    pub current_z: u64,
-    /// Bits are set to 1 in this field to indicate that device buttons are active.
-    pub active_buttons: u32,
-}
-
-/// Describes the mode of the pointer.
-#[derive(Debug, Default, Clone, Copy)]
-#[repr(C)]
-pub struct AbsolutePointerMode {
+pub struct Mode {
     pub absolute_min_x: u64,
-    /// The Absolute Minimum of the device on the x-axis
     pub absolute_min_y: u64,
-    /// The Absolute Minimum of the device on the y-axis.
     pub absolute_min_z: u64,
-    /// The Absolute Minimum of the device on the z-axis.
-    /// The Absolute Maximum of the device on the x-axis. If 0, and absolute_min_x is 0, then x-axis is unsupported.
     pub absolute_max_x: u64,
-    /// The Absolute Maximum of the device on the y-axis. If 0, and absolute_min_y is 0, then y-axis is unsupported.
     pub absolute_max_y: u64,
-    /// The Absolute Maximum of the device on the z-axis. If 0, and absolute_min_z is 0, then z-axis is unsupported.
     pub absolute_max_z: u64,
-    /// Supported device attributes.
     pub attributes: u32,
 }
 
-/// If set in [`AbsolutePointerMode::attributes`], indicates this device supports an alternate button input.
-pub const SUPPORTS_ALT_ACTIVE: u32 = 0x00000001;
-/// If set in [`AbsolutePointerMode::attributes`], indicates this device returns pressure data in current_z.
-pub const SUPPORTS_PRESSURE_AS_Z: u32 = 0x00000002;
+pub const TOUCH_ACTIVE: u32 = 0x00000001;
+pub const ALT_ACTIVE: u32 = 0x00000002;
 
-/// The EFI_ABSOLUTE_POINTER_PROTOCOL provides a set of services for a pointer device that can be used as an input
-/// device from an application written to this specification. The services include the ability to: reset the pointer
-/// device, retrieve the state of the pointer device, and retrieve the capabilities of the pointer device. The service
-/// also provides certain data items describing the device.
+#[derive(Clone, Copy, Debug, Default)]
+#[repr(C)]
+pub struct State {
+    pub current_x: u64,
+    pub current_y: u64,
+    pub current_z: u64,
+    pub active_buttons: u32,
+}
+
+pub type Reset = eficall! {fn(
+    this: *mut Protocol,
+    extended_verification: bool,
+) -> crate::base::Status};
+
+pub type GetState = eficall! {fn(
+    this: *mut Protocol,
+    state: *mut State,
+) -> crate::base::Status};
+
 #[repr(C)]
 pub struct Protocol {
-    pub reset: AbsolutePointerReset,
-    pub get_state: AbsolutePointerGetState,
-    /// Event to use with WaitForEvent() to wait for input from the pointer device.
+    pub reset: Reset,
+    pub get_state: GetState,
     pub wait_for_input: crate::efi::Event,
-    pub mode: *mut AbsolutePointerMode,
+    pub mode: *mut Mode,
 }
