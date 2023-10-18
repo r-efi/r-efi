@@ -33,10 +33,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        rust:
-        - "nightly"
-#        - "stable"
-        - "1.68" # XXX: Workaround until github-runners update `stable`.
+        rust: ["nightly", "stable"]
 
     runs-on: ${{ matrix.os }}
 
@@ -64,9 +61,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        rust:
-        - "nightly"
-#       - "stable" # XXX: Once rust-1.68 is released, we can use stable.
+        rust: ["nightly", "stable"]
         target:
         - "aarch64-unknown-uefi"
         - "i686-unknown-uefi"
