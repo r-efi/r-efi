@@ -1,5 +1,30 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 4.3.0:
+
+        * Change alignment of `Guid` to 4 (was 8 before). This deviates from
+          the specification, but aligns with EDK2. This should fix alignment
+          mismatches when combining r-efi with EDK2, or other UEFI
+          implementations.
+
+        * `Guid` gained a new constructor `from_bytes()` to allow creating
+          GUID-abstractions from foreign types based on the standardized
+          memory representation.
+
+        * Add all configuration-table GUIDs mentioned in the spec. These are
+          often rooted in external specifications, but are strongly related
+          to UEFI.
+
+        * Add configuration-table definitions for RT_PROPERTIES and
+          CONFORMANCE_PROFILES.
+
+        * New protocols: hii_package_list, absolute_pointer
+
+        Contributions from: David Rheinsberg, John Schock, Michael Kubacki,
+                            Nicholas Bishop
+
+        - Dußlingen, 2023-10-18
+
 ## CHANGES WITH 4.2.0:
 
         * Bump required compiler version to: rust-1.68
