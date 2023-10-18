@@ -52,17 +52,19 @@ AUTHORS-LGPL:
 
 COPYRIGHT: (ordered alphabetically)
         Copyright (C) 2017-2023 Red Hat, Inc.
-        Copyright (C) 2019-2020 Microsoft Corporation
+        Copyright (C) 2019-2023 Microsoft Corporation
+        Copyright (C) 2022-2023 David Rheinsberg
 
 AUTHORS: (ordered alphabetically)
         Alex James <theracermaster@gmail.com>
         Ayush Singh <ayushsingh1325@gmail.com>
         Boris-Chengbiao Zhou <bobo1239@web.de>
         Bret Barkelew <bret@corthon.com>
-        David Rheinsberg <david.rheinsberg@gmail.com>
+        David Rheinsberg <david@readahead.eu>
         Hiroki Tokunaga <tokusan441@gmail.com>
         Joe Richey <joerichey@google.com>
+        John Schock <joschock@microsoft.com>
         Michael Kubacki <michael.kubacki@microsoft.com>
         Richard Wiedenhöft <richard@wiedenhoeft.xyz>
-        Rob Bradford <robert.bradford@intel.com, rbradford@rivosinc.com>
+        Rob Bradford <robert.bradford@intel.com>, <rbradford@rivosinc.com>
         Tom Gundersen <teg@jklm.no>
