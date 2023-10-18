@@ -21,6 +21,7 @@ keywords = [
 license = "MIT OR Apache-2.0 OR LGPL-2.1-or-later"
 readme = "README.md"
 repository = "https://github.com/r-efi/r-efi"
+rust-version = "1.68"
 
 [dependencies]
 # Required setup to build as part of rustc.
