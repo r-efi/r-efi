@@ -35,6 +35,7 @@ jobs:
     env:
       CTX_GITHUB_EVENT_INPUTS_TAG: ${{ github.event.inputs.tag }}
       CTX_GITHUB_EVENT_INPUTS_VERIFY: ${{ github.event.inputs.verify }}
+      CTX_GITHUB_REPOSITORY: ${{ github.repository }}
 
     steps:
     - name: "Verify Input"
@@ -58,3 +59,12 @@ jobs:
         else
           cargo publish --token "${CTX_SECRETS_DEPLOY_CRATESIO_TOKEN}"
         fi
+
+    - name: "Publish GitHub"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        make \
+          publish-github \
+          "PUBLISH_REPO=${CTX_GITHUB_REPOSITORY}" \
+          "PUBLISH_VERSION=${CTX_GITHUB_EVENT_INPUTS_TAG#v}"
