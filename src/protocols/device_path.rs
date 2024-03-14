@@ -3,13 +3,13 @@
 //! The device path protocol defines how to obtain generic path/location information
 //! concerning the phisycal or logical device.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x09576e91,
-    0x6d3f,
-    0x11d2,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x09576e91_u32.to_ne_bytes(),
+    0x6d3f_u16.to_ne_bytes(),
+    0x11d2_u16.to_ne_bytes(),
     0x8e,
     0x39,
-    &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
+    [0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
 );
 
 pub const TYPE_HARDWARE: u8 = 0x01;

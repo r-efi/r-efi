@@ -2,22 +2,22 @@
 //!
 //! It provides services to send and receive data streams.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x65530bc7,
-    0xa359,
-    0x410f,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x65530bc7_u32.to_ne_bytes(),
+    0xa359_u16.to_ne_bytes(),
+    0x410f_u16.to_ne_bytes(),
     0xb0,
     0x10,
-    &[0x5a, 0xad, 0xc7, 0xec, 0x2b, 0x62],
+    [0x5a, 0xad, 0xc7, 0xec, 0x2b, 0x62],
 );
 
-pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x00720665,
-    0x67eb,
-    0x4a99,
+pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x00720665_u32.to_ne_bytes(),
+    0x67eb_u16.to_ne_bytes(),
+    0x4a99_u16.to_ne_bytes(),
     0xba,
     0xf7,
-    &[0xd3, 0xc3, 0x3a, 0x1c, 0x7c, 0xc9],
+    [0xd3, 0xc3, 0x3a, 0x1c, 0x7c, 0xc9],
 );
 
 pub type ConnectionState = u32;

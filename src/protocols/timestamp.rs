@@ -3,13 +3,13 @@
 //! The Timestamp protocol provides a platform independent interface for
 //! retrieving a high resolution timestamp counter.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xafbfde41,
-    0x2e6e,
-    0x4262,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xafbfde41_u32.to_ne_bytes(),
+    0x2e6e_u16.to_ne_bytes(),
+    0x4262_u16.to_ne_bytes(),
     0xba,
     0x65,
-    &[0x62, 0xb9, 0x23, 0x6e, 0x54, 0x95],
+    [0x62, 0xb9, 0x23, 0x6e, 0x54, 0x95],
 );
 
 #[repr(C)]

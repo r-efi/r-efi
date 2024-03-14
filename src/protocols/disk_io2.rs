@@ -3,13 +3,13 @@
 //! Extends the Disk I/O protocol interface to enable non-blocking /
 //! asynchronous byte-oriented disk operation.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x151c8eae,
-    0x7f2c,
-    0x472c,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x151c8eae_u32.to_ne_bytes(),
+    0x7f2c_u16.to_ne_bytes(),
+    0x472c_u16.to_ne_bytes(),
     0x9e,
     0x54,
-    &[0x98, 0x28, 0x19, 0x4f, 0x6a, 0x88],
+    [0x98, 0x28, 0x19, 0x4f, 0x6a, 0x88],
 );
 
 pub const REVISION: u64 = 0x0000000000020000u64;

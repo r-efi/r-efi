@@ -2,22 +2,22 @@
 //!
 //! It provides services to send and receive data streams.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x46e44855,
-    0xbd60,
-    0x4ab7,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x46e44855_u32.to_ne_bytes(),
+    0xbd60_u16.to_ne_bytes(),
+    0x4ab7_u16.to_ne_bytes(),
     0xab,
     0x0d,
-    &[0xa6, 0x79, 0xb9, 0x44, 0x7d, 0x77],
+    [0xa6, 0x79, 0xb9, 0x44, 0x7d, 0x77],
 );
 
-pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xec20eb79,
-    0x6c1a,
-    0x4664,
+pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xec20eb79_u32.to_ne_bytes(),
+    0x6c1a_u16.to_ne_bytes(),
+    0x4664_u16.to_ne_bytes(),
     0x9a,
     0x0d,
-    &[0xd2, 0xe4, 0xcc, 0x16, 0xd6, 0x64],
+    [0xd2, 0xe4, 0xcc, 0x16, 0xd6, 0x64],
 );
 
 #[repr(C)]

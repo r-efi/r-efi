@@ -3,13 +3,13 @@
 //! Defined in UEFI Specification, Section 11.4
 //! Used to perform diagnostics on a controller that a UEFI driver is managing.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x4d330321,
-    0x025f,
-    0x4aac,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x4d330321_u32.to_ne_bytes(),
+    0x025f_u16.to_ne_bytes(),
+    0x4aac_u16.to_ne_bytes(),
     0x90,
     0xd8,
-    &[0x5e, 0xd9, 0x00, 0x17, 0x3b, 0x63],
+    [0x5e, 0xd9, 0x00, 0x17, 0x3b, 0x63],
 );
 
 pub type Type = u32;

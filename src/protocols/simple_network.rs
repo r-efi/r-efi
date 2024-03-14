@@ -3,13 +3,13 @@
 //! The simple network protcol provides services to initialize a network interface, transmit
 //! packets, receive packets, and close a network interface.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xa19832b9,
-    0xac25,
-    0x11d3,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xa19832b9_u32.to_ne_bytes(),
+    0xac25_u16.to_ne_bytes(),
+    0x11d3_u16.to_ne_bytes(),
     0x9a,
     0x2d,
-    &[0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
+    [0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
 );
 
 pub const REVISION: u64 = 0x0000000000010000u64;

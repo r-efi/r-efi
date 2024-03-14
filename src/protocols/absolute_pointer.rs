@@ -14,13 +14,13 @@
 //! may optionally support a second input button, for example a pen
 //! side-button.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x8d59d32b,
-    0xc655,
-    0x4ae9,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x8d59d32b_u32.to_ne_bytes(),
+    0xc655_u16.to_ne_bytes(),
+    0x4ae9_u16.to_ne_bytes(),
     0x9b,
     0x15,
-    &[0xf2, 0x59, 0x04, 0x99, 0x2a, 0x43],
+    [0xf2, 0x59, 0x04, 0x99, 0x2a, 0x43],
 );
 
 pub const SUPPORTS_ALT_ACTIVE: u32 = 0x00000001;

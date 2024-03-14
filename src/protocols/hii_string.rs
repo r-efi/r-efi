@@ -1,12 +1,12 @@
 //! HII String Protocol
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xfd96974,
-    0x23aa,
-    0x4cdc,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xfd96974_u32.to_ne_bytes(),
+    0x23aa_u16.to_ne_bytes(),
+    0x4cdc_u16.to_ne_bytes(),
     0xb9,
     0xcb,
-    &[0x98, 0xd1, 0x77, 0x50, 0x32, 0x2a],
+    [0x98, 0xd1, 0x77, 0x50, 0x32, 0x2a],
 );
 
 pub type ProtocolNewString = eficall! {fn(

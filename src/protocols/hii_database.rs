@@ -2,22 +2,22 @@
 //!
 //! Database manager for HII-related data structures.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xef9fc172,
-    0xa1b2,
-    0x4693,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xef9fc172_u32.to_ne_bytes(),
+    0xa1b2_u16.to_ne_bytes(),
+    0x4693_u16.to_ne_bytes(),
     0xb3,
     0x27,
-    &[0x6d, 0x32, 0xfc, 0x41, 0x60, 0x42],
+    [0x6d, 0x32, 0xfc, 0x41, 0x60, 0x42],
 );
 
-pub const SET_KEYBOARD_LAYOUT_EVENT_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x14982a4f,
-    0xb0ed,
-    0x45b8,
+pub const SET_KEYBOARD_LAYOUT_EVENT_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x14982a4f_u32.to_ne_bytes(),
+    0xb0ed_u16.to_ne_bytes(),
+    0x45b8_u16.to_ne_bytes(),
     0xa8,
     0x11,
-    &[0x5a, 0x7a, 0x9b, 0xc2, 0x32, 0xdf],
+    [0x5a, 0x7a, 0x9b, 0xc2, 0x32, 0xdf],
 );
 
 pub type ProtocolNewPackageList = eficall! {fn(

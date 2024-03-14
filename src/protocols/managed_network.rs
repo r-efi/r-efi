@@ -5,22 +5,22 @@
 //! applications to access and use the system network interfaces at the same
 //! time.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x7ab33a91,
-    0xace5,
-    0x4326,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x7ab33a91_u32.to_ne_bytes(),
+    0xace5_u16.to_ne_bytes(),
+    0x4326_u16.to_ne_bytes(),
     0xb5,
     0x72,
-    &[0xe7, 0xee, 0x33, 0xd3, 0x9f, 0x16],
+    [0xe7, 0xee, 0x33, 0xd3, 0x9f, 0x16],
 );
 
-pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xf36ff770,
-    0xa7e1,
-    0x42cf,
+pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xf36ff770_u32.to_ne_bytes(),
+    0xa7e1_u16.to_ne_bytes(),
+    0x42cf_u16.to_ne_bytes(),
     0x9e,
     0xd2,
-    &[0x56, 0xf0, 0xf2, 0x71, 0xf4, 0x4c],
+    [0x56, 0xf0, 0xf2, 0x71, 0xf4, 0x4c],
 );
 
 #[repr(C)]

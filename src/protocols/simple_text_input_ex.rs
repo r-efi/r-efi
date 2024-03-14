@@ -3,13 +3,13 @@
 //! The simple-text-input-ex protocol extends the simple-text-input protocol by allowing more
 //! details reporting about modifiers, etc.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xdd9e7534,
-    0x7762,
-    0x4698,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xdd9e7534_u32.to_ne_bytes(),
+    0x7762_u16.to_ne_bytes(),
+    0x4698_u16.to_ne_bytes(),
     0x8c,
     0x14,
-    &[0xf5, 0x85, 0x17, 0xa6, 0x25, 0xaa],
+    [0xf5, 0x85, 0x17, 0xa6, 0x25, 0xaa],
 );
 
 pub const SHIFT_STATE_VALID: u32 = 0x80000000u32;

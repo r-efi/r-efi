@@ -2,13 +2,13 @@
 //!
 //! Provides shell services to UEFI applications.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x6302d008,
-    0x7f9b,
-    0x4f30,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x6302d008_u32.to_ne_bytes(),
+    0x7f9b_u16.to_ne_bytes(),
+    0x4f30_u16.to_ne_bytes(),
     0x87,
     0xac,
-    &[0x60, 0xc9, 0xfe, 0xf5, 0xda, 0x4e],
+    [0x60, 0xc9, 0xfe, 0xf5, 0xda, 0x4e],
 );
 
 pub const MAJOR_VERSION: u32 = 0x00000002;

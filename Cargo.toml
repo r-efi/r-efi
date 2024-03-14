@@ -27,6 +27,7 @@ rust-version = "1.68"
 # Required setup to build as part of rustc.
 compiler_builtins = { version = '0.1.0', optional = true }
 core = { version = '1.0.0', optional = true, package = 'rustc-std-workspace-core' }
+uguid = "2.2.0"
 
 [features]
 # No-op for backwards compatibility.

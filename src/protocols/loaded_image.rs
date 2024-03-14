@@ -3,13 +3,13 @@
 //! The loaded image protocol defines how to obtain information about a loaded image from an
 //! image handle.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x5b1b31a1,
-    0x9562,
-    0x11d2,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x5b1b31a1_u32.to_ne_bytes(),
+    0x9562_u16.to_ne_bytes(),
+    0x11d2_u16.to_ne_bytes(),
     0x8e,
     0x3f,
-    &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
+    [0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
 );
 
 pub const REVISION: u32 = 0x00001000u32;

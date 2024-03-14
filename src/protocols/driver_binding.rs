@@ -3,13 +3,13 @@
 //! Provides the services required to determine if a driver supports a given controller. If
 //! a controller is supported, then it also provides routines to start and stop the controller.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x18a031ab,
-    0xb443,
-    0x4d1a,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x18a031ab_u32.to_ne_bytes(),
+    0xb443_u16.to_ne_bytes(),
+    0x4d1a_u16.to_ne_bytes(),
     0xa5,
     0xc0,
-    &[0x0c, 0x09, 0x26, 0x1e, 0x9f, 0x71],
+    [0x0c, 0x09, 0x26, 0x1e, 0x9f, 0x71],
 );
 
 pub type ProtocolSupported = eficall! {fn(

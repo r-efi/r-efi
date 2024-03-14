@@ -1,12 +1,12 @@
 //! HII Font Ex Protocol
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x849e6875,
-    0xdb35,
-    0x4df8,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x849e6875_u32.to_ne_bytes(),
+    0xdb35_u16.to_ne_bytes(),
+    0x4df8_u16.to_ne_bytes(),
     0xb4,
     0x1e,
-    &[0xc8, 0xf3, 0x37, 0x18, 0x07, 0x3f],
+    [0xc8, 0xf3, 0x37, 0x18, 0x07, 0x3f],
 );
 
 pub type ProtocolStringToImageEx = eficall! {fn(

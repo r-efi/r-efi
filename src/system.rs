@@ -105,13 +105,13 @@ pub struct VariableAuthentication3Nonce<const N: usize = 0> {
     pub nonce: [u8; N],
 }
 
-pub const HARDWARE_ERROR_VARIABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x414E6BDD,
-    0xE47B,
-    0x47cc,
+pub const HARDWARE_ERROR_VARIABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x414E6BDD_u32.to_ne_bytes(),
+    0xE47B_u16.to_ne_bytes(),
+    0x47cc_u16.to_ne_bytes(),
     0xB2,
     0x44,
-    &[0xBB, 0x61, 0x02, 0x0C, 0xF5, 0x16],
+    [0xBB, 0x61, 0x02, 0x0C, 0xF5, 0x16],
 );
 
 //
@@ -180,13 +180,13 @@ pub const OS_INDICATIONS_CAPSULE_RESULT_VAR_SUPPORTED: u64 = 0x0000000000000010u
 pub const OS_INDICATIONS_START_OS_RECOVERY: u64 = 0x0000000000000020u64;
 pub const OS_INDICATIONS_START_PLATFORM_RECOVERY: u64 = 0x0000000000000040u64;
 
-pub const CAPSULE_REPORT_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x39b68c46,
-    0xf7fb,
-    0x441b,
+pub const CAPSULE_REPORT_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x39b68c46_u32.to_ne_bytes(),
+    0xf7fb_u16.to_ne_bytes(),
+    0x441b_u16.to_ne_bytes(),
     0xb6,
     0xec,
-    &[0x16, 0xb0, 0xf6, 0x98, 0x21, 0xf3],
+    [0x16, 0xb0, 0xf6, 0x98, 0x21, 0xf3],
 );
 
 #[repr(C)]
@@ -232,45 +232,45 @@ pub const EVT_SIGNAL_VIRTUAL_ADDRESS_CHANGE: u32 = 0x60000202u32;
 
 pub type EventNotify = eficall! {fn(crate::base::Event, *mut core::ffi::c_void)};
 
-pub const EVENT_GROUP_EXIT_BOOT_SERVICES: crate::base::Guid = crate::base::Guid::from_fields(
-    0x27abf055,
-    0xb1b8,
-    0x4c26,
+pub const EVENT_GROUP_EXIT_BOOT_SERVICES: crate::base::Guid = crate::base::Guid::new(
+    0x27abf055_u32.to_ne_bytes(),
+    0xb1b8_u16.to_ne_bytes(),
+    0x4c26_u16.to_ne_bytes(),
     0x80,
     0x48,
-    &[0x74, 0x8f, 0x37, 0xba, 0xa2, 0xdf],
+    [0x74, 0x8f, 0x37, 0xba, 0xa2, 0xdf],
 );
-pub const EVENT_GROUP_VIRTUAL_ADDRESS_CHANGE: crate::base::Guid = crate::base::Guid::from_fields(
-    0x13fa7698,
-    0xc831,
-    0x49c7,
+pub const EVENT_GROUP_VIRTUAL_ADDRESS_CHANGE: crate::base::Guid = crate::base::Guid::new(
+    0x13fa7698_u32.to_ne_bytes(),
+    0xc831_u16.to_ne_bytes(),
+    0x49c7_u16.to_ne_bytes(),
     0x87,
     0xea,
-    &[0x8f, 0x43, 0xfc, 0xc2, 0x51, 0x96],
+    [0x8f, 0x43, 0xfc, 0xc2, 0x51, 0x96],
 );
-pub const EVENT_GROUP_MEMORY_MAP_CHANGE: crate::base::Guid = crate::base::Guid::from_fields(
-    0x78bee926,
-    0x692f,
-    0x48fd,
+pub const EVENT_GROUP_MEMORY_MAP_CHANGE: crate::base::Guid = crate::base::Guid::new(
+    0x78bee926_u32.to_ne_bytes(),
+    0x692f_u16.to_ne_bytes(),
+    0x48fd_u16.to_ne_bytes(),
     0x9e,
     0xdb,
-    &[0x1, 0x42, 0x2e, 0xf0, 0xd7, 0xab],
+    [0x1, 0x42, 0x2e, 0xf0, 0xd7, 0xab],
 );
-pub const EVENT_GROUP_READY_TO_BOOT: crate::base::Guid = crate::base::Guid::from_fields(
-    0x7ce88fb3,
-    0x4bd7,
-    0x4679,
+pub const EVENT_GROUP_READY_TO_BOOT: crate::base::Guid = crate::base::Guid::new(
+    0x7ce88fb3_u32.to_ne_bytes(),
+    0x4bd7_u16.to_ne_bytes(),
+    0x4679_u16.to_ne_bytes(),
     0x87,
     0xa8,
-    &[0xa8, 0xd8, 0xde, 0xe5, 0x0d, 0x2b],
+    [0xa8, 0xd8, 0xde, 0xe5, 0x0d, 0x2b],
 );
-pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_fields(
-    0x62da6a56,
-    0x13fb,
-    0x485a,
+pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::new(
+    0x62da6a56_u32.to_ne_bytes(),
+    0x13fb_u16.to_ne_bytes(),
+    0x485a_u16.to_ne_bytes(),
     0xa8,
     0xda,
-    &[0xa3, 0xdd, 0x79, 0x12, 0xcb, 0x6b],
+    [0xa3, 0xdd, 0x79, 0x12, 0xcb, 0x6b],
 );
 
 pub type TimerDelay = u32;
@@ -391,13 +391,13 @@ pub struct ConfigurationTable {
     pub vendor_table: *mut core::ffi::c_void,
 }
 
-pub const RT_PROPERTIES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xeb66918a,
-    0x7eef,
-    0x402a,
+pub const RT_PROPERTIES_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xeb66918a_u32.to_ne_bytes(),
+    0x7eef_u16.to_ne_bytes(),
+    0x402a_u16.to_ne_bytes(),
     0x84,
     0x2e,
-    &[0x93, 0x1d, 0x21, 0xc3, 0x8a, 0xe9],
+    [0x93, 0x1d, 0x21, 0xc3, 0x8a, 0xe9],
 );
 
 pub const RT_PROPERTIES_TABLE_VERSION: u16 = 0x0001;
@@ -425,13 +425,13 @@ pub struct RtPropertiesTable {
     pub runtime_services_supported: u32,
 }
 
-pub const PROPERTIES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x880aaca3,
-    0x4adc,
-    0x4a04,
+pub const PROPERTIES_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x880aaca3_u32.to_ne_bytes(),
+    0x4adc_u16.to_ne_bytes(),
+    0x4a04_u16.to_ne_bytes(),
     0x90,
     0x79,
-    &[0xb7, 0x47, 0x34, 0x8, 0x25, 0xe5],
+    [0xb7, 0x47, 0x34, 0x8, 0x25, 0xe5],
 );
 
 pub const PROPERTIES_TABLE_VERSION: u32 = 0x00010000u32;
@@ -446,13 +446,13 @@ pub struct PropertiesTable {
     pub memory_protection_attribute: u64,
 }
 
-pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xdcfa911d,
-    0x26eb,
-    0x469f,
+pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xdcfa911d_u32.to_ne_bytes(),
+    0x26eb_u16.to_ne_bytes(),
+    0x469f_u16.to_ne_bytes(),
     0xa2,
     0x20,
-    &[0x38, 0xb7, 0xdc, 0x46, 0x12, 0x20],
+    [0x38, 0xb7, 0xdc, 0x46, 0x12, 0x20],
 );
 
 pub const MEMORY_ATTRIBUTES_TABLE_VERSION: u32 = 0x00000001u32;
@@ -467,24 +467,24 @@ pub struct MemoryAttributesTable<const N: usize = 0> {
     pub entry: [MemoryDescriptor; N],
 }
 
-pub const CONFORMANCE_PROFILES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x36122546,
-    0xf7e7,
-    0x4c8f,
+pub const CONFORMANCE_PROFILES_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x36122546_u32.to_ne_bytes(),
+    0xf7e7_u16.to_ne_bytes(),
+    0x4c8f_u16.to_ne_bytes(),
     0xbd,
     0x9b,
-    &[0xeb, 0x85, 0x25, 0xb5, 0x0c, 0x0b],
+    [0xeb, 0x85, 0x25, 0xb5, 0x0c, 0x0b],
 );
 
 pub const CONFORMANCE_PROFILES_TABLE_VERSION: u16 = 0x0001;
 
-pub const CONFORMANCE_PROFILES_UEFI_SPEC_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x523c91af,
-    0xa195,
-    0x4382,
+pub const CONFORMANCE_PROFILES_UEFI_SPEC_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x523c91af_u32.to_ne_bytes(),
+    0xa195_u16.to_ne_bytes(),
+    0x4382_u16.to_ne_bytes(),
     0x81,
     0x8d,
-    &[0x29, 0x5f, 0xe4, 0x00, 0x64, 0x65],
+    [0x29, 0x5f, 0xe4, 0x00, 0x64, 0x65],
 );
 
 #[repr(C)]
@@ -502,94 +502,94 @@ pub struct ConformanceProfilesTable<const N: usize = 0> {
 // the UEFI specification. See each standard for details on the data included in each table.
 //
 
-pub const ACPI_10_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xeb9d2d30,
-    0x2d88,
-    0x11d3,
+pub const ACPI_10_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xeb9d2d30_u32.to_ne_bytes(),
+    0x2d88_u16.to_ne_bytes(),
+    0x11d3_u16.to_ne_bytes(),
     0x9a,
     0x16,
-    &[0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
+    [0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
 );
 
-pub const ACPI_20_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x8868e871,
-    0xe4f1,
-    0x11d3,
+pub const ACPI_20_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x8868e871_u32.to_ne_bytes(),
+    0xe4f1_u16.to_ne_bytes(),
+    0x11d3_u16.to_ne_bytes(),
     0xbc,
     0x22,
-    &[0x00, 0x80, 0xc7, 0x3c, 0x88, 0x81],
+    [0x00, 0x80, 0xc7, 0x3c, 0x88, 0x81],
 );
 
-pub const DTB_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xb1b621d5,
-    0xf19c,
-    0x41a5,
+pub const DTB_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xb1b621d5_u32.to_ne_bytes(),
+    0xf19c_u16.to_ne_bytes(),
+    0x41a5_u16.to_ne_bytes(),
     0x83,
     0x0b,
-    &[0xd9, 0x15, 0x2c, 0x69, 0xaa, 0xe0],
+    [0xd9, 0x15, 0x2c, 0x69, 0xaa, 0xe0],
 );
 
-pub const JSON_CAPSULE_DATA_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x35e7a725,
-    0x8dd2,
-    0x4cac,
+pub const JSON_CAPSULE_DATA_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x35e7a725_u32.to_ne_bytes(),
+    0x8dd2_u16.to_ne_bytes(),
+    0x4cac_u16.to_ne_bytes(),
     0x80,
     0x11,
-    &[0x33, 0xcd, 0xa8, 0x10, 0x90, 0x56],
+    [0x33, 0xcd, 0xa8, 0x10, 0x90, 0x56],
 );
 
-pub const JSON_CAPSULE_RESULT_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xdbc461c3,
-    0xb3de,
-    0x422a,
+pub const JSON_CAPSULE_RESULT_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xdbc461c3_u32.to_ne_bytes(),
+    0xb3de_u16.to_ne_bytes(),
+    0x422a_u16.to_ne_bytes(),
     0xb9,
     0xb4,
-    &[0x98, 0x86, 0xfd, 0x49, 0xa1, 0xe5],
+    [0x98, 0x86, 0xfd, 0x49, 0xa1, 0xe5],
 );
 
-pub const JSON_CONFIG_DATA_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x87367f87,
-    0x1119,
-    0x41ce,
+pub const JSON_CONFIG_DATA_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x87367f87_u32.to_ne_bytes(),
+    0x1119_u16.to_ne_bytes(),
+    0x41ce_u16.to_ne_bytes(),
     0xaa,
     0xec,
-    &[0x8b, 0xe0, 0x11, 0x1f, 0x55, 0x8a],
+    [0x8b, 0xe0, 0x11, 0x1f, 0x55, 0x8a],
 );
 
-pub const MPS_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xeb9d2d2f,
-    0x2d88,
-    0x11d3,
+pub const MPS_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xeb9d2d2f_u32.to_ne_bytes(),
+    0x2d88_u16.to_ne_bytes(),
+    0x11d3_u16.to_ne_bytes(),
     0x9a,
     0x16,
-    &[0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
+    [0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
 );
 
-pub const SAL_SYSTEM_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xeb9d2d32,
-    0x2d88,
-    0x11d3,
+pub const SAL_SYSTEM_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xeb9d2d32_u32.to_ne_bytes(),
+    0x2d88_u16.to_ne_bytes(),
+    0x11d3_u16.to_ne_bytes(),
     0x9a,
     0x16,
-    &[0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
+    [0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
 );
 
-pub const SMBIOS_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xeb9d2d31,
-    0x2d88,
-    0x11d3,
+pub const SMBIOS_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xeb9d2d31_u32.to_ne_bytes(),
+    0x2d88_u16.to_ne_bytes(),
+    0x11d3_u16.to_ne_bytes(),
     0x9a,
     0x16,
-    &[0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
+    [0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
 );
 
-pub const SMBIOS3_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xf2fd1544,
-    0x9794,
-    0x4a2c,
+pub const SMBIOS3_TABLE_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xf2fd1544_u32.to_ne_bytes(),
+    0x9794_u16.to_ne_bytes(),
+    0x4a2c_u16.to_ne_bytes(),
     0x99,
     0x2e,
-    &[0xe5, 0xbb, 0xcf, 0x20, 0xe3, 0x94],
+    [0xe5, 0xbb, 0xcf, 0x20, 0xe3, 0x94],
 );
 
 //

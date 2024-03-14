@@ -19,29 +19,29 @@ pub const DIRECTORY: u64 = 0x0000000000000010u64;
 pub const ARCHIVE: u64 = 0x0000000000000020u64;
 pub const VALID_ATTR: u64 = 0x0000000000000037u64;
 
-pub const INFO_ID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x09576e92,
-    0x6d3f,
-    0x11d2,
+pub const INFO_ID: crate::base::Guid = crate::base::Guid::new(
+    0x09576e92_u32.to_ne_bytes(),
+    0x6d3f_u16.to_ne_bytes(),
+    0x11d2_u16.to_ne_bytes(),
     0x8e,
     0x39,
-    &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
+    [0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
 );
-pub const SYSTEM_INFO_ID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x09576e93,
-    0x6d3f,
-    0x11d2,
+pub const SYSTEM_INFO_ID: crate::base::Guid = crate::base::Guid::new(
+    0x09576e93_u32.to_ne_bytes(),
+    0x6d3f_u16.to_ne_bytes(),
+    0x11d2_u16.to_ne_bytes(),
     0x8e,
     0x39,
-    &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
+    [0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
 );
-pub const SYSTEM_VOLUME_LABEL_ID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xdb47d7d3,
-    0xfe81,
-    0x11d3,
+pub const SYSTEM_VOLUME_LABEL_ID: crate::base::Guid = crate::base::Guid::new(
+    0xdb47d7d3_u32.to_ne_bytes(),
+    0xfe81_u16.to_ne_bytes(),
+    0x11d3_u16.to_ne_bytes(),
     0x9a,
     0x35,
-    &[0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
+    [0x00, 0x90, 0x27, 0x3f, 0xc1, 0x4d],
 );
 
 #[repr(C)]
