@@ -30,6 +30,7 @@ pub mod loaded_image;
 pub mod loaded_image_device_path;
 pub mod managed_network;
 pub mod mp_services;
+pub mod platform_driver_override;
 pub mod rng;
 pub mod service_binding;
 pub mod shell;
