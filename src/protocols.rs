@@ -18,6 +18,7 @@ pub mod disk_io;
 pub mod disk_io2;
 pub mod driver_binding;
 pub mod driver_diagnostics2;
+pub mod driver_family_override;
 pub mod file;
 pub mod graphics_output;
 pub mod hii_database;
