@@ -28,6 +28,8 @@ pub mod hii_package_list;
 pub mod hii_string;
 pub mod ip4;
 pub mod ip6;
+pub mod load_file;
+pub mod load_file2;
 pub mod loaded_image;
 pub mod loaded_image_device_path;
 pub mod managed_network;
