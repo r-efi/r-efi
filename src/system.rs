@@ -316,6 +316,7 @@ pub const MEMORY_MAPPED_IO: MemoryType = 0x0000000b;
 pub const MEMORY_MAPPED_IO_PORT_SPACE: MemoryType = 0x0000000c;
 pub const PAL_CODE: MemoryType = 0x0000000d;
 pub const PERSISTENT_MEMORY: MemoryType = 0x0000000e;
+pub const UNACCEPTED_MEMORY_TYPE: MemoryType = 0x0000000f;
 
 pub const MEMORY_UC: u64 = 0x0000000000000001u64;
 pub const MEMORY_WC: u64 = 0x0000000000000002u64;
