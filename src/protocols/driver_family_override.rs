@@ -1,8 +1,9 @@
 //! Driver Family Override Protocol
 //!
 //! When installed, the Driver Family Override Protocol informs the UEFI Boot
-//! Service ConnectController() that this driver is higher priority than the
+//! Service `ConnectController()` that this driver is higher priority than the
 //! list of drivers returned by the Bus Specific Driver Override Protocol.
+
 pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0xb1ee129e,
     0xda36,
