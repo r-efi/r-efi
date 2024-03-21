@@ -125,6 +125,9 @@ compile_error!("The target architecture is not supported.");
 #[cfg(not(target_endian = "little"))]
 compile_error!("The target endianness is not supported.");
 
+pub use uguid::guid;
+pub use uguid::Guid;
+
 // eficall_abi!()
 //
 // This macro is the architecture-dependent implementation of eficall!(). See the documentation of
@@ -352,48 +355,6 @@ pub type VirtualAddress = u64;
 /// In most cases it is perfectly fine to cast the pointer to a real rust reference. However, this
 /// should be an explicit decision by the caller.
 pub type ImageEntryPoint = eficall! {fn(Handle, *mut crate::system::SystemTable) -> Status};
-
-/// Globally Unique Identifiers
-///
-/// The `Guid` type represents globally unique identifiers as defined by RFC-4122 (i.e., only the
-/// `10x` variant is used), with the caveat that LE is used instead of BE.
-///
-/// Note that only the binary representation of Guids is stable. You are highly recommended to
-/// interpret Guids as 128bit integers.
-///
-/// The UEFI specification requires the type to be 64-bit aligned, yet EDK2 uses a mere 32-bit
-/// alignment. Hence, for compatibility, a 32-bit alignment is used.
-///
-/// UEFI uses the Microsoft-style Guid format. Hence, a lot of documentation and code refers to
-/// these Guids. If you thusly cannot treat Guids as 128-bit integers, this Guid type allows you
-/// to access the individual fields of the Microsoft-style Guid. A reminder of the Guid encoding:
-///
-/// ```text
-///    0                   1                   2                   3
-///    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-///   |                          time_low                             |
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-///   |       time_mid                |         time_hi_and_version   |
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-///   |clk_seq_hi_res |  clk_seq_low  |         node (0-1)            |
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-///   |                         node (2-5)                            |
-///   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-/// ```
-///
-/// The individual fields are encoded as little-endian. Accessors are provided for the Guid
-/// structure allowing access to these fields in native endian byte order.
-#[repr(C, align(4))]
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct Guid {
-    time_low: [u8; 4],
-    time_mid: [u8; 2],
-    time_hi_and_version: [u8; 2],
-    clk_seq_hi_res: u8,
-    clk_seq_low: u8,
-    node: [u8; 6],
-}
 
 /// Network MAC Address
 ///
@@ -623,103 +584,6 @@ impl From<Status> for Result<Status, Status> {
     }
 }
 
-impl Guid {
-    const fn u32_to_bytes_le(num: u32) -> [u8; 4] {
-        [
-            num as u8,
-            (num >> 8) as u8,
-            (num >> 16) as u8,
-            (num >> 24) as u8,
-        ]
-    }
-
-    const fn u32_from_bytes_le(bytes: &[u8; 4]) -> u32 {
-        (bytes[0] as u32)
-            | ((bytes[1] as u32) << 8)
-            | ((bytes[2] as u32) << 16)
-            | ((bytes[3] as u32) << 24)
-    }
-
-    const fn u16_to_bytes_le(num: u16) -> [u8; 2] {
-        [num as u8, (num >> 8) as u8]
-    }
-
-    const fn u16_from_bytes_le(bytes: &[u8; 2]) -> u16 {
-        (bytes[0] as u16) | ((bytes[1] as u16) << 8)
-    }
-
-    /// Initialize a Guid from its individual fields
-    ///
-    /// This function initializes a Guid object given the individual fields as specified in the
-    /// UEFI specification. That is, if you simply copy the literals from the specification into
-    /// your code, this function will correctly initialize the Guid object.
-    ///
-    /// In other words, this takes the individual fields in native endian and converts them to the
-    /// correct endianness for a UEFI Guid.
-    ///
-    /// Due to the fact that UEFI Guids use variant 2 of the UUID specification in a little-endian
-    /// (or even mixed-endian) format, the following transformation is likely applied from text
-    /// representation to binary representation:
-    ///
-    ///   00112233-4455-6677-8899-aabbccddeeff
-    ///   =>
-    ///   33 22 11 00 55 44 77 66 88 99 aa bb cc dd ee ff
-    ///
-    /// (Note that UEFI protocols often use `88-99` instead of `8899`)
-    /// The first 3 parts use little-endian notation, the last 2 use big-endian.
-    pub const fn from_fields(
-        time_low: u32,
-        time_mid: u16,
-        time_hi_and_version: u16,
-        clk_seq_hi_res: u8,
-        clk_seq_low: u8,
-        node: &[u8; 6],
-    ) -> Guid {
-        Guid {
-            time_low: Self::u32_to_bytes_le(time_low),
-            time_mid: Self::u16_to_bytes_le(time_mid),
-            time_hi_and_version: Self::u16_to_bytes_le(time_hi_and_version),
-            clk_seq_hi_res: clk_seq_hi_res,
-            clk_seq_low: clk_seq_low,
-            node: *node,
-        }
-    }
-
-    /// Access a Guid as individual fields
-    ///
-    /// This decomposes a Guid back into the individual fields as given in the specification. The
-    /// individual fields are returned in native-endianness.
-    pub const fn as_fields(&self) -> (u32, u16, u16, u8, u8, &[u8; 6]) {
-        (
-            Self::u32_from_bytes_le(&self.time_low),
-            Self::u16_from_bytes_le(&self.time_mid),
-            Self::u16_from_bytes_le(&self.time_hi_and_version),
-            self.clk_seq_hi_res,
-            self.clk_seq_low,
-            &self.node,
-        )
-    }
-
-    /// Initialize a Guid from its byte representation
-    ///
-    /// Create a new Guid object from its byte representation. This
-    /// reinterprets the bytes as a Guid and copies them into a new Guid
-    /// instance. Note that you can safely transmute instead.
-    ///
-    /// See `as_bytes()` for the inverse operation.
-    pub fn from_bytes(bytes: &[u8; 16]) -> Self {
-        unsafe { core::mem::transmute::<[u8; 16], Guid>(*bytes) }
-    }
-
-    /// Access a Guid as raw byte array
-    ///
-    /// This provides access to a Guid through a byte array. It is a simple re-interpretation of
-    /// the Guid value as a 128-bit byte array. No conversion is performed. This is a simple cast.
-    pub fn as_bytes(&self) -> &[u8; 16] {
-        unsafe { core::mem::transmute::<&Guid, &[u8; 16]>(self) }
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -887,37 +751,5 @@ mod tests {
                 }
             }
         }
-    }
-
-    // Verify Guid Manipulations
-    //
-    // Test that creation of Guids from fields and bytes yields the expected
-    // values, and conversions work as expected.
-    #[test]
-    fn guid() {
-        let fields = (
-            0x550e8400,
-            0xe29b,
-            0x41d4,
-            0xa7,
-            0x16,
-            &[0x44, 0x66, 0x55, 0x44, 0x00, 0x00],
-        );
-        #[rustfmt::skip]
-        let bytes = [
-            0x00, 0x84, 0x0e, 0x55,
-            0x9b, 0xe2,
-            0xd4, 0x41,
-            0xa7,
-            0x16,
-            0x44, 0x66, 0x55, 0x44, 0x00, 0x00,
-        ];
-        let (f0, f1, f2, f3, f4, f5) = fields;
-        let g_fields = Guid::from_fields(f0, f1, f2, f3, f4, f5);
-        let g_bytes = Guid::from_bytes(&bytes);
-
-        assert_eq!(g_fields, g_bytes);
-        assert_eq!(g_fields.as_bytes(), &bytes);
-        assert_eq!(g_bytes.as_fields(), fields);
     }
 }

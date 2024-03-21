@@ -4,13 +4,13 @@
 //! around the old VGA-consoles, but does not carry all the old cruft. It expects a rectangular
 //! text array and allows you to move the cursor around to write Unicode symbols to screen.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x387477c2,
-    0x69c7,
-    0x11d2,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x387477c2_u32.to_ne_bytes(),
+    0x69c7_u16.to_ne_bytes(),
+    0x11d2_u16.to_ne_bytes(),
     0x8e,
     0x39,
-    &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
+    [0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
 );
 
 #[repr(C)]

@@ -8,13 +8,13 @@
 //! - Dispatching user-provided function to APs.
 //! - Maintain MP-related processor status.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x3fdda605,
-    0xa76e,
-    0x4f46,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x3fdda605_u32.to_ne_bytes(),
+    0xa76e_u16.to_ne_bytes(),
+    0x4f46_u16.to_ne_bytes(),
     0xad,
     0x29,
-    &[0x12, 0xf4, 0x53, 0x1b, 0x3d, 0x08],
+    [0x12, 0xf4, 0x53, 0x1b, 0x3d, 0x08],
 );
 
 pub const PROCESSOR_AS_BSP_BIT: u32 = 0x00000001;

@@ -3,13 +3,13 @@
 //! It provides the services to allow the debug agent to register callback functions that are
 //! called either periodically or when specific processor exceptions occur.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x2755590c,
-    0x6f3c,
-    0x42fa,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x2755590c_u32.to_ne_bytes(),
+    0x6f3c_u16.to_ne_bytes(),
+    0x42fa_u16.to_ne_bytes(),
     0x9e,
     0xa4,
-    &[0xa3, 0xba, 0x54, 0x3c, 0xda, 0x25],
+    [0xa3, 0xba, 0x54, 0x3c, 0xda, 0x25],
 );
 
 pub type InstructionSetArchitecture = u32;

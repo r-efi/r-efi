@@ -3,13 +3,13 @@
 //! The console-control protocols allows modifying the behavior of the default
 //! console device. It is supported by TianoCore and widely adopted.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xf42f7782,
-    0x012e,
-    0x4c12,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xf42f7782_u32.to_ne_bytes(),
+    0x012e_u16.to_ne_bytes(),
+    0x4c12_u16.to_ne_bytes(),
     0x99,
     0x56,
-    &[0x49, 0xf9, 0x43, 0x04, 0xf7, 0x21],
+    [0x49, 0xf9, 0x43, 0x04, 0xf7, 0x21],
 );
 
 pub type ScreenMode = u32;

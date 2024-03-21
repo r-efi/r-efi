@@ -2,22 +2,22 @@
 //!
 //! It provides simple packet-oriented services to transmit and receive UDP packets.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x3ad9df29,
-    0x4501,
-    0x478d,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x3ad9df29_u32.to_ne_bytes(),
+    0x4501_u16.to_ne_bytes(),
+    0x478d_u16.to_ne_bytes(),
     0xb1,
     0xf8,
-    &[0x7f, 0x7f, 0xe7, 0x0e, 0x50, 0xf3],
+    [0x7f, 0x7f, 0xe7, 0x0e, 0x50, 0xf3],
 );
 
-pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x83f01464,
-    0x99bd,
-    0x45e5,
+pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x83f01464_u32.to_ne_bytes(),
+    0x99bd_u16.to_ne_bytes(),
+    0x45e5_u16.to_ne_bytes(),
     0xb3,
     0x83,
-    &[0xaf, 0x63, 0x05, 0xd8, 0xe9, 0xe6],
+    [0xaf, 0x63, 0x05, 0xd8, 0xe9, 0xe6],
 );
 
 #[repr(C)]

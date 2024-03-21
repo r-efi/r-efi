@@ -570,13 +570,13 @@ pub struct IfrFormMap<const N: usize = 0> {
     pub methods: [IfrFormMapMethod; N],
 }
 
-pub const STANDARD_FORM_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x3bd2f4ec,
-    0xe524,
-    0x46e4,
+pub const STANDARD_FORM_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x3bd2f4ec_u32.to_ne_bytes(),
+    0xe524_u16.to_ne_bytes(),
+    0x46e4_u16.to_ne_bytes(),
     0xa9,
     0xd8,
-    &[0x51, 0x01, 0x17, 0x42, 0x55, 0x62],
+    [0x51, 0x01, 0x17, 0x42, 0x55, 0x62],
 );
 
 #[repr(C)]

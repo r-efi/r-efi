@@ -4,13 +4,13 @@
 
 use super::{shell, shell_parameters};
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x3c7200e9,
-    0x005f,
-    0x4ea4,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x3c7200e9_u32.to_ne_bytes(),
+    0x005f_u16.to_ne_bytes(),
+    0x4ea4_u16.to_ne_bytes(),
     0x87,
     0xde,
-    &[0xa3, 0xdf, 0xac, 0x8a, 0x27, 0xc3],
+    [0xa3, 0xdf, 0xac, 0x8a, 0x27, 0xc3],
 );
 
 pub type CommandHandler = eficall! {fn(

@@ -2,13 +2,13 @@
 //!
 //! Convert text to device paths and device nodes.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x5c99a21,
-    0xc70f,
-    0x4ad2,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x5c99a21_u32.to_ne_bytes(),
+    0xc70f_u16.to_ne_bytes(),
+    0x4ad2_u16.to_ne_bytes(),
     0x8a,
     0x5f,
-    &[0x35, 0xdf, 0x33, 0x43, 0xf5, 0x1e],
+    [0x35, 0xdf, 0x33, 0x43, 0xf5, 0x1e],
 );
 
 pub type DevicePathFromTextNode = eficall! {fn(

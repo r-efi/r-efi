@@ -5,13 +5,13 @@
 //! in the system that does not already have a Disk I/O protocol. File systems and other disk
 //! access code utilize the Disk I/O protocol.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xce345171,
-    0xba0b,
-    0x11d2,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xce345171_u32.to_ne_bytes(),
+    0xba0b_u16.to_ne_bytes(),
+    0x11d2_u16.to_ne_bytes(),
     0x8e,
     0x4f,
-    &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
+    [0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
 );
 
 pub const REVISION: u64 = 0x0000000000010000u64;

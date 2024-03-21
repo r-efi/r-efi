@@ -3,22 +3,22 @@
 //! It implements a simple packet-oriented interface that can be used by
 //! drivers, daemons, and applications to transmit and receive network packets.
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x41d94cd2,
-    0x35b6,
-    0x455a,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x41d94cd2_u32.to_ne_bytes(),
+    0x35b6_u16.to_ne_bytes(),
+    0x455a_u16.to_ne_bytes(),
     0x82,
     0x58,
-    &[0xd4, 0xe5, 0x13, 0x34, 0xaa, 0xdd],
+    [0xd4, 0xe5, 0x13, 0x34, 0xaa, 0xdd],
 );
 
-pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0xc51711e7,
-    0xb4bf,
-    0x404a,
+pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0xc51711e7_u32.to_ne_bytes(),
+    0xb4bf_u16.to_ne_bytes(),
+    0x404a_u16.to_ne_bytes(),
     0xbf,
     0xb8,
-    &[0x0a, 0x04, 0x8e, 0xf1, 0xff, 0xe4],
+    [0x0a, 0x04, 0x8e, 0xf1, 0xff, 0xe4],
 );
 
 #[repr(C)]

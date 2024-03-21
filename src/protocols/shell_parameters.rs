@@ -4,13 +4,13 @@
 
 use super::shell;
 
-pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
-    0x752f3136,
-    0x4e16,
-    0x4fdc,
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::new(
+    0x752f3136_u32.to_ne_bytes(),
+    0x4e16_u16.to_ne_bytes(),
+    0x4fdc_u16.to_ne_bytes(),
     0xa2,
     0x2a,
-    &[0xe5, 0xf4, 0x68, 0x12, 0xf4, 0xca],
+    [0xe5, 0xf4, 0x68, 0x12, 0xf4, 0xca],
 );
 
 #[repr(C)]
