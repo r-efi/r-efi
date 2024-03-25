@@ -240,6 +240,14 @@ pub const EVENT_GROUP_EXIT_BOOT_SERVICES: crate::base::Guid = crate::base::Guid:
     0x48,
     &[0x74, 0x8f, 0x37, 0xba, 0xa2, 0xdf],
 );
+pub const EVENT_GROUP_BEFORE_EXIT_BOOT_SERVICES: crate::base::Guid = crate::base::Guid::from_fields(
+    0x8be0e274,
+    0x3970,
+    0x4b44,
+    0x80,
+    0xc5,
+    &[0x1a, 0xb9, 0x50, 0x2f, 0x3b, 0xfc],
+);
 pub const EVENT_GROUP_VIRTUAL_ADDRESS_CHANGE: crate::base::Guid = crate::base::Guid::from_fields(
     0x13fa7698,
     0xc831,
@@ -263,6 +271,14 @@ pub const EVENT_GROUP_READY_TO_BOOT: crate::base::Guid = crate::base::Guid::from
     0x87,
     0xa8,
     &[0xa8, 0xd8, 0xde, 0xe5, 0x0d, 0x2b],
+);
+pub const EVENT_GROUP_AFTER_READY_TO_BOOT: crate::base::Guid = crate::base::Guid::from_fields(
+    0x3a2a00ad,
+    0x98b9,
+    0x4cdf,
+    0xa4,
+    0x78,
+    &[0x70, 0x27, 0x77, 0xf1, 0xc1, 0x0b],
 );
 pub const EVENT_GROUP_RESET_SYSTEM: crate::base::Guid = crate::base::Guid::from_fields(
     0x62da6a56,
