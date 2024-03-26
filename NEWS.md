@@ -1,5 +1,20 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 4.4.0:
+
+        * Add definitions for `UNACCEPTED_MEMORY_TYPE`, media device subtypes
+          for device paths, before-EBS and after-RTB event groups, missing
+          memory attributes.
+
+        * New protocols: platform_driver_override, bus_specific_driver_override,
+          driver_family_override, load_file, load_file2
+
+        * (pending)
+
+        Contributions from: David Rheinsberg, John Schock, Michael Kubacki
+
+        - TBD
+
 ## CHANGES WITH 4.3.0:
 
         * Change alignment of `Guid` to 4 (was 8 before). This deviates from
