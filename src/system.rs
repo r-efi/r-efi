@@ -351,6 +351,23 @@ pub const MEMORY_RUNTIME: u64 = 0x8000000000000000u64;
 pub const MEMORY_ISA_VALID: u64 = 0x4000000000000000u64;
 pub const MEMORY_ISA_MASK: u64 = 0x0FFFF00000000000u64;
 
+/// Mask of memory attributes that specify cacheability attributes. No symbol
+/// is defined by the spec, but the attributes are annotated in the spec. Note
+/// that `MEMORY_WP`, despite its name, is treated as cacheability attribute.
+/// Use `MEMORY_RO` as replacement access attribute (see the spec for details).
+pub const CACHE_ATTRIBUTE_MASK: u64 =
+    MEMORY_UC | MEMORY_WC | MEMORY_WT | MEMORY_WB | MEMORY_UCE | MEMORY_WP;
+
+/// Mask of memory attributes that specify access protection attributes. No
+/// symbol is defined by the spec, but the attributes are annotated in the
+/// spec. Note that `MEMORY_WP` is treated as cacheability attribute, and its
+/// access protection functionality is replaced by `MEMORY_RO`.
+pub const MEMORY_ACCESS_MASK: u64 = MEMORY_RP | MEMORY_XP | MEMORY_RO;
+
+/// Mask of memory attributes that specify properties of a memory region that
+/// can be managed via the CPU architecture protocol.
+pub const MEMORY_ATTRIBUTE_MASK: u64 = MEMORY_ACCESS_MASK | MEMORY_SP | MEMORY_CPU_CRYPTO;
+
 pub const MEMORY_DESCRIPTOR_VERSION: u32 = 0x00000001u32;
 
 #[repr(C)]
