@@ -26,12 +26,14 @@ pub const WIDTH_FILL_UINT8: Width = 0x00000008;
 pub const WIDTH_FILL_UINT16: Width = 0x00000009;
 pub const WIDTH_FILL_UINT32: Width = 0x0000000a;
 pub const WIDTH_FILL_UINT64: Width = 0x0000000b;
+pub const WIDTH_MAXIMUM: Width = 0x0000000c;
 
 pub type Operation = u32;
 
 pub const OPERATION_BUS_MASTER_READ: Operation = 0x00000000;
 pub const OPERATION_BUS_MASTER_WRITE: Operation = 0x00000001;
 pub const OPERATION_BUS_MASTER_COMMON_BUFFER: Operation = 0x00000002;
+pub const OPERATION_MAXIMUM: Operation = 0x00000003;
 
 pub type Attribute = u64;
 
@@ -62,6 +64,7 @@ pub const ATTRIBUTE_OPERATION_SET: AttributeOperation = 0x00000001;
 pub const ATTRIBUTE_OPERATION_ENABLE: AttributeOperation = 0x00000002;
 pub const ATTRIBUTE_OPERATION_DISABLE: AttributeOperation = 0x00000003;
 pub const ATTRIBUTE_OPERATION_SUPPORTED: AttributeOperation = 0x00000004;
+pub const ATTRIBUTE_OPERATION_MAXIMUM: AttributeOperation = 0x00000005;
 
 pub const PASS_THROUGH_BAR: u8 = 0xff;
 
