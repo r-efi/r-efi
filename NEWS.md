@@ -6,14 +6,17 @@
           for device paths, before-EBS and after-RTB event groups, missing
           memory attributes.
 
+        * Add memory masks for common memory attribute classes. The symbol
+          names are takend from EDK2, yet their purpose is defined in the
+          specification.
+
         * New protocols: platform_driver_override, bus_specific_driver_override,
-          driver_family_override, load_file, load_file2
+          driver_family_override, load_file, load_file2, pci-io
 
-        * (pending)
+        Contributions from: David Rheinsberg, Dmitry Mostovenko, John Schock,
+                            Michael Kubacki
 
-        Contributions from: David Rheinsberg, John Schock, Michael Kubacki
-
-        - TBD
+        - Dußlingen, 2024-03-27
 
 ## CHANGES WITH 4.3.0:
 
