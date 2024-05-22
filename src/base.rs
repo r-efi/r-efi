@@ -296,7 +296,8 @@ pub type Char16 = u16;
 /// on the context, different state is stored in it. Note that it is always binary compatible to a
 /// usize!
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Default)]
+#[derive(Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Status(usize);
 
 /// Object Handles
