@@ -273,7 +273,8 @@ macro_rules! eficall {
 /// However, on the rust side you will never see the integer value. It instead behaves truly as a
 /// boolean. If you need access to the integer value, you have to transmute it back to `u8`.
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Eq)]
+#[derive(Clone, Copy, Debug)]
+// Manual impls for: Default, Eq, Hash, Ord, PartialEq, PartialOrd
 pub struct Boolean(u8);
 
 /// Single-byte Character Type
@@ -479,6 +480,15 @@ impl Default for Boolean {
     }
 }
 
+impl From<Boolean> for u8 {
+    fn from(v: Boolean) -> Self {
+        match v.0 {
+            0 => 0,
+            _ => 1,
+        }
+    }
+}
+
 impl From<Boolean> for bool {
     fn from(v: Boolean) -> Self {
         match v.0 {
@@ -488,15 +498,41 @@ impl From<Boolean> for bool {
     }
 }
 
+impl Eq for Boolean {}
+
+impl core::hash::Hash for Boolean {
+    fn hash<H: core::hash::Hasher>(&self, state: &mut H) {
+        bool::from(*self).hash(state)
+    }
+}
+
+impl Ord for Boolean {
+    fn cmp(&self, other: &Boolean) -> core::cmp::Ordering {
+        bool::from(*self).cmp(&(*other).into())
+    }
+}
+
 impl PartialEq for Boolean {
     fn eq(&self, other: &Boolean) -> bool {
-        <bool as From<Boolean>>::from(*self) == (*other).into()
+        bool::from(*self).eq(&(*other).into())
     }
 }
 
 impl PartialEq<bool> for Boolean {
     fn eq(&self, other: &bool) -> bool {
-        *other == (*self).into()
+        bool::from(*self).eq(other)
+    }
+}
+
+impl PartialOrd for Boolean {
+    fn partial_cmp(&self, other: &Boolean) -> Option<core::cmp::Ordering> {
+        bool::from(*self).partial_cmp(&(*other).into())
+    }
+}
+
+impl PartialOrd<bool> for Boolean {
+    fn partial_cmp(&self, other: &bool) -> Option<core::cmp::Ordering> {
+        bool::from(*self).partial_cmp(other)
     }
 }
 
@@ -725,6 +761,13 @@ mod tests {
     use super::*;
     use std::mem::{align_of, size_of};
 
+    // Helper to compute a hash of an object.
+    fn hash<T: core::hash::Hash>(v: &T) -> u64 {
+        let mut h = std::hash::DefaultHasher::new();
+        v.hash(&mut h);
+        core::hash::Hasher::finish(&h)
+    }
+
     // Verify Type Size and Alignemnt
     //
     // Since UEFI defines explicitly the ABI of their types, we can verify that our implementation
@@ -873,6 +916,17 @@ mod tests {
                     assert_ne!(v1, true);
                     assert_ne!(v2, Boolean::TRUE);
                     assert_ne!(v2, true);
+
+                    assert!(v1 < Boolean::TRUE);
+                    assert!(v1 < true);
+                    assert!(v1 >= Boolean::FALSE);
+                    assert!(v1 >= false);
+                    assert!(v1 <= Boolean::FALSE);
+                    assert!(v1 <= false);
+                    assert_eq!(v1.cmp(&true.into()), core::cmp::Ordering::Less);
+                    assert_eq!(v1.cmp(&false.into()), core::cmp::Ordering::Equal);
+
+                    assert_eq!(hash(&v1), hash(&false));
                 }
                 _ => {
                     assert_eq!(v1, Boolean::TRUE);
@@ -884,6 +938,17 @@ mod tests {
                     assert_ne!(v1, false);
                     assert_ne!(v2, Boolean::FALSE);
                     assert_ne!(v2, false);
+
+                    assert!(v1 <= Boolean::TRUE);
+                    assert!(v1 <= true);
+                    assert!(v1 >= Boolean::TRUE);
+                    assert!(v1 >= true);
+                    assert!(v1 > Boolean::FALSE);
+                    assert!(v1 > false);
+                    assert_eq!(v1.cmp(&true.into()), core::cmp::Ordering::Equal);
+                    assert_eq!(v1.cmp(&false.into()), core::cmp::Ordering::Greater);
+
+                    assert_eq!(hash(&v1), hash(&true));
                 }
             }
         }
