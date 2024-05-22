@@ -410,6 +410,7 @@ pub struct Guid {
 /// an Ethernet address.
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
+#[derive(Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct MacAddress {
     pub addr: [u8; 32],
 }
@@ -420,7 +421,8 @@ pub struct MacAddress {
 /// order (i.e., big endian). Note that no special alignment restrictions are
 /// defined by the standard specification.
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Default)]
+#[derive(Clone, Copy, Debug, Default)]
+#[derive(Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Ipv4Address {
     pub addr: [u8; 4],
 }
@@ -431,7 +433,8 @@ pub struct Ipv4Address {
 /// (i.e., big endian). Similar to the IPv4 address, no special alignment
 /// restrictions are defined by the standard specification.
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug)]
+#[derive(Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Ipv6Address {
     pub addr: [u8; 16],
 }
