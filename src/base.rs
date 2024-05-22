@@ -387,7 +387,8 @@ pub type ImageEntryPoint = eficall! {fn(Handle, *mut crate::system::SystemTable)
 /// The individual fields are encoded as little-endian. Accessors are provided for the Guid
 /// structure allowing access to these fields in native endian byte order.
 #[repr(C, align(4))]
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug)]
+#[derive(Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Guid {
     time_low: [u8; 4],
     time_mid: [u8; 2],
