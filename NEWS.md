@@ -1,5 +1,17 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 5.0.0:
+
+        * Change the type of the `unload` function-pointer of the Loaded Image
+          Protocol to `Option<Unload>`, given that it can be `NULL` to indicate
+          that the image cannot be unloaded.
+          This is a major API break, but any users very likely need to adjust
+          anyway to avoid NULL-derefs.
+
+        Contributions from: David Rheinsberg, John Schock
+
+        - Dußlingen, 2024-07-30
+
 ## CHANGES WITH 4.5.0:
 
         * Implement or derive more standard traits for UEFI base types. In
