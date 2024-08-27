@@ -748,7 +748,7 @@ impl Guid {
     /// instance. Note that you can safely transmute instead.
     ///
     /// See `as_bytes()` for the inverse operation.
-    pub fn from_bytes(bytes: &[u8; 16]) -> Self {
+    pub const fn from_bytes(bytes: &[u8; 16]) -> Self {
         unsafe { core::mem::transmute::<[u8; 16], Guid>(*bytes) }
     }
 
