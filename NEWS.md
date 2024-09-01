@@ -1,5 +1,15 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 5.1.0:
+
+        * Mark `Guid::as_bytes` and `Guid::from_bytes` as `const fn`, aligning
+          them with the other methods on `Guid`. This helps creating constant
+          GUIDs via macros or other external helpers.
+
+        Contributions from: Christopher Zurcher, David Rheinsberg
+
+        - Dußlingen, 2024-09-01
+
 ## CHANGES WITH 5.0.0:
 
         * Change the type of the `unload` function-pointer of the Loaded Image
