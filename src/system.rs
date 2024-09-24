@@ -496,13 +496,13 @@ pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::f
 pub const MEMORY_ATTRIBUTES_TABLE_VERSION: u32 = 0x00000001u32;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
-pub struct MemoryAttributesTable<const N: usize = 0> {
+#[derive(Debug)]
+pub struct MemoryAttributesTable {
     pub version: u32,
     pub number_of_entries: u32,
     pub descriptor_size: u32,
     pub reserved: u32,
-    pub entry: [MemoryDescriptor; N],
+    pub entry: [MemoryDescriptor; 0],
 }
 
 pub const CONFORMANCE_PROFILES_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
