@@ -1,5 +1,13 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 5.2.0:
+
+        * Add the memory attribute protocol.
+
+        Contributions from: David Rheinsberg, Oliver Smith-Denny
+
+        - Dußlingen, 2024-12-22
+
 ## CHANGES WITH 5.1.0:
 
         * Mark `Guid::as_bytes` and `Guid::from_bytes` as `const fn`, aligning
