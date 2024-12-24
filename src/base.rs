@@ -230,11 +230,7 @@ macro_rules! eficall_abi {
 ///
 /// # Variadics
 ///
-/// For some reason, the rust compiler allows variadics only in combination with the `"C"` calling
-/// convention, even if the selected calling-convention matches what `"C"` would select on the
-/// target platform. Hence, you will very likely be unable to use variadics with this macro.
-/// Luckily, all of the UEFI functions that use variadics are wrappers around more low-level
-/// accessors, so they are not necessarily required.
+/// Supported since rust-1.84.0
 #[macro_export]
 macro_rules! eficall {
     // Muncher
