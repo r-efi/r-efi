@@ -19,10 +19,6 @@ on:
         default: "yes"
         required: false
 
-concurrency:
-  cancel-in-progress: false
-  group: "publish"
-
 defaults:
   run:
     shell: "bash"
@@ -30,41 +26,14 @@ defaults:
 jobs:
   publish:
     name: "Publish Crate"
-    runs-on: "ubuntu-latest"
+    uses: readaheadeu/rae-actions/.github/workflows/lib-publish-rust.yml@v1
 
-    env:
-      CTX_GITHUB_EVENT_INPUTS_TAG: ${{ github.event.inputs.tag }}
-      CTX_GITHUB_EVENT_INPUTS_VERIFY: ${{ github.event.inputs.verify }}
-      CTX_GITHUB_REPOSITORY: ${{ github.repository }}
+    permissions:
+      contents: write
 
-    steps:
-    - name: "Verify Input"
-      run: |
-        if [[ -z "${CTX_GITHUB_EVENT_INPUTS_TAG}" ]] ; then
-          echo "error: empty git-tag specified as input"
-          exit 1
-        fi
+    secrets:
+      ciotoken: ${{ secrets.DEPLOY_CRATESIO_TOKEN }}
 
-    - name: "Clone Repository"
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.event.inputs.tag }}
-
-    - name: "Publish Crate"
-      env:
-        CTX_SECRETS_DEPLOY_CRATESIO_TOKEN: ${{ secrets.DEPLOY_CRATESIO_TOKEN }}
-      run: |
-        if [[ "${CTX_GITHUB_EVENT_INPUTS_VERIFY}" = "no" ]] ; then
-          cargo publish --no-verify --token "${CTX_SECRETS_DEPLOY_CRATESIO_TOKEN}"
-        else
-          cargo publish --token "${CTX_SECRETS_DEPLOY_CRATESIO_TOKEN}"
-        fi
-
-    - name: "Publish GitHub"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        make \
-          publish-github \
-          "PUBLISH_REPO=${CTX_GITHUB_REPOSITORY}" \
-          "PUBLISH_VERSION=${CTX_GITHUB_EVENT_INPUTS_TAG#v}"
+    with:
+      tag: ${{ github.event.inputs.tag }}
+      verify: ${{ github.event.inputs.verify == 'yes' || false }}
