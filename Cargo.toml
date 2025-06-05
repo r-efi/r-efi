@@ -25,7 +25,6 @@ rust-version = "1.68"
 
 [dependencies]
 # Required setup to build as part of rustc.
-compiler_builtins = { version = '0.1.0', optional = true }
 core = { version = '1.0.0', optional = true, package = 'rustc-std-workspace-core' }
 
 [features]
@@ -37,7 +36,7 @@ examples = ['native']
 # use a UEFI target configuration. To make `cargo test` work, we exclude all
 # these from normal runs.
 native = []
-rustc-dep-of-std = ['compiler_builtins/rustc-dep-of-std', 'core']
+rustc-dep-of-std = ['core']
 
 [[example]]
 name = "freestanding"
