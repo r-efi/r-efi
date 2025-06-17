@@ -1,5 +1,14 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 5.3.0:
+
+        * Remove the optional dependency on `compiler-builtins`, which was
+          needed to build r-efi as part of rustc. This is no longer necessary.
+
+        Contributions from: David Rheinsberg, Trevor Gross
+
+        - Dußlingen, 2025-06-17
+
 ## CHANGES WITH 5.2.0:
 
         * Add the memory attribute protocol.
