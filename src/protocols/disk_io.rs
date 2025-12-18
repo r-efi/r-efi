@@ -16,7 +16,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 pub const REVISION: u64 = 0x0000000000010000u64;
 
-pub type ProtocolReadDisk = eficall! {fn(
+pub type ProtocolReadDisk = eficall! {unsafe fn(
     *mut Protocol,
     u32,
     u64,
@@ -24,7 +24,7 @@ pub type ProtocolReadDisk = eficall! {fn(
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolWriteDisk = eficall! {fn(
+pub type ProtocolWriteDisk = eficall! {unsafe fn(
     *mut Protocol,
     u32,
     u64,

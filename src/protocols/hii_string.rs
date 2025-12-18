@@ -9,7 +9,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0x98, 0xd1, 0x77, 0x50, 0x32, 0x2a],
 );
 
-pub type ProtocolNewString = eficall! {fn(
+pub type ProtocolNewString = eficall! {unsafe fn(
     *const Protocol,
     crate::hii::Handle,
     *mut crate::hii::StringId,
@@ -19,7 +19,7 @@ pub type ProtocolNewString = eficall! {fn(
     *const Info,
 ) -> crate::base::Status};
 
-pub type ProtocolGetString = eficall! {fn(
+pub type ProtocolGetString = eficall! {unsafe fn(
     *const Protocol,
     *const crate::base::Char8,
     crate::hii::Handle,
@@ -29,7 +29,7 @@ pub type ProtocolGetString = eficall! {fn(
     *mut *mut Info,
 ) -> crate::base::Status};
 
-pub type ProtocolSetString = eficall! {fn(
+pub type ProtocolSetString = eficall! {unsafe fn(
     *const Protocol,
     crate::hii::Handle,
     crate::hii::StringId,
@@ -38,14 +38,14 @@ pub type ProtocolSetString = eficall! {fn(
     *const Info,
 ) -> crate::base::Status};
 
-pub type ProtocolGetLanguages = eficall! {fn(
+pub type ProtocolGetLanguages = eficall! {unsafe fn(
     *const Protocol,
     crate::hii::Handle,
     *mut crate::base::Char8,
     *mut usize,
 ) -> crate::base::Status};
 
-pub type ProtocolGetSecondaryLanguages = eficall! {fn(
+pub type ProtocolGetSecondaryLanguages = eficall! {unsafe fn(
     *const Protocol,
     crate::hii::Handle,
     *const crate::base::Char8,

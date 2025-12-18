@@ -69,19 +69,19 @@ pub const BLT_BUFFER_TO_VIDEO: BltOperation = 0x00000002;
 pub const BLT_VIDEO_TO_VIDEO: BltOperation = 0x00000003;
 pub const BLT_OPERATION_MAX: BltOperation = 0x00000004;
 
-pub type ProtocolQueryMode = eficall! {fn(
+pub type ProtocolQueryMode = eficall! {unsafe fn(
     *mut Protocol,
     u32,
     *mut usize,
     *mut *mut ModeInformation,
 ) -> crate::base::Status};
 
-pub type ProtocolSetMode = eficall! {fn(
+pub type ProtocolSetMode = eficall! {unsafe fn(
     *mut Protocol,
     u32,
 ) -> crate::base::Status};
 
-pub type ProtocolBlt = eficall! {fn(
+pub type ProtocolBlt = eficall! {unsafe fn(
     *mut Protocol,
     *mut BltPixel,
     BltOperation,

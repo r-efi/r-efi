@@ -140,7 +140,7 @@ pub struct CloseToken {
     pub abort_on_close: crate::base::Boolean,
 }
 
-pub type ProtocolGetModeData = eficall! {fn(
+pub type ProtocolGetModeData = eficall! {unsafe fn(
     *mut Protocol,
     *mut ConnectionState,
     *mut ConfigData,
@@ -149,42 +149,42 @@ pub type ProtocolGetModeData = eficall! {fn(
     *mut crate::protocols::simple_network::Mode,
 ) -> crate::base::Status};
 
-pub type ProtocolConfigure = eficall! {fn(
+pub type ProtocolConfigure = eficall! {unsafe fn(
     *mut Protocol,
     *mut ConfigData,
 ) -> crate::base::Status};
 
-pub type ProtocolConnect = eficall! {fn(
+pub type ProtocolConnect = eficall! {unsafe fn(
     *mut Protocol,
     *mut ConnectionToken,
 ) -> crate::base::Status};
 
-pub type ProtocolAccept = eficall! {fn(
+pub type ProtocolAccept = eficall! {unsafe fn(
     *mut Protocol,
     *mut ListenToken,
 ) -> crate::base::Status};
 
-pub type ProtocolTransmit = eficall! {fn(
+pub type ProtocolTransmit = eficall! {unsafe fn(
     *mut Protocol,
     *mut IoToken,
 ) -> crate::base::Status};
 
-pub type ProtocolReceive = eficall! {fn(
+pub type ProtocolReceive = eficall! {unsafe fn(
     *mut Protocol,
     *mut IoToken,
 ) -> crate::base::Status};
 
-pub type ProtocolClose = eficall! {fn(
+pub type ProtocolClose = eficall! {unsafe fn(
     *mut Protocol,
     *mut CloseToken,
 ) -> crate::base::Status};
 
-pub type ProtocolCancel = eficall! {fn(
+pub type ProtocolCancel = eficall! {unsafe fn(
     *mut Protocol,
     *mut CompletionToken,
 ) -> crate::base::Status};
 
-pub type ProtocolPoll = eficall! {fn(
+pub type ProtocolPoll = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 

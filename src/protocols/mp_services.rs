@@ -57,21 +57,21 @@ pub struct ProcessorInformation {
     pub extended_information: ExtendedProcessorInformation,
 }
 
-pub type ApProcedure = eficall! {fn(*mut core::ffi::c_void)};
+pub type ApProcedure = eficall! {unsafe fn(*mut core::ffi::c_void)};
 
-pub type GetNumberOfProcessors = eficall! {fn(
+pub type GetNumberOfProcessors = eficall! {unsafe fn(
     *mut Protocol,
     *mut usize,
     *mut usize,
 ) -> crate::base::Status};
 
-pub type GetProcessorInfo = eficall! {fn(
+pub type GetProcessorInfo = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     *mut ProcessorInformation,
 ) -> crate::base::Status};
 
-pub type StartupAllAps = eficall! {fn(
+pub type StartupAllAps = eficall! {unsafe fn(
     *mut Protocol,
     ApProcedure,
     crate::base::Boolean,
@@ -81,7 +81,7 @@ pub type StartupAllAps = eficall! {fn(
     *mut *mut usize,
 ) -> crate::base::Status};
 
-pub type StartupThisAp = eficall! {fn(
+pub type StartupThisAp = eficall! {unsafe fn(
     *mut Protocol,
     ApProcedure,
     usize,
@@ -91,20 +91,20 @@ pub type StartupThisAp = eficall! {fn(
     *mut crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type SwitchBsp = eficall! {fn(
+pub type SwitchBsp = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type EnableDisableAp = eficall! {fn(
+pub type EnableDisableAp = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     crate::base::Boolean,
     *mut u32,
 ) -> crate::base::Status};
 
-pub type WhoAmI = eficall! {fn(
+pub type WhoAmI = eficall! {unsafe fn(
     *mut Protocol,
     *mut usize,
 ) -> crate::base::Status};

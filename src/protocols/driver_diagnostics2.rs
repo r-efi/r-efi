@@ -20,7 +20,7 @@ pub const TYPE_MANUFACTURING: Type = 2;
 pub const TYPE_CANCEL: Type = 3;
 pub const TYPE_MAXIMUM: Type = 4;
 
-pub type RunDiagnostics = eficall! {fn(
+pub type RunDiagnostics = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Handle,
     crate::base::Handle,

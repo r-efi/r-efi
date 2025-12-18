@@ -13,7 +13,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0x04, 0xa4, 0x92, 0x37, 0x66, 0xa7],
 );
 
-pub type ProtocolGetVersion = eficall! {fn(
+pub type ProtocolGetVersion = eficall! {unsafe fn(
     *mut Protocol,
 ) -> u32};
 

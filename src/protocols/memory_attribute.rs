@@ -11,21 +11,21 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0xbf, 0x1d, 0x57, 0xd0, 0xb1, 0x89],
 );
 
-pub type GetMemoryAttributes = eficall! {fn(
+pub type GetMemoryAttributes = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::PhysicalAddress,
     u64,
     *mut u64,
 ) -> crate::base::Status};
 
-pub type SetMemoryAttributes = eficall! {fn(
+pub type SetMemoryAttributes = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::PhysicalAddress,
     u64,
     u64,
 ) -> crate::base::Status};
 
-pub type ClearMemoryAttributes = eficall! {fn(
+pub type ClearMemoryAttributes = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::PhysicalAddress,
     u64,

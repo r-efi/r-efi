@@ -21,20 +21,11 @@ pub struct Token {
     transaction_status: crate::base::Status,
 }
 
-pub type ProtocolCancel = eficall! {fn(
+pub type ProtocolCancel = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolReadDiskEx = eficall! {fn(
-    *mut Protocol,
-    u32,
-    u64,
-    *mut Token,
-    usize,
-    *mut core::ffi::c_void,
-) -> crate::base::Status};
-
-pub type ProtocolWriteDiskEx = eficall! {fn(
+pub type ProtocolReadDiskEx = eficall! {unsafe fn(
     *mut Protocol,
     u32,
     u64,
@@ -43,7 +34,16 @@ pub type ProtocolWriteDiskEx = eficall! {fn(
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolFlushDiskEx = eficall! {fn(
+pub type ProtocolWriteDiskEx = eficall! {unsafe fn(
+    *mut Protocol,
+    u32,
+    u64,
+    *mut Token,
+    usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolFlushDiskEx = eficall! {unsafe fn(
     *mut Protocol,
     *mut Token,
 ) -> crate::base::Status};

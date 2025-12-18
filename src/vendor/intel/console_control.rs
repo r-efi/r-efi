@@ -20,17 +20,17 @@ pub const SCREEN_MAX_VALUE: ScreenMode = 0x00000002;
 
 #[repr(C)]
 pub struct Protocol {
-    pub get_mode: eficall! {fn(
+    pub get_mode: eficall! {unsafe fn(
         *mut Protocol,
         *mut ScreenMode,
         *mut crate::base::Boolean,
         *mut crate::base::Boolean,
     ) -> crate::base::Status},
-    pub set_mode: eficall! {fn(
+    pub set_mode: eficall! {unsafe fn(
         *mut Protocol,
         ScreenMode,
     ) -> crate::base::Status},
-    pub lock_std_in: eficall! {fn(
+    pub lock_std_in: eficall! {unsafe fn(
         *mut Protocol,
         *mut crate::base::Char16,
     ) -> crate::base::Status},

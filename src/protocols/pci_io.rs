@@ -68,7 +68,7 @@ pub const ATTRIBUTE_OPERATION_MAXIMUM: AttributeOperation = 0x00000005;
 
 pub const PASS_THROUGH_BAR: u8 = 0xff;
 
-pub type ProtocolPollIoMem = eficall! {fn(
+pub type ProtocolPollIoMem = eficall! {unsafe fn(
     *mut Protocol,
     Width,
     u8,
@@ -79,7 +79,7 @@ pub type ProtocolPollIoMem = eficall! {fn(
     *mut u64,
 ) -> crate::base::Status};
 
-pub type ProtocolIoMem = eficall! {fn(
+pub type ProtocolIoMem = eficall! {unsafe fn(
     *mut Protocol,
     Width,
     u8,
@@ -88,7 +88,7 @@ pub type ProtocolIoMem = eficall! {fn(
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolConfig = eficall! {fn(
+pub type ProtocolConfig = eficall! {unsafe fn(
     *mut Protocol,
     Width,
     u32,
@@ -96,7 +96,7 @@ pub type ProtocolConfig = eficall! {fn(
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolCopyMem = eficall! {fn(
+pub type ProtocolCopyMem = eficall! {unsafe fn(
     *mut Protocol,
     Width,
     u8,
@@ -106,7 +106,7 @@ pub type ProtocolCopyMem = eficall! {fn(
     usize,
 ) -> crate::base::Status};
 
-pub type ProtocolMap = eficall! {fn(
+pub type ProtocolMap = eficall! {unsafe fn(
     *mut Protocol,
     Operation,
     *mut core::ffi::c_void,
@@ -115,12 +115,12 @@ pub type ProtocolMap = eficall! {fn(
     *mut *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolUnmap = eficall! {fn(
+pub type ProtocolUnmap = eficall! {unsafe fn(
     *mut Protocol,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolAllocateBuffer = eficall! {fn(
+pub type ProtocolAllocateBuffer = eficall! {unsafe fn(
     *mut Protocol,
     crate::system::AllocateType,
     crate::system::MemoryType,
@@ -129,17 +129,17 @@ pub type ProtocolAllocateBuffer = eficall! {fn(
     Attribute,
 ) -> crate::base::Status};
 
-pub type ProtocolFreeBuffer = eficall! {fn(
+pub type ProtocolFreeBuffer = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolFlush = eficall! {fn(
+pub type ProtocolFlush = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolGetLocation = eficall! {fn(
+pub type ProtocolGetLocation = eficall! {unsafe fn(
     *mut Protocol,
     *mut usize,
     *mut usize,
@@ -147,21 +147,21 @@ pub type ProtocolGetLocation = eficall! {fn(
     *mut usize,
 ) -> crate::base::Status};
 
-pub type ProtocolAttributes = eficall! {fn(
+pub type ProtocolAttributes = eficall! {unsafe fn(
     *mut Protocol,
     AttributeOperation,
     Attribute,
     *mut Attribute,
 ) -> crate::base::Status};
 
-pub type ProtocolGetBarAttributes = eficall! {fn(
+pub type ProtocolGetBarAttributes = eficall! {unsafe fn(
     *mut Protocol,
     u8,
     *mut Attribute,
     *mut *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolSetBarAttributes = eficall! {fn(
+pub type ProtocolSetBarAttributes = eficall! {unsafe fn(
     *mut Protocol,
     Attribute,
     u8,

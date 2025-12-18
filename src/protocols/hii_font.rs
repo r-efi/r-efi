@@ -9,7 +9,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0x7e, 0xd6, 0x5a, 0x08, 0x43, 0x24],
 );
 
-pub type ProtocolStringToImage = eficall! {fn(
+pub type ProtocolStringToImage = eficall! {unsafe fn(
     *const Protocol,
     OutFlags,
     String,
@@ -22,7 +22,7 @@ pub type ProtocolStringToImage = eficall! {fn(
     *mut usize,
 ) -> crate::base::Status};
 
-pub type ProtocolStringIdToImage = eficall! {fn(
+pub type ProtocolStringIdToImage = eficall! {unsafe fn(
     *const Protocol,
     OutFlags,
     crate::hii::Handle,
@@ -37,7 +37,7 @@ pub type ProtocolStringIdToImage = eficall! {fn(
     *mut usize,
 ) -> crate::base::Status};
 
-pub type ProtocolGetGlyph = eficall! {fn(
+pub type ProtocolGetGlyph = eficall! {unsafe fn(
     *const Protocol,
     crate::base::Char16,
     *const super::hii_font_ex::DisplayInfo,
@@ -45,7 +45,7 @@ pub type ProtocolGetGlyph = eficall! {fn(
     *mut usize,
 ) -> crate::base::Status};
 
-pub type ProtocolGetFontInfo = eficall! {fn(
+pub type ProtocolGetFontInfo = eficall! {unsafe fn(
     *const Protocol,
     *mut Handle,
     *const super::hii_font_ex::DisplayInfo,

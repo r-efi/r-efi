@@ -12,7 +12,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b],
 );
 
-pub type ProtocolLoadFile = eficall! {fn(
+pub type ProtocolLoadFile = eficall! {unsafe fn(
   *mut Protocol,
   *mut crate::protocols::device_path::Protocol,
   crate::base::Boolean,

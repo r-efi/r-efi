@@ -796,29 +796,29 @@ pub const EXCEPT_RISCV_MACHINE_TIMER_INT: ExceptionType = 7;
 pub const EXCEPT_RISCV_SUPERVISOR_EXTERNAL_INT: ExceptionType = 9;
 pub const EXCEPT_RISCV_MACHINE_EXTERNAL_INT: ExceptionType = 11;
 
-pub type GetMaximumProcessorIndex = eficall! {fn(
+pub type GetMaximumProcessorIndex = eficall! {unsafe fn(
     *mut Protocol,
     *mut usize,
 ) -> crate::base::Status};
 
-pub type PeriodicCallback = eficall! {fn(SystemContext)};
+pub type PeriodicCallback = eficall! {unsafe fn(SystemContext)};
 
-pub type RegisterPeriodicCallback = eficall! {fn(
+pub type RegisterPeriodicCallback = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     Option<PeriodicCallback>,
 ) -> crate::base::Status};
 
-pub type ExceptionCallback = eficall! {fn(ExceptionType, SystemContext)};
+pub type ExceptionCallback = eficall! {unsafe fn(ExceptionType, SystemContext)};
 
-pub type RegisterExceptionCallback = eficall! {fn(
+pub type RegisterExceptionCallback = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     Option<ExceptionCallback>,
     ExceptionType,
 ) -> crate::base::Status};
 
-pub type InvalidateInstructionCache = eficall! {fn(
+pub type InvalidateInstructionCache = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     *mut core::ffi::c_void,
