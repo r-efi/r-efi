@@ -63,13 +63,13 @@ pub const ALGORITHM_RAW: Algorithm = crate::base::Guid::from_fields(
     &[0x7f, 0xfd, 0xc4, 0xb6, 0x85, 0x61],
 );
 
-pub type ProtocolGetInfo = eficall! {fn(
+pub type ProtocolGetInfo = eficall! {unsafe fn(
     *mut Protocol,
     *mut usize,
     *mut Algorithm,
 ) -> crate::base::Status};
 
-pub type ProtocolGetRng = eficall! {fn(
+pub type ProtocolGetRng = eficall! {unsafe fn(
     *mut Protocol,
     *mut Algorithm,
     usize,

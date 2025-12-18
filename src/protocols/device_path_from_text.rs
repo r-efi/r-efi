@@ -11,11 +11,11 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0x35, 0xdf, 0x33, 0x43, 0xf5, 0x1e],
 );
 
-pub type DevicePathFromTextNode = eficall! {fn(
+pub type DevicePathFromTextNode = eficall! {unsafe fn(
     *const crate::base::Char16,
 ) -> *mut crate::protocols::device_path::Protocol};
 
-pub type DevicePathFromTextPath = eficall! {fn(
+pub type DevicePathFromTextPath = eficall! {unsafe fn(
     *const crate::base::Char16,
 ) -> *mut crate::protocols::device_path::Protocol};
 

@@ -34,12 +34,12 @@ pub struct Media {
     pub optimal_transfer_length_granularity: u32,
 }
 
-pub type ProtocolReset = eficall! {fn(
+pub type ProtocolReset = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type ProtocolReadBlocks = eficall! {fn(
+pub type ProtocolReadBlocks = eficall! {unsafe fn(
     *mut Protocol,
     u32,
     crate::base::Lba,
@@ -47,7 +47,7 @@ pub type ProtocolReadBlocks = eficall! {fn(
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolWriteBlocks = eficall! {fn(
+pub type ProtocolWriteBlocks = eficall! {unsafe fn(
     *mut Protocol,
     u32,
     crate::base::Lba,
@@ -55,7 +55,7 @@ pub type ProtocolWriteBlocks = eficall! {fn(
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolFlushBlocks = eficall! {fn(
+pub type ProtocolFlushBlocks = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 

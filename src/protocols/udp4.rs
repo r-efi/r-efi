@@ -92,7 +92,7 @@ pub struct CompletionToken {
     pub packet: CompletionTokenPacket,
 }
 
-pub type ProtocolGetModeData = eficall! {fn(
+pub type ProtocolGetModeData = eficall! {unsafe fn(
     *mut Protocol,
     *mut ConfigData,
     *mut crate::protocols::ip4::ModeData,
@@ -100,18 +100,18 @@ pub type ProtocolGetModeData = eficall! {fn(
     *mut crate::protocols::simple_network::Mode,
 ) -> crate::base::Status};
 
-pub type ProtocolConfigure = eficall! {fn(
+pub type ProtocolConfigure = eficall! {unsafe fn(
     *mut Protocol,
     *mut ConfigData,
 ) -> crate::base::Status};
 
-pub type ProtocolGroups = eficall! {fn(
+pub type ProtocolGroups = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
     *mut crate::base::Ipv4Address,
 ) -> crate::base::Status};
 
-pub type ProtocolRoutes = eficall! {fn(
+pub type ProtocolRoutes = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
     *mut crate::base::Ipv4Address,
@@ -119,22 +119,22 @@ pub type ProtocolRoutes = eficall! {fn(
     *mut crate::base::Ipv4Address,
 ) -> crate::base::Status};
 
-pub type ProtocolTransmit = eficall! {fn(
+pub type ProtocolTransmit = eficall! {unsafe fn(
     *mut Protocol,
     *mut CompletionToken,
 ) -> crate::base::Status};
 
-pub type ProtocolReceive = eficall! {fn(
+pub type ProtocolReceive = eficall! {unsafe fn(
     *mut Protocol,
     *mut CompletionToken,
 ) -> crate::base::Status};
 
-pub type ProtocolCancel = eficall! {fn(
+pub type ProtocolCancel = eficall! {unsafe fn(
     *mut Protocol,
     *mut CompletionToken,
 ) -> crate::base::Status};
 
-pub type ProtocolPoll = eficall! {fn(
+pub type ProtocolPoll = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 

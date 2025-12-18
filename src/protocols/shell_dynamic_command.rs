@@ -13,14 +13,14 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     &[0xa3, 0xdf, 0xac, 0x8a, 0x27, 0xc3],
 );
 
-pub type CommandHandler = eficall! {fn(
+pub type CommandHandler = eficall! {unsafe fn(
     *mut Protocol,
     *mut crate::system::SystemTable,
     *mut shell_parameters::Protocol,
     *mut shell::Protocol,
 ) -> crate::base::Status};
 
-pub type CommandGetHelp = eficall! {fn(
+pub type CommandGetHelp = eficall! {unsafe fn(
     *mut Protocol,
     *mut crate::base::Char8,
 ) -> crate::base::Status};

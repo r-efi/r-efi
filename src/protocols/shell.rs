@@ -36,82 +36,82 @@ pub struct FileInfo {
     pub info: *mut crate::protocols::file::Info,
 }
 
-pub type Execute = eficall! {fn(
+pub type Execute = eficall! {unsafe fn(
     *mut crate::base::Handle,
     *mut crate::base::Char16,
     *mut *mut crate::base::Char16,
     *mut crate::base::Status,
 ) -> crate::base::Status};
 
-pub type GetEnv = eficall! {fn(
+pub type GetEnv = eficall! {unsafe fn(
     *mut crate::base::Char16,
 ) -> *mut crate::base::Char16};
 
-pub type SetEnv = eficall! {fn(
+pub type SetEnv = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut crate::base::Char16,
     crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type GetAlias = eficall! {fn(
+pub type GetAlias = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut crate::base::Boolean,
 ) -> *mut crate::base::Char16};
 
-pub type SetAlias = eficall! {fn(
+pub type SetAlias = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut crate::base::Char16,
     crate::base::Boolean,
     crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type GetHelpText = eficall! {fn(
+pub type GetHelpText = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut crate::base::Char16,
     *mut *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type GetDevicePathFromMap = eficall! {fn(
+pub type GetDevicePathFromMap = eficall! {unsafe fn(
     *mut crate::base::Char16,
 ) -> *mut crate::protocols::device_path::Protocol};
 
-pub type GetMapFromDevicePath = eficall! {fn(
+pub type GetMapFromDevicePath = eficall! {unsafe fn(
     *mut *mut crate::protocols::device_path::Protocol,
 ) -> *mut crate::base::Char16};
 
-pub type GetDevicePathFromFilePath = eficall! {fn(
+pub type GetDevicePathFromFilePath = eficall! {unsafe fn(
     *mut crate::base::Char16,
 ) -> *mut crate::protocols::device_path::Protocol};
 
-pub type GetFilePathFromDevicePath = eficall! {fn(
+pub type GetFilePathFromDevicePath = eficall! {unsafe fn(
     *mut crate::protocols::device_path::Protocol,
 ) -> *mut crate::base::Char16};
 
-pub type SetMap = eficall! {fn(
+pub type SetMap = eficall! {unsafe fn(
     *mut crate::protocols::device_path::Protocol,
     *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type GetCurDir = eficall! {fn(
+pub type GetCurDir = eficall! {unsafe fn(
     *mut crate::base::Char16,
 ) -> *mut crate::base::Char16};
 
-pub type SetCurDir = eficall! {fn(
+pub type SetCurDir = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type OpenFileList = eficall! {fn(
+pub type OpenFileList = eficall! {unsafe fn(
     *mut crate::base::Char16,
     u64,
     *mut *mut FileInfo,
 ) -> crate::base::Status};
 
-pub type FreeFileList = eficall! {fn(
+pub type FreeFileList = eficall! {unsafe fn(
     *mut *mut FileInfo,
 ) -> crate::base::Status};
 
-pub type RemoveDupInFileList = eficall! {fn(
+pub type RemoveDupInFileList = eficall! {unsafe fn(
     *mut *mut FileInfo,
 ) -> crate::base::Status};
 
@@ -125,113 +125,113 @@ pub type DisablePageBreak = eficall! {fn()};
 
 pub type GetPageBreak = eficall! {fn() -> crate::base::Boolean};
 
-pub type GetDeviceName = eficall! {fn(
+pub type GetDeviceName = eficall! {unsafe fn(
     crate::base::Handle,
     DeviceNameFlags,
     *mut crate::base::Char8,
     *mut *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type GetFileInfo = eficall! {fn(
+pub type GetFileInfo = eficall! {unsafe fn(
     FileHandle,
 ) -> *mut crate::protocols::file::Info};
 
-pub type SetFileInfo = eficall! {fn(
+pub type SetFileInfo = eficall! {unsafe fn(
     FileHandle,
     *mut crate::protocols::file::Info
 ) -> crate::base::Status};
 
-pub type OpenFileByName = eficall! {fn(
+pub type OpenFileByName = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut FileHandle,
     u64,
 ) -> crate::base::Status};
 
-pub type CloseFile = eficall! {fn(
+pub type CloseFile = eficall! {unsafe fn(
     FileHandle,
 ) -> crate::base::Status};
 
-pub type CreateFile = eficall! {fn(
+pub type CreateFile = eficall! {unsafe fn(
     *mut crate::base::Char16,
     u64,
     *mut FileHandle,
 ) -> crate::base::Status};
 
-pub type ReadFile = eficall! {fn(
+pub type ReadFile = eficall! {unsafe fn(
     FileHandle,
     *mut usize,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type WriteFile = eficall! {fn(
+pub type WriteFile = eficall! {unsafe fn(
     FileHandle,
     *mut usize,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type DeleteFile = eficall! {fn(
+pub type DeleteFile = eficall! {unsafe fn(
     FileHandle,
 ) -> crate::base::Status};
 
-pub type DeleteFileByName = eficall! {fn(
+pub type DeleteFileByName = eficall! {unsafe fn(
     *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type GetFilePosition = eficall! {fn(
+pub type GetFilePosition = eficall! {unsafe fn(
     FileHandle,
     *mut u64,
 ) -> crate::base::Status};
 
-pub type SetFilePosition = eficall! {fn(
+pub type SetFilePosition = eficall! {unsafe fn(
     FileHandle,
     u64,
 ) -> crate::base::Status};
 
-pub type FlushFile = eficall! {fn(
+pub type FlushFile = eficall! {unsafe fn(
     FileHandle,
 ) -> crate::base::Status};
 
-pub type FindFiles = eficall! {fn(
+pub type FindFiles = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut *mut FileInfo,
 ) -> crate::base::Status};
 
-pub type FindFilesInDir = eficall! {fn(
+pub type FindFilesInDir = eficall! {unsafe fn(
     FileHandle,
     *mut *mut FileInfo,
 ) -> crate::base::Status};
 
-pub type GetFileSize = eficall! {fn(
+pub type GetFileSize = eficall! {unsafe fn(
     FileHandle,
     *mut u64,
 ) -> crate::base::Status};
 
-pub type OpenRoot = eficall! {fn(
+pub type OpenRoot = eficall! {unsafe fn(
     *mut crate::protocols::device_path::Protocol,
     *mut FileHandle,
 ) -> crate::base::Status};
 
-pub type OpenRootByHandle = eficall! {fn(
+pub type OpenRootByHandle = eficall! {unsafe fn(
     crate::base::Handle,
     *mut FileHandle,
 ) -> crate::base::Status};
 
-pub type RegisterGuidName = eficall! {fn(
+pub type RegisterGuidName = eficall! {unsafe fn(
     *mut crate::base::Guid,
     *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type GetGuidName = eficall! {fn(
+pub type GetGuidName = eficall! {unsafe fn(
     *mut crate::base::Guid,
     *mut *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type GetGuidFromName = eficall! {fn(
+pub type GetGuidFromName = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut crate::base::Guid,
 ) -> crate::base::Status};
 
-pub type GetEnvEx = eficall! {fn(
+pub type GetEnvEx = eficall! {unsafe fn(
     *mut crate::base::Char16,
     *mut u32,
 ) -> *mut crate::base::Char16};

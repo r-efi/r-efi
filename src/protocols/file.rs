@@ -83,7 +83,7 @@ pub struct SystemVolumeLabel<const N: usize = 0> {
     pub volume_label: [crate::base::Char16; N],
 }
 
-pub type ProtocolOpen = eficall! {fn(
+pub type ProtocolOpen = eficall! {unsafe fn(
     *mut Protocol,
     *mut *mut Protocol,
     *mut crate::base::Char16,
@@ -91,55 +91,55 @@ pub type ProtocolOpen = eficall! {fn(
     u64,
 ) -> crate::base::Status};
 
-pub type ProtocolClose = eficall! {fn(
+pub type ProtocolClose = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolDelete = eficall! {fn(
+pub type ProtocolDelete = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolRead = eficall! {fn(
-    *mut Protocol,
-    *mut usize,
-    *mut core::ffi::c_void,
-) -> crate::base::Status};
-
-pub type ProtocolWrite = eficall! {fn(
+pub type ProtocolRead = eficall! {unsafe fn(
     *mut Protocol,
     *mut usize,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolGetPosition = eficall! {fn(
+pub type ProtocolWrite = eficall! {unsafe fn(
+    *mut Protocol,
+    *mut usize,
+    *mut core::ffi::c_void,
+) -> crate::base::Status};
+
+pub type ProtocolGetPosition = eficall! {unsafe fn(
     *mut Protocol,
     *mut u64,
 ) -> crate::base::Status};
 
-pub type ProtocolSetPosition = eficall! {fn(
+pub type ProtocolSetPosition = eficall! {unsafe fn(
     *mut Protocol,
     u64,
 ) -> crate::base::Status};
 
-pub type ProtocolGetInfo = eficall! {fn(
+pub type ProtocolGetInfo = eficall! {unsafe fn(
     *mut Protocol,
     *mut crate::base::Guid,
     *mut usize,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolSetInfo = eficall! {fn(
+pub type ProtocolSetInfo = eficall! {unsafe fn(
     *mut Protocol,
     *mut crate::base::Guid,
     usize,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolFlush = eficall! {fn(
+pub type ProtocolFlush = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolOpenEx = eficall! {fn(
+pub type ProtocolOpenEx = eficall! {unsafe fn(
     *mut Protocol,
     *mut *mut Protocol,
     *mut crate::base::Char16,
@@ -148,17 +148,17 @@ pub type ProtocolOpenEx = eficall! {fn(
     *mut IoToken,
 ) -> crate::base::Status};
 
-pub type ProtocolReadEx = eficall! {fn(
+pub type ProtocolReadEx = eficall! {unsafe fn(
     *mut Protocol,
     *mut IoToken,
 ) -> crate::base::Status};
 
-pub type ProtocolWriteEx = eficall! {fn(
+pub type ProtocolWriteEx = eficall! {unsafe fn(
     *mut Protocol,
     *mut IoToken,
 ) -> crate::base::Status};
 
-pub type ProtocolFlushEx = eficall! {fn(
+pub type ProtocolFlushEx = eficall! {unsafe fn(
     *mut Protocol,
     *mut IoToken,
 ) -> crate::base::Status};

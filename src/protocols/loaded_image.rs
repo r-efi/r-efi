@@ -14,7 +14,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 
 pub const REVISION: u32 = 0x00001000u32;
 
-pub type ProtocolUnload = eficall! {fn(
+pub type ProtocolUnload = eficall! {unsafe fn(
     crate::base::Handle,
 ) -> crate::base::Status};
 

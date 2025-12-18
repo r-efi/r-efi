@@ -24,49 +24,49 @@ pub struct Mode {
     pub cursor_visible: crate::base::Boolean,
 }
 
-pub type ProtocolReset = eficall! {fn(
+pub type ProtocolReset = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type ProtocolOutputString = eficall! {fn(
+pub type ProtocolOutputString = eficall! {unsafe fn(
     *mut Protocol,
     *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type ProtocolTestString = eficall! {fn(
+pub type ProtocolTestString = eficall! {unsafe fn(
     *mut Protocol,
     *mut crate::base::Char16,
 ) -> crate::base::Status};
 
-pub type ProtocolQueryMode = eficall! {fn(
+pub type ProtocolQueryMode = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     *mut usize,
     *mut usize,
 ) -> crate::base::Status};
 
-pub type ProtocolSetMode = eficall! {fn(
+pub type ProtocolSetMode = eficall! {unsafe fn(
     *mut Protocol,
     usize,
 ) -> crate::base::Status};
 
-pub type ProtocolSetAttribute = eficall! {fn(
+pub type ProtocolSetAttribute = eficall! {unsafe fn(
     *mut Protocol,
     usize,
 ) -> crate::base::Status};
 
-pub type ProtocolClearScreen = eficall! {fn(
+pub type ProtocolClearScreen = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolSetCursorPosition = eficall! {fn(
+pub type ProtocolSetCursorPosition = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     usize,
 ) -> crate::base::Status};
 
-pub type ProtocolEnableCursor = eficall! {fn(
+pub type ProtocolEnableCursor = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
 ) -> crate::base::Status};

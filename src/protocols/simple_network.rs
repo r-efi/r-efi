@@ -89,30 +89,30 @@ pub struct Statistics {
     pub tx_retry_frames: u64,
 }
 
-pub type ProtocolStart = eficall! {fn(
+pub type ProtocolStart = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolStop = eficall! {fn(
+pub type ProtocolStop = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolInitialize = eficall! {fn(
+pub type ProtocolInitialize = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     usize,
 ) -> crate::base::Status};
 
-pub type ProtocolReset = eficall! {fn(
+pub type ProtocolReset = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type ProtocolShutdown = eficall! {fn(
+pub type ProtocolShutdown = eficall! {unsafe fn(
     *mut Protocol,
 ) -> crate::base::Status};
 
-pub type ProtocolReceiveFilters = eficall! {fn(
+pub type ProtocolReceiveFilters = eficall! {unsafe fn(
     *mut Protocol,
     u32,
     u32,
@@ -121,27 +121,27 @@ pub type ProtocolReceiveFilters = eficall! {fn(
     *mut crate::base::MacAddress,
 ) -> crate::base::Status};
 
-pub type ProtocolStationAddress = eficall! {fn(
+pub type ProtocolStationAddress = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
     *mut crate::base::MacAddress,
 ) -> crate::base::Status};
 
-pub type ProtocolStatistics = eficall! {fn(
+pub type ProtocolStatistics = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
     *mut usize,
     *mut Statistics,
 ) -> crate::base::Status};
 
-pub type ProtocolMcastIpToMac = eficall! {fn(
+pub type ProtocolMcastIpToMac = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
     *mut crate::base::IpAddress,
     *mut crate::base::MacAddress,
 ) -> crate::base::Status};
 
-pub type ProtocolNvData = eficall! {fn(
+pub type ProtocolNvData = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
     usize,
@@ -149,13 +149,13 @@ pub type ProtocolNvData = eficall! {fn(
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolGetStatus = eficall! {fn(
+pub type ProtocolGetStatus = eficall! {unsafe fn(
     *mut Protocol,
     *mut u32,
     *mut *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolTransmit = eficall! {fn(
+pub type ProtocolTransmit = eficall! {unsafe fn(
     *mut Protocol,
     usize,
     usize,
@@ -165,7 +165,7 @@ pub type ProtocolTransmit = eficall! {fn(
     *mut u16,
 ) -> crate::base::Status};
 
-pub type ProtocolReceive = eficall! {fn(
+pub type ProtocolReceive = eficall! {unsafe fn(
     *mut Protocol,
     *mut usize,
     *mut usize,

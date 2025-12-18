@@ -21,7 +21,7 @@ pub struct Properties {
 
 pub type ProtocolGetTimestamp = eficall! {fn() -> u64};
 
-pub type ProtocolGetProperties = eficall! {fn(
+pub type ProtocolGetProperties = eficall! {unsafe fn(
     *mut Properties,
 ) -> crate::base::Status};
 

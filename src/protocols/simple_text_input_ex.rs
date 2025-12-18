@@ -31,7 +31,7 @@ pub const NUM_LOCK_ACTIVE: u8 = 0x02u8;
 pub const CAPS_LOCK_ACTIVE: u8 = 0x04u8;
 
 pub type KeyToggleState = u8;
-pub type KeyNotifyFunction = eficall! {fn(*mut KeyData) -> crate::base::Status};
+pub type KeyNotifyFunction = eficall! {unsafe fn(*mut KeyData) -> crate::base::Status};
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug, Default)]
@@ -47,29 +47,29 @@ pub struct KeyData {
     pub key_state: KeyState,
 }
 
-pub type ProtocolReset = eficall! {fn(
+pub type ProtocolReset = eficall! {unsafe fn(
     *mut Protocol,
     crate::base::Boolean,
 ) -> crate::base::Status};
 
-pub type ProtocolReadKeyStrokeEx = eficall! {fn(
+pub type ProtocolReadKeyStrokeEx = eficall! {unsafe fn(
     *mut Protocol,
     *mut KeyData,
 ) -> crate::base::Status};
 
-pub type ProtocolSetState = eficall! {fn(
+pub type ProtocolSetState = eficall! {unsafe fn(
     *mut Protocol,
     *mut KeyToggleState,
 ) -> crate::base::Status};
 
-pub type ProtocolRegisterKeyNotify = eficall! {fn(
+pub type ProtocolRegisterKeyNotify = eficall! {unsafe fn(
     *mut Protocol,
     *mut KeyData,
     KeyNotifyFunction,
     *mut *mut core::ffi::c_void,
 ) -> crate::base::Status};
 
-pub type ProtocolUnregisterKeyNotify = eficall! {fn(
+pub type ProtocolUnregisterKeyNotify = eficall! {unsafe fn(
     *mut Protocol,
     *mut core::ffi::c_void,
 ) -> crate::base::Status};
