@@ -766,11 +766,11 @@ pub struct RuntimeServices {
 pub const BOOT_SERVICES_SIGNATURE: u64 = 0x56524553544f4f42u64; // "BOOTSERV"
 pub const BOOT_SERVICES_REVISION: u32 = SPECIFICATION_REVISION;
 
-pub type BootRaiseTpl = eficall! {fn(
+pub type BootRaiseTpl = eficall! {unsafe fn(
     crate::base::Tpl,
 ) -> crate::base::Tpl};
 
-pub type BootRestoreTpl = eficall! {fn(
+pub type BootRestoreTpl = eficall! {unsafe fn(
     crate::base::Tpl,
 )};
 
@@ -922,7 +922,7 @@ pub type BootGetNextMonotonicCount = eficall! {unsafe fn(
     *mut u64,
 ) -> crate::base::Status};
 
-pub type BootStall = eficall! {fn(
+pub type BootStall = eficall! {unsafe fn(
     usize,
 ) -> crate::base::Status};
 

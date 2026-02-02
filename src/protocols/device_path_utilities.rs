@@ -44,7 +44,7 @@ pub type ProtocolIsDevicePathMultiInstance = eficall! {unsafe fn(
     *const crate::protocols::device_path::Protocol,
 ) -> crate::base::Boolean};
 
-pub type ProtocolCreateDeviceNode = eficall! {fn(
+pub type ProtocolCreateDeviceNode = eficall! {unsafe fn(
     u8,
     u8,
     u16,

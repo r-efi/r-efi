@@ -115,15 +115,15 @@ pub type RemoveDupInFileList = eficall! {unsafe fn(
     *mut *mut FileInfo,
 ) -> crate::base::Status};
 
-pub type BatchIsActive = eficall! {fn() -> crate::base::Boolean};
+pub type BatchIsActive = eficall! {unsafe fn() -> crate::base::Boolean};
 
-pub type IsRootShell = eficall! {fn() -> crate::base::Boolean};
+pub type IsRootShell = eficall! {unsafe fn() -> crate::base::Boolean};
 
-pub type EnablePageBreak = eficall! {fn()};
+pub type EnablePageBreak = eficall! {unsafe fn()};
 
-pub type DisablePageBreak = eficall! {fn()};
+pub type DisablePageBreak = eficall! {unsafe fn()};
 
-pub type GetPageBreak = eficall! {fn() -> crate::base::Boolean};
+pub type GetPageBreak = eficall! {unsafe fn() -> crate::base::Boolean};
 
 pub type GetDeviceName = eficall! {unsafe fn(
     crate::base::Handle,
