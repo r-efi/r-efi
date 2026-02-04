@@ -652,6 +652,60 @@ impl Status {
     pub fn is_warning(&self) -> bool {
         self.value() != 0 && self.mask() == Status::WARNING_MASK
     }
+
+    pub fn description(&self) -> Option<&str> {
+        match *self {
+            Status::SUCCESS => Some("Success"),
+            Status::LOAD_ERROR => Some("Load Error"),
+            Status::INVALID_PARAMETER => Some("Invalid Parameter"),
+            Status::UNSUPPORTED => Some("Unsupported"),
+            Status::BAD_BUFFER_SIZE => Some("Bad Buffer Size"),
+            Status::BUFFER_TOO_SMALL => Some("Buffer Too Small"),
+            Status::NOT_READY => Some("Not Ready"),
+            Status::DEVICE_ERROR => Some("Device Error"),
+            Status::WRITE_PROTECTED => Some("Write Protected"),
+            Status::OUT_OF_RESOURCES => Some("Out of Resources"),
+            Status::VOLUME_CORRUPTED => Some("Volume Corrupt"),
+            Status::VOLUME_FULL => Some("Volume Full"),
+            Status::NO_MEDIA => Some("No Media"),
+            Status::MEDIA_CHANGED => Some("Media Changed"),
+            Status::NOT_FOUND => Some("Not Found"),
+            Status::ACCESS_DENIED => Some("Access Denied"),
+            Status::NO_RESPONSE => Some("No Response"),
+            Status::NO_MAPPING => Some("No Mapping"),
+            Status::TIMEOUT => Some("Timeout"),
+            Status::NOT_STARTED => Some("Not Started"),
+            Status::ALREADY_STARTED => Some("Already Started"),
+            Status::ABORTED => Some("Aborted"),
+            Status::ICMP_ERROR => Some("ICMP Error"),
+            Status::TFTP_ERROR => Some("TFTP Error"),
+            Status::PROTOCOL_ERROR => Some("Protocol Error"),
+            Status::INCOMPATIBLE_VERSION => Some("Incompatible Version"),
+            Status::SECURITY_VIOLATION => Some("Security Violation"),
+            Status::CRC_ERROR => Some("CRC Error"),
+            Status::END_OF_MEDIA => Some("End of Media"),
+            Status::END_OF_FILE => Some("End of File"),
+            Status::INVALID_LANGUAGE => Some("Invalid Language"),
+            Status::COMPROMISED_DATA => Some("Compromised Data"),
+            Status::IP_ADDRESS_CONFLICT => Some("IP Address Conflict"),
+            Status::HTTP_ERROR => Some("HTTP Error"),
+            Status::NETWORK_UNREACHABLE => Some("Network Unreachable"),
+            Status::HOST_UNREACHABLE => Some("Host Unreachable"),
+            Status::PROTOCOL_UNREACHABLE => Some("Protocol Unreachable"),
+            Status::PORT_UNREACHABLE => Some("Port Unreachable"),
+            Status::CONNECTION_FIN => Some("Connection FIN"),
+            Status::CONNECTION_RESET => Some("Connection Reset"),
+            Status::CONNECTION_REFUSED => Some("Connection Refused"),
+            Status::WARN_UNKNOWN_GLYPH => Some("Warning Unknown Glyph"),
+            Status::WARN_DELETE_FAILURE => Some("Warning Delete Failure"),
+            Status::WARN_WRITE_FAILURE => Some("Warning Write Failure"),
+            Status::WARN_BUFFER_TOO_SMALL => Some("Warning Buffer Too Small"),
+            Status::WARN_STALE_DATA => Some("Warning Stale Data"),
+            Status::WARN_FILE_SYSTEM => Some("Warning File System"),
+            Status::WARN_RESET_REQUIRED => Some("Warning Reset Required"),
+            _ => None,
+        }
+    }
 }
 
 impl From<Status> for Result<Status, Status> {
@@ -660,6 +714,15 @@ impl From<Status> for Result<Status, Status> {
             Err(status)
         } else {
             Ok(status)
+        }
+    }
+}
+
+impl core::fmt::Display for Status {
+    fn fmt(&self, f: &mut core::fmt::Formatter) -> core::fmt::Result {
+        match self.description() {
+            None => write!(f, "{:08X}", self.value()),
+            Some(v) => v.fmt(f),
         }
     }
 }
@@ -957,6 +1020,21 @@ mod tests {
                 }
             }
         }
+    }
+
+    // Verify Status API
+    //
+    // Test the different methods and traits on `Status` and verify their
+    // correctness.
+    #[test]
+    fn status() {
+        assert_eq!(format!("{:}", &Status::SUCCESS), "Success");
+        assert_eq!(format!("{:>16}", &Status::SUCCESS), "         Success");
+
+        // invalid status codes should be printed as hex
+        let status = Status::from_usize(200);
+        assert_eq!(status.description(), None);
+        assert_eq!(format!("{}", &status), "000000C8");
     }
 
     // Verify Guid Manipulations
