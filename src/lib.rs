@@ -160,20 +160,25 @@
 // implementation, which uses a flat namespace due to its origins in the C language. For
 // compatibility, we provide this flat namespace as well. See the `efi` submodule.
 #[macro_use]
+#[rustfmt::skip]
 pub mod base;
 #[macro_use]
+#[rustfmt::skip]
 pub mod hii;
 #[macro_use]
+#[rustfmt::skip]
 pub mod system;
 
 // Import the protocols. Each protocol is separated into its own module, readily imported by the
 // meta `protocols` module. Note that this puts all symbols into their respective protocol
 // namespace, thus clearly separating them (unlike the UEFI Specification, which more often than
 // not violates its own namespacing).
+#[rustfmt::skip]
 pub mod protocols;
 
 // Import vendor protocols. They are just like protocols in `protocols`, but
 // separated for better namespacing.
+#[rustfmt::skip]
 pub mod vendor;
 
 /// Flat EFI Namespace
