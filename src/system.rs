@@ -533,6 +533,55 @@ pub struct ConformanceProfilesTable<const N: usize = 0> {
     pub conformance_profiles: [crate::base::Guid; N],
 }
 
+pub const DEBUG_IMAGE_INFO_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields(
+    0x49152e77,
+    0x1ada,
+    0x4764,
+    0xb7,
+    0xa2,
+    &[0x7a, 0xfe, 0xfe, 0xd9, 0x5e, 0x8b],
+);
+
+pub const DEBUG_IMAGE_INFO_TYPE_NORMAL: u32 = 0x00000001;
+
+#[repr(C)]
+#[derive(Clone, Copy, Debug)]
+pub struct DebugImageInfoTableHeader {
+    // This is defined as volatile in the spec, but Rust does not have a
+    // concept of volatile fields. We use the `volatile_` prefix to indicate
+    // that the spec envisions this field being accessed via volatile reads and
+    // writes
+    pub volatile_update_status: u32,
+    pub table_size: u32,
+    pub debug_image_info_table: *mut DebugImageInfo,
+}
+
+pub const DEBUG_IMAGE_INFO_UPDATE_IN_PROGRESS: u32 = 0x00000001;
+pub const DEBUG_IMAGE_INFO_TABLE_MODIFIED: u32 = 0x00000002;
+
+#[repr(C)]
+#[derive(Clone, Copy, Debug)]
+pub struct DebugImageInfoNormal {
+    pub image_info_type: u32,
+    pub loaded_image_protocol_instance: *mut crate::protocols::loaded_image::Protocol,
+    pub image_handle: crate::base::Handle,
+}
+
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub union DebugImageInfo {
+    pub image_info_type: *mut u32,
+    pub normal_image: *mut DebugImageInfoNormal,
+}
+
+#[repr(C)]
+#[derive(Clone, Copy, Debug)]
+pub struct SystemTablePointer {
+    pub signature: u64,
+    pub efi_system_table_base: crate::base::PhysicalAddress,
+    pub crc32: u32,
+}
+
 //
 // External Configuration Tables
 //
