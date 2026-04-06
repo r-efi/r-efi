@@ -114,6 +114,30 @@ pub const HARDWARE_ERROR_VARIABLE_GUID: crate::base::Guid = crate::base::Guid::f
     &[0xBB, 0x61, 0x02, 0x0C, 0xF5, 0x16],
 );
 
+pub const GLOBAL_VARIABLE: crate::base::Guid = crate::base::Guid::from_fields(
+    0x8BE4DF61,
+    0x93CA,
+    0x11d2,
+    0xAA,
+    0x0D,
+    &[0x00, 0xE0, 0x98, 0x03, 0x2B, 0x8C],
+);
+
+//
+// Boot Manager
+//
+// The UEFI Boot Manager uses load options to describe boot and driver entries. Each load option
+// variable (Boot####, Driver####) contains an EFI_LOAD_OPTION descriptor with attributes that
+// control how the option is processed.
+//
+
+pub const LOAD_OPTION_ACTIVE: u32 = 0x00000001u32;
+pub const LOAD_OPTION_FORCE_RECONNECT: u32 = 0x00000002u32;
+pub const LOAD_OPTION_HIDDEN: u32 = 0x00000008u32;
+pub const LOAD_OPTION_CATEGORY: u32 = 0x00001F00u32;
+pub const LOAD_OPTION_CATEGORY_BOOT: u32 = 0x00000000u32;
+pub const LOAD_OPTION_CATEGORY_APP: u32 = 0x00000100u32;
+
 //
 // Virtual Mappings
 //
