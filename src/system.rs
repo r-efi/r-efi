@@ -517,7 +517,9 @@ pub const MEMORY_ATTRIBUTES_TABLE_GUID: crate::base::Guid = crate::base::Guid::f
     &[0x38, 0xb7, 0xdc, 0x46, 0x12, 0x20],
 );
 
-pub const MEMORY_ATTRIBUTES_TABLE_VERSION: u32 = 0x00000001u32;
+pub const MEMORY_ATTRIBUTES_TABLE_VERSION: u32 = 0x00000002u32;
+
+pub const MEMORY_ATTRIBUTES_TABLE_FLAGS_RT_FORWARD_CONTROL_FLOW_GUARD: u32 = 0x00000001u32;
 
 #[repr(C)]
 #[derive(Clone, Copy, Debug)]
@@ -525,7 +527,7 @@ pub struct MemoryAttributesTable<const N: usize = 0> {
     pub version: u32,
     pub number_of_entries: u32,
     pub descriptor_size: u32,
-    pub reserved: u32,
+    pub flags: u32,
     pub entry: [MemoryDescriptor; N],
 }
 
