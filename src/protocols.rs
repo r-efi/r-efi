@@ -35,6 +35,7 @@ pub mod loaded_image_device_path;
 pub mod managed_network;
 pub mod memory_attribute;
 pub mod mp_services;
+pub mod partition_info;
 pub mod pci_io;
 pub mod platform_driver_override;
 pub mod rng;
