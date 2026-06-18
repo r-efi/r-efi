@@ -146,6 +146,21 @@
 //! }
 //! ```
 
+// MSRV(unknown): This is a wishlist for Rust features that either have no
+//     clear path to stabilization, or simply don't exist. Only issues relevant
+//     to this project are listed.
+//
+// - MSRV(aligned-and-packed): Builtin-aligned types can be embedded in packed
+//     structures, but custom-aligned types cannot. The reason is that MSVC
+//     propagates the alignment of members in a packed structure if, and only
+//     if, it uses custom alignment.
+//     No other compiler behaves like this, nor does it affect inherent
+//     alignment. It is really just regarding `__declspec(align(N))` on custom
+//     types in MSVC.
+//     To get the standard behavior of all other compilers, and to work around
+//     the explicit restriction in Rust, you can use private generics for any
+//     embedded type (even with the desired default).
+
 // Mark this crate as `no_std`. We have no std::* dependencies (and we better don't have them),
 // so no reason to require it. This does not mean that you cannot use std::* with UEFI. You have
 // to port it to UEFI first, though.
@@ -162,6 +177,9 @@
 #[macro_use]
 #[rustfmt::skip]
 pub mod base;
+#[macro_use]
+#[rustfmt::skip]
+pub mod gpt;
 #[macro_use]
 #[rustfmt::skip]
 pub mod hii;
@@ -196,6 +214,7 @@ pub mod efi {
     pub use crate::base::*;
     pub use crate::system::*;
 
+    pub use crate::gpt;
     pub use crate::hii;
     pub use crate::protocols;
     pub use crate::vendor;
