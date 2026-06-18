@@ -19,12 +19,32 @@ pub const TYPE_OTHER: u32 = 0x00;
 pub const TYPE_MBR: u32 = 0x01;
 pub const TYPE_GPT: u32 = 0x02;
 
+#[derive(Clone, Copy)]
 #[repr(C)]
-#[derive(Debug, Copy, Clone)]
+pub union ProtocolInfo {
+    pub gpt: crate::gpt::PartitionEntry,
+}
+
+#[derive(Clone, Copy)]
+#[repr(C, packed(1))]
 pub struct Protocol {
     pub revision: u32,
     pub partition_type: u32,
     pub system: u8,
     pub reserved: [u8; 7],
-    pub info: [u8; 128],
+    pub info: ProtocolInfo,
+}
+
+#[cfg(test)]
+mod test {
+    use core::mem;
+    use super::*;
+
+    // Since the spec uses `#pragma pack(1)` on some structures, verify that
+    // the layouts are correctly translated into Rust.
+    #[test]
+    fn layout() {
+        assert_eq!(mem::align_of::<Protocol>(), 1);
+        assert_eq!(mem::size_of::<Protocol>(), 4 + 4 + 1 + 7 + 128);
+    }
 }
