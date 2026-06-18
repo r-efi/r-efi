@@ -1,31 +1,35 @@
 //! UEFI Reference Specification Protocol Constants and Definitions
 //!
-//! This project provides protocol constants and definitions as defined in the UEFI Reference
-//! Specification. The aim is to provide all these constants as C-ABI compatible imports to rust.
-//! Safe rust abstractions over the UEFI API are out of scope of this project. That is, the
-//! purpose is really just to extract all the bits and pieces from the specification and provide
-//! them as rust types and constants.
+//! This project provides protocol constants and definitions as defined in the
+//! UEFI Reference Specification. The aim is to provide all these constants as
+//! C-ABI compatible imports to rust. Safe rust abstractions over the UEFI API
+//! are out of scope of this project. That is, the purpose is really just to
+//! extract all the bits and pieces from the specification and provide them as
+//! rust types and constants.
 //!
-//! While we strongly recommend using safe abstractions to interact with UEFI systems, this
-//! project serves both as base to write those abstractions, but also as last resort if you have
-//! to deal with quirks and peculiarities of UEFI systems directly. Therefore, several examples
-//! are included, which show how to interact with UEFI systems from rust. These serve both as
-//! documentation for anyone interested in how the system works, but also as base for anyone
-//! implementing safe abstractions on top.
+//! While we strongly recommend using safe abstractions to interact with UEFI
+//! systems, this project serves both as base to write those abstractions, but
+//! also as last resort if you have to deal with quirks and peculiarities of
+//! UEFI systems directly. Therefore, several examples are included, which show
+//! how to interact with UEFI systems from rust. These serve both as
+//! documentation for anyone interested in how the system works, but also as
+//! base for anyone implementing safe abstractions on top.
 //!
 //! # Target Configuration
 //!
-//! Rust code can be compiled natively for UEFI systems. However, you are quite unlikely to have a
-//! rust compiler running in an UEFI environment. Therefore, you will most likely want to cross
-//! compile your rust code for UEFI systems. To do this, you need a target-configuration for UEFI
-//! systems. As of rust-1.61, upstream rust includes the following UEFI targets:
+//! Rust code can be compiled natively for UEFI systems. However, you are quite
+//! unlikely to have a rust compiler running in an UEFI environment. Therefore,
+//! you will most likely want to cross compile your rust code for UEFI systems.
+//! To do this, you need a target-configuration for UEFI systems. As of
+//! rust-1.61, upstream rust includes the following UEFI targets:
 //!
-//!  * `aarch64-unknown-uefi`: A native UEFI target for aarch64 systems (64bit ARM).
-//!  * `i686-unknown-uefi`: A native UEFI target for i686 systems (32bit Intel x86).
-//!  * `x86_64-unknown-uefi`: A native UEFI target for x86-64 systems (64bit Intel x86).
+//!  * `aarch64-unknown-uefi`: native target for aarch64 systems (64bit ARM).
+//!  * `i686-unknown-uefi`: native target for i686 systems (32bit Intel x86).
+//!  * `x86_64-unknown-uefi`: native target for x86-64 systems (64bit Intel x86).
 //!
-//! If none of these targets match your architecture, you have to create the target specification
-//! yourself. Feel free to contact the `r-efi` project for help.
+//! If none of these targets match your architecture, you have to create the
+//! target specification yourself. Feel free to contact the `r-efi` project for
+//! help.
 //!
 //! # Transpose Guidelines
 //!
@@ -34,7 +38,7 @@
 //! and UEFI programming is often tightly coupled with the C language. For
 //! better compatibility to existing UEFI documentation, all the rust symbols
 //! are transposed from C following strict rules, aiming for close similarity
-//! to specification. This section gives a rationale on some of the less
+//! to the specification. This section gives a rationale on some of the less
 //! obvious choices and tries to describe as many of those rules as possible.
 //!
 //!  * `no enums`: Rust enums do not allow random discriminant values. However,
