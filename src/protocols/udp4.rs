@@ -21,7 +21,7 @@ pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::
 );
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ConfigData {
     pub accept_broadcast: crate::base::Boolean,
     pub accept_promiscuous: crate::base::Boolean,
@@ -41,7 +41,7 @@ pub struct ConfigData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct SessionData {
     pub source_address: crate::base::Ipv4Address,
     pub source_port: u16,
@@ -50,14 +50,14 @@ pub struct SessionData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct FragmentData {
     pub fragment_length: u32,
     pub fragment_buffer: *mut core::ffi::c_void,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct ReceiveData<const N: usize = 0> {
     pub time_stamp: crate::system::Time,
     pub recycle_signal: crate::base::Event,
@@ -68,7 +68,7 @@ pub struct ReceiveData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct TransmitData<const N: usize = 0> {
     pub udp_session_data: *mut SessionData,
     pub gateway_address: *mut crate::base::Ipv4Address,
@@ -78,14 +78,15 @@ pub struct TransmitData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union CompletionTokenPacket {
     pub rx_data: *mut ReceiveData,
     pub tx_data: *mut TransmitData,
 }
 
+unsafe_derive_clone_assume_copy!(CompletionTokenPacket);
+
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct CompletionToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,
