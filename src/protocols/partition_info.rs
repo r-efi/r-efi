@@ -29,7 +29,7 @@ pub union ProtocolInfo {
 #[repr(C, packed(1))]
 pub struct Protocol {
     pub revision: u32,
-    pub partition_type: u32,
+    pub r#type: u32,
     pub system: u8,
     pub reserved: [u8; 7],
     pub info: ProtocolInfo,
