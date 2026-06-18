@@ -106,6 +106,11 @@
 //!    unconditionally, so the prototypes can be used for externally provided
 //!    code.
 //!
+//!  * `derive Clone+Copy`: All transposed types derive `Clone` and `Copy`.
+//!    While we possibly would like to move away from `Copy`, Rust requires
+//!    types used in unions to be `Copy` to ensure they have no `Drop`
+//!    handlers. Until this is fixed, this rule will apply.
+//!
 //! # Specification Details
 //!
 //! This section lists errata of, and general comments on, the UEFI
