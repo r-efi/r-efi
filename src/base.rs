@@ -257,6 +257,39 @@ macro_rules! eficall {
     ($($arg:tt)*) => { eficall!{@munch((),($($arg)*))} };
 }
 
+/// Derive `Clone` assuming the type was `Copy`.
+///
+/// This will provide a trivial `Clone` implementation for `$type` unsafely
+/// assuming that `$type` was `Copy`. Use this when you do not want `$type` to
+/// expose `Copy`, but still want a trivial `Clone` implementation.
+///
+/// # Safety
+///
+/// The caller must guarantee that `$type` behaves as if it was `Copy`.
+macro_rules!
+    unsafe_derive_clone_assume_copy
+{ ($type:ty) => {
+    impl core::clone::Clone for $type {
+        fn clone(&self) -> Self {
+            let mut v = core::mem::MaybeUninit::uninit();
+            // SAFETY:
+            // - `self` is valid for reads of `1 * size_of::<Self>()` bytes
+            // - `v` is valid for writes of `1 * size_of::<Self>()` bytes
+            // - both `self` and `v` are properly aligned
+            // - `self` and `v` do not overlap
+            unsafe {
+                core::ptr::copy_nonoverlapping(self, v.as_mut_ptr(), 1);
+            }
+            // SAFETY:
+            // - `v` was initialized as a copy of `self`
+            // - user guarantees that `Self` behaves as if it was `Copy`
+            unsafe {
+                v.assume_init()
+            }
+        }
+    }
+}}
+
 /// Boolean Type
 ///
 /// This boolean type works very similar to the rust primitive type of [`bool`]. However, the rust
@@ -946,6 +979,26 @@ mod tests {
         eficall! {fn _unused00() {}}
         eficall! {unsafe fn _unused01() {}}
         eficall! {pub unsafe fn _unused02() {}}
+    }
+
+    // Verify unsafe_derive_clone_assume_copy!()
+    //
+    // Test the macro and verify that it properly copies the content.
+    #[test]
+    fn derive_clone() {
+        struct Test {
+            a: u8,
+            b: u32,
+            c: u64,
+        }
+
+        unsafe_derive_clone_assume_copy!(Test);
+
+        let v = Test { a: 1, b: 71, c: 128 };
+
+        assert_eq!(v.a, v.clone().a);
+        assert_eq!(v.b, v.clone().b);
+        assert_eq!(v.c, v.clone().c);
     }
 
     // Verify Boolean ABI
