@@ -2,9 +2,7 @@
 //!
 //! The Partition Info protocol provides access to partition information.
 
-use crate::efi::Guid;
-
-pub const PROTOCOL_GUID: Guid = Guid::from_fields(
+pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
     0x8cf2f62c,
     0xbc9b,
     0x4821,
@@ -15,9 +13,9 @@ pub const PROTOCOL_GUID: Guid = Guid::from_fields(
 
 pub const REVISION: u32 = 0x00001000;
 
-pub const TYPE_OTHER: u32 = 0x00;
-pub const TYPE_MBR: u32 = 0x01;
-pub const TYPE_GPT: u32 = 0x02;
+pub const TYPE_OTHER: u32 = 0x00000000;
+pub const TYPE_MBR: u32 = 0x00000001;
+pub const TYPE_GPT: u32 = 0x00000002;
 
 #[derive(Clone, Copy)]
 #[repr(C)]
