@@ -31,6 +31,22 @@
 //! target specification yourself. Feel free to contact the `r-efi` project for
 //! help.
 //!
+//! # Versioning
+//!
+//! This project always targets the latest UEFI specification. Whenever the
+//! specification is updated with breaking changes, this project will also bump
+//! its major version. UEFI guarantees backwards compatibility of its ABI, but
+//! its API can change in a limited scope (e.g., adding fields to versioned
+//! structures).
+//!
+//! Furthermore, this project might bump its major version when changing
+//! transpose guidelines in an incompatible way.
+//!
+//! Consumers are strongly recommended to never expose types of this project in
+//! their public API, but always erase type-information first. This guarantees
+//! that different r-efi versions can be combined together, without requiring
+//! ecosystem-wide synchronization (thus only relying on UEFI ABI stability).
+//!
 //! # Transpose Guidelines
 //!
 //! The UEFI specification provides C language symbols and definitions of all
