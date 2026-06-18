@@ -1,5 +1,41 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 7.0.0:
+
+    Breaking Changes:
+
+        * MemoryAttributesTable is updated to v2, available since UEFI 2.10.
+          This re-uses the previous `reserved` member as a `flags` member and
+          thus constitutes a breaking change.
+
+          Consumers of this structure can likely update without any changes.
+          Producers can clear the field to zero and retain table-version 1, or
+          use the new table-version 2 and fill in the flags properly.
+
+    Other Changes:
+
+        * `Display` is now implemented for `Status`, printing their string
+          description rather than integer representation, using the same
+          descriptions as EDK2. Unknown status codes are printed in hex. A
+          new `Status::description()` method can be used to get the same
+          value without relying on `Display`.
+
+        * Add `EFI_DEBUG_IMAGE_INFO_TABLE` and related definitions.
+
+        * Add `LOAD_OPTION` and related definitions.
+
+        * Add `r_efi::gpt` with an initial set of GPT-related definitions. This
+          is a new high-level module and will eventually contain all GPT
+          definitions.
+
+        * New protocols: partition-info
+
+        Contributions from: Chris Fernald, David Rheinsberg,
+                            Enric Balletbo i Serra, Kat Perez,
+                            Oliver Smith-Denny
+
+        - Dußlingen, 2026-06-18
+
 ## CHANGES WITH 6.0.0:
 
         * Change all function prototypes to use `unsafe fn`. This is a major
