@@ -34,7 +34,7 @@
                             Enric Balletbo i Serra, Kat Perez,
                             Oliver Smith-Denny
 
-        - Dußlingen, 2026-06-18
+        - Dußlingen, 2026-06-23
 
 ## CHANGES WITH 6.0.0:
 
