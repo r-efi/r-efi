@@ -28,6 +28,8 @@ rust-version = "1.68"
 core = { version = '1.0.0', optional = true, package = 'rustc-std-workspace-core' }
 
 [features]
+# Enable features requiring rustc-1.91 or newer.
+msrv-1-91 = []
 # We feature-gate all native code, since it will not link correctly, unless you
 # use a UEFI target configuration. To make `cargo test` work, we exclude all
 # these from normal runs.
