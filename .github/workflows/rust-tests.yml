@@ -48,6 +48,33 @@ jobs:
       run: cargo test --verbose
 
   #
+  # CI with explicit MSRV feature
+  #
+  # This simply runs `cargo build && cargo test` on all sources, but selects
+  # different MSRVs via feature flags.
+  #
+  ci-feature-msrv:
+    name: "Default (feature: msrv) - rust-${{ matrix.rust }}@${{ matrix.os }}"
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest"]
+        rust: ["stable"]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: "Fetch Sources"
+      uses: actions/checkout@v3
+    - name: "Install Rust Components"
+      run: rustup default "${{ matrix.rust }}"
+    - name: "Build Project"
+      run: cargo build --features msrv-1-91 --verbose --all-targets
+    - name: "Run Tests"
+      run: cargo test --features msrv-1-91 --verbose
+
+  #
   # Cross-Compilation to UEFI Target
   #
   # This cross-compiles all sources (including the examples) for native UEFI
