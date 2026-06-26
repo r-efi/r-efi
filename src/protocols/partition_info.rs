@@ -17,13 +17,13 @@ pub const TYPE_OTHER: u32 = 0x00000000;
 pub const TYPE_MBR: u32 = 0x00000001;
 pub const TYPE_GPT: u32 = 0x00000002;
 
-#[derive(Clone, Copy)]
 #[repr(C)]
 pub union ProtocolInfo {
-    pub gpt: crate::gpt::PartitionEntry,
+    pub gpt: core::mem::ManuallyDrop<crate::gpt::PartitionEntry>,
 }
 
-#[derive(Clone, Copy)]
+unsafe_derive_clone_assume_copy!(ProtocolInfo);
+
 #[repr(C, packed(1))]
 pub struct Protocol {
     pub revision: u32,
@@ -32,6 +32,8 @@ pub struct Protocol {
     pub reserved: [u8; 7],
     pub info: ProtocolInfo,
 }
+
+unsafe_derive_clone_assume_copy!(Protocol);
 
 #[cfg(test)]
 mod test {

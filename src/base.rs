@@ -263,13 +263,17 @@ macro_rules! eficall {
 /// assuming that `$type` was `Copy`. Use this when you do not want `$type` to
 /// expose `Copy`, but still want a trivial `Clone` implementation.
 ///
+/// For generic types, pass the generic parameters in brackets before the type,
+/// e.g. `unsafe_derive_clone_assume_copy!([const N: usize] Foo<N>)`.
+///
 /// # Safety
 ///
 /// The caller must guarantee that `$type` behaves as if it was `Copy`.
 macro_rules!
     unsafe_derive_clone_assume_copy
-{ ($type:ty) => {
-    impl core::clone::Clone for $type {
+{
+    ([$($generics:tt)*] $type:ty) => {
+    impl<$($generics)*> core::clone::Clone for $type {
         fn clone(&self) -> Self {
             let mut v = core::mem::MaybeUninit::uninit();
             // SAFETY:
@@ -286,6 +290,81 @@ macro_rules!
             unsafe {
                 v.assume_init()
             }
+        }
+    }
+    };
+    ($type:ty) => {
+        unsafe_derive_clone_assume_copy!([] $type);
+    };
+}
+
+/// Derive `Debug` assuming the type was `Copy`.
+///
+/// This provides a trivial `Debug` implementation for `$type` that prints the
+/// listed fields. Each field is read with an unaligned read, so this works for
+/// `#[repr(packed)]` types whose fields cannot be referenced directly, as well
+/// as for types whose fields do not implement `Copy`. Use this when deriving
+/// `Debug` is not possible because `$type` is packed and a field does not
+/// implement `Copy`.
+///
+/// The fields to print are listed in braces after the type, e.g.
+/// `unsafe_derive_debug_assume_copy!(Foo { a, b, c })`.
+///
+/// For generic types, pass the generic parameters in brackets before the type,
+/// e.g. `unsafe_derive_debug_assume_copy!([const N: usize] Foo<N> { a, b })`.
+///
+/// # Safety
+///
+/// The caller must guarantee that each listed field behaves as if it was
+/// `Copy`, since each field is read by value via an unaligned bitwise copy.
+macro_rules!
+    unsafe_derive_debug_assume_copy
+{
+    ([$($generics:tt)*] $type:ty { $($field:ident),* $(,)? }) => {
+    impl<$($generics)*> core::fmt::Debug for $type {
+        fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+            f.debug_struct(core::stringify!($type))
+                $(
+                    .field(
+                        core::stringify!($field),
+                        // SAFETY:
+                        // - `self` is a valid reference, so `addr_of!` yields a
+                        //   valid (possibly unaligned) pointer to the field
+                        // - the field is read with an unaligned read, so packed
+                        //   layouts are handled correctly
+                        // - user guarantees that the field behaves as if it was
+                        //   `Copy`, so reading it by value is sound
+                        &unsafe {
+                            core::ptr::read_unaligned(core::ptr::addr_of!(self.$field))
+                        },
+                    )
+                )*
+                .finish()
+        }
+    }
+    };
+    ($type:ty { $($field:ident),* $(,)? }) => {
+        unsafe_derive_debug_assume_copy!([] $type { $($field),* });
+    };
+}
+
+/// Implement `From<$type>` for `ManuallyDrop<$type>`.
+///
+/// This provides `Into<ManuallyDrop<$type>>` for `$type`, allowing a value to
+/// be wrapped in a [`core::mem::ManuallyDrop`] via [`Into::into`]. It is
+/// primarily useful when initializing union fields, which must be declared as
+/// `ManuallyDrop<$type>` whenever `$type` is not `Copy`. With this conversion,
+/// such fields can be initialized as `Foo { ... }.into()` rather than the more
+/// verbose `core::mem::ManuallyDrop::new(Foo { ... })`.
+///
+/// Since `ManuallyDrop` implements [`core::ops::Deref`], the wrapped value can
+/// be read without bringing `ManuallyDrop` into scope.
+macro_rules!
+    derive_into_manually_drop
+{ ($type:ty) => {
+    impl core::convert::From<$type> for core::mem::ManuallyDrop<$type> {
+        fn from(v: $type) -> Self {
+            core::mem::ManuallyDrop::new(v)
         }
     }
 }}
