@@ -45,7 +45,7 @@ pub const SYSTEM_VOLUME_LABEL_ID: crate::base::Guid = crate::base::Guid::from_fi
 );
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct IoToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,
@@ -54,7 +54,7 @@ pub struct IoToken {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Info<const N: usize = 0> {
     pub size: u64,
     pub file_size: u64,
@@ -67,7 +67,7 @@ pub struct Info<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemInfo<const N: usize = 0> {
     pub size: u64,
     pub read_only: crate::base::Boolean,
@@ -78,7 +78,7 @@ pub struct SystemInfo<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemVolumeLabel<const N: usize = 0> {
     pub volume_label: [crate::base::Char16; N],
 }

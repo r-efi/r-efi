@@ -28,7 +28,7 @@ pub const COMMAND_INTERRUPT: u32 = 0x00000004u32;
 pub const SOFTWARE_INTERRUPT: u32 = 0x000000008u32;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Mode {
     pub state: u32,
     pub hw_address_size: u32,
@@ -59,7 +59,7 @@ pub const INITIALIZED: State = 0x00000002;
 pub const MAX_STATE: State = 0x00000003;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Statistics {
     pub rx_total_frames: u64,
     pub rx_good_frames: u64,

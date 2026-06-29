@@ -70,7 +70,7 @@ pub struct Protocol {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct DisplayInfo {
     pub foreground_color: super::graphics_output::BltPixel,
     pub background_color: super::graphics_output::BltPixel,
@@ -92,14 +92,15 @@ pub const INFO_ANY_SIZE: InfoMask = 0x00020000;
 pub const INFO_ANY_STYLE: InfoMask = 0x00040000;
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union ImageOutputImage {
     pub bitmap: *mut super::graphics_output::BltPixel,
     pub screen: *mut super::graphics_output::Protocol,
 }
 
+unsafe_derive_clone_assume_copy!(ImageOutputImage);
+
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct ImageOutput {
     pub width: u16,
     pub height: u16,

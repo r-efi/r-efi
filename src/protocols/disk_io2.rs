@@ -15,7 +15,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 pub const REVISION: u64 = 0x0000000000020000u64;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Token {
     event: crate::base::Event,
     transaction_status: crate::base::Status,
