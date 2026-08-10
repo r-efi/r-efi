@@ -1,5 +1,22 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 7.1.0:
+
+        * Add the UEFI USB IO protocol.
+
+        * Add parts of the UEFI PI SMBIOS protocol.
+
+        * Add `r_efi::industry` as a new module that will carry external
+          definitions relevant to UEFI development. This mirrors parts of the
+          `IndustryStandard` section of EDK2. However, unlike EDK2, there is no
+          intention in ever carrying full external standards. Instead, those
+          definitions should be moved into external SDKs or protocol crates, if
+          needed.
+
+        Contributions from: David Rheinsberg, John Schock, Kat Perez
+
+        - Dußlingen, 2026-08-10
+
 ## CHANGES WITH 7.0.0:
 
     Breaking Changes:
