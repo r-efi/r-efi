@@ -7,6 +7,8 @@
 pub mod absolute_pointer;
 pub mod block_io;
 pub mod bus_specific_driver_override;
+pub mod component_name;
+pub mod component_name2;
 pub mod debug_support;
 pub mod debugport;
 pub mod decompress;
