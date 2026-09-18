@@ -23,7 +23,7 @@ pub const UNSPECIFIED_TIMEZONE: i16 = 0x07ffi16;
 
 // Cannot derive `Eq` etc. due to uninitialized `pad2` field.
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct Time {
     pub year: u16,
     pub month: u8,
@@ -39,7 +39,7 @@ pub struct Time {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct TimeCapabilities {
     pub resolution: u32,
     pub accuracy: u32,
@@ -65,7 +65,7 @@ pub const VARIABLE_ENHANCED_AUTHENTICATED_ACCESS: u32 = 0x00000080u32;
 pub const VARIABLE_AUTHENTICATION_3_CERT_ID_SHA256: u32 = 0x1u32;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct VariableAuthentication3CertId<const N: usize = 0> {
     pub r#type: u8,
     pub id_size: u32,
@@ -73,14 +73,14 @@ pub struct VariableAuthentication3CertId<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct VariableAuthentication<const N: usize = 0> {
     pub monotonic_count: u64,
     pub auth_info: [u8; N], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct VariableAuthentication2<const N: usize = 0> {
     pub timestamp: Time,
     pub auth_info: [u8; N], // WIN_CERTIFICATE_UEFI_ID from PE/COFF
@@ -90,7 +90,7 @@ pub const VARIABLE_AUTHENTICATION_3_TIMESTAMP_TYPE: u32 = 0x1u32;
 pub const VARIABLE_AUTHENTICATION_3_NONCE_TYPE: u32 = 0x2u32;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct VariableAuthentication3 {
     pub version: u8,
     pub r#type: u8,
@@ -99,7 +99,7 @@ pub struct VariableAuthentication3 {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct VariableAuthentication3Nonce<const N: usize = 0> {
     pub nonce_size: u32,
     pub nonce: [u8; N],
@@ -170,14 +170,15 @@ pub const RESET_PLATFORM_SPECIFIC: ResetType = 0x00000003;
 //
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union CapsuleBlockDescriptorUnion {
     pub data_block: crate::base::PhysicalAddress,
     pub continuation_pointer: crate::base::PhysicalAddress,
 }
 
+unsafe_derive_clone_assume_copy!(CapsuleBlockDescriptorUnion);
+
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct CapsuleBlockDescriptor {
     pub length: u64,
     pub data: CapsuleBlockDescriptorUnion,
@@ -188,7 +189,7 @@ pub const CAPSULE_FLAGS_POPULATE_SYSTEM_TABLE: u32 = 0x00020000u32;
 pub const CAPSULE_FLAGS_INITIATE_RESET: u32 = 0x00040000u32;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct CapsuleHeader {
     pub capsule_guid: crate::base::Guid,
     pub header_size: u32,
@@ -214,7 +215,7 @@ pub const CAPSULE_REPORT_GUID: crate::base::Guid = crate::base::Guid::from_field
 );
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct CapsuleResultVariableHeader {
     pub variable_total_size: u32,
     pub reserved: u32,
@@ -224,7 +225,7 @@ pub struct CapsuleResultVariableHeader {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct CapsuleResultVariableFMP<const N: usize = 0> {
     pub version: u16,
     pub payload_index: u8,
@@ -395,7 +396,7 @@ pub const MEMORY_ATTRIBUTE_MASK: u64 = MEMORY_ACCESS_MASK | MEMORY_SP | MEMORY_C
 pub const MEMORY_DESCRIPTOR_VERSION: u32 = 0x00000001u32;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct MemoryDescriptor {
     pub r#type: u32,
     pub physical_start: crate::base::PhysicalAddress,
@@ -431,7 +432,7 @@ pub const OPEN_PROTOCOL_BY_DRIVER: u32 = 0x00000010u32;
 pub const OPEN_PROTOCOL_EXCLUSIVE: u32 = 0x00000020u32;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct OpenProtocolInformationEntry {
     pub agent_handle: crate::base::Handle,
     pub controller_handle: crate::base::Handle,
@@ -447,7 +448,7 @@ pub struct OpenProtocolInformationEntry {
 //
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ConfigurationTable {
     pub vendor_guid: crate::base::Guid,
     pub vendor_table: *mut core::ffi::c_void,
@@ -480,7 +481,7 @@ pub const RT_SUPPORTED_QUERY_CAPSULE_CAPABILITIES: u32 = 0x00001000;
 pub const RT_SUPPORTED_QUERY_VARIABLE_INFO: u32 = 0x00002000;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct RtPropertiesTable {
     pub version: u16,
     pub length: u16,
@@ -501,7 +502,7 @@ pub const PROPERTIES_TABLE_VERSION: u32 = 0x00010000u32;
 pub const PROPERTIES_RUNTIME_MEMORY_PROTECTION_NON_EXECUTABLE_PE_DATA: u64 = 0x1u64;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct PropertiesTable {
     pub version: u32,
     pub length: u32,
@@ -522,7 +523,7 @@ pub const MEMORY_ATTRIBUTES_TABLE_VERSION: u32 = 0x00000002u32;
 pub const MEMORY_ATTRIBUTES_FLAGS_RT_FORWARD_CONTROL_FLOW_GUARD: u32 = 0x00000001u32;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct MemoryAttributesTable<const N: usize = 0> {
     pub version: u32,
     pub number_of_entries: u32,
@@ -552,7 +553,7 @@ pub const CONFORMANCE_PROFILES_UEFI_SPEC_GUID: crate::base::Guid = crate::base::
 );
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ConformanceProfilesTable<const N: usize = 0> {
     pub version: u16,
     pub number_of_profiles: u16,
@@ -571,7 +572,7 @@ pub const DEBUG_IMAGE_INFO_TABLE_GUID: crate::base::Guid = crate::base::Guid::fr
 pub const DEBUG_IMAGE_INFO_TYPE_NORMAL: u32 = 0x00000001;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct DebugImageInfoTableHeader {
     // This is defined as volatile in the spec, but Rust does not have a
     // concept of volatile fields. We use the `volatile_` prefix to indicate
@@ -586,7 +587,7 @@ pub const DEBUG_IMAGE_INFO_UPDATE_IN_PROGRESS: u32 = 0x00000001;
 pub const DEBUG_IMAGE_INFO_TABLE_MODIFIED: u32 = 0x00000002;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct DebugImageInfoNormal {
     pub image_info_type: u32,
     pub loaded_image_protocol_instance: *mut crate::protocols::loaded_image::Protocol,
@@ -594,14 +595,15 @@ pub struct DebugImageInfoNormal {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union DebugImageInfo {
     pub image_info_type: *mut u32,
     pub normal_image: *mut DebugImageInfoNormal,
 }
 
+unsafe_derive_clone_assume_copy!(DebugImageInfo);
+
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemTablePointer {
     pub signature: u64,
     pub efi_system_table_base: crate::base::PhysicalAddress,
@@ -717,7 +719,7 @@ pub const SMBIOS3_TABLE_GUID: crate::base::Guid = crate::base::Guid::from_fields
 pub const SPECIFICATION_REVISION: u32 = SYSTEM_TABLE_REVISION;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct TableHeader {
     pub signature: u64,
     pub revision: u32,

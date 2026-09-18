@@ -20,7 +20,7 @@ pub const TYPE_BIOS: u8 = 0x05;
 pub const TYPE_END: u8 = 0x7f;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Protocol {
     pub r#type: u8,
     pub sub_type: u8,
@@ -28,7 +28,7 @@ pub struct Protocol {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct End {
     pub header: Protocol,
 }
@@ -39,7 +39,7 @@ impl End {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Hardware {
     pub header: Protocol,
 }
@@ -54,7 +54,6 @@ impl Hardware {
 }
 
 #[repr(C, packed)]
-#[derive(Clone, Copy, Debug)]
 pub struct HardDriveMedia {
     pub header: Protocol,
     pub partition_number: u32,
@@ -64,6 +63,18 @@ pub struct HardDriveMedia {
     pub partition_format: u8,
     pub signature_type: u8,
 }
+
+unsafe_derive_clone_assume_copy!(HardDriveMedia);
+
+unsafe_derive_debug_assume_copy!(HardDriveMedia {
+    header,
+    partition_number,
+    partition_start,
+    partition_size,
+    partition_signature,
+    partition_format,
+    signature_type,
+});
 
 pub struct Media {
     pub header: Protocol,

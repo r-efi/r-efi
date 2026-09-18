@@ -257,6 +257,118 @@ macro_rules! eficall {
     ($($arg:tt)*) => { eficall!{@munch((),($($arg)*))} };
 }
 
+/// Derive `Clone` assuming the type was `Copy`.
+///
+/// This will provide a trivial `Clone` implementation for `$type` unsafely
+/// assuming that `$type` was `Copy`. Use this when you do not want `$type` to
+/// expose `Copy`, but still want a trivial `Clone` implementation.
+///
+/// For generic types, pass the generic parameters in brackets before the type,
+/// e.g. `unsafe_derive_clone_assume_copy!([const N: usize] Foo<N>)`.
+///
+/// # Safety
+///
+/// The caller must guarantee that `$type` behaves as if it was `Copy`.
+macro_rules!
+    unsafe_derive_clone_assume_copy
+{
+    ([$($generics:tt)*] $type:ty) => {
+    impl<$($generics)*> core::clone::Clone for $type {
+        fn clone(&self) -> Self {
+            let mut v = core::mem::MaybeUninit::uninit();
+            // SAFETY:
+            // - `self` is valid for reads of `1 * size_of::<Self>()` bytes
+            // - `v` is valid for writes of `1 * size_of::<Self>()` bytes
+            // - both `self` and `v` are properly aligned
+            // - `self` and `v` do not overlap
+            unsafe {
+                core::ptr::copy_nonoverlapping(self, v.as_mut_ptr(), 1);
+            }
+            // SAFETY:
+            // - `v` was initialized as a copy of `self`
+            // - user guarantees that `Self` behaves as if it was `Copy`
+            unsafe {
+                v.assume_init()
+            }
+        }
+    }
+    };
+    ($type:ty) => {
+        unsafe_derive_clone_assume_copy!([] $type);
+    };
+}
+
+/// Derive `Debug` assuming the type was `Copy`.
+///
+/// This provides a trivial `Debug` implementation for `$type` that prints the
+/// listed fields. Each field is read with an unaligned read, so this works for
+/// `#[repr(packed)]` types whose fields cannot be referenced directly, as well
+/// as for types whose fields do not implement `Copy`. Use this when deriving
+/// `Debug` is not possible because `$type` is packed and a field does not
+/// implement `Copy`.
+///
+/// The fields to print are listed in braces after the type, e.g.
+/// `unsafe_derive_debug_assume_copy!(Foo { a, b, c })`.
+///
+/// For generic types, pass the generic parameters in brackets before the type,
+/// e.g. `unsafe_derive_debug_assume_copy!([const N: usize] Foo<N> { a, b })`.
+///
+/// # Safety
+///
+/// The caller must guarantee that each listed field behaves as if it was
+/// `Copy`, since each field is read by value via an unaligned bitwise copy.
+macro_rules!
+    unsafe_derive_debug_assume_copy
+{
+    ([$($generics:tt)*] $type:ty { $($field:ident),* $(,)? }) => {
+    impl<$($generics)*> core::fmt::Debug for $type {
+        fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+            f.debug_struct(core::stringify!($type))
+                $(
+                    .field(
+                        core::stringify!($field),
+                        // SAFETY:
+                        // - `self` is a valid reference, so `addr_of!` yields a
+                        //   valid (possibly unaligned) pointer to the field
+                        // - the field is read with an unaligned read, so packed
+                        //   layouts are handled correctly
+                        // - user guarantees that the field behaves as if it was
+                        //   `Copy`, so reading it by value is sound
+                        &unsafe {
+                            core::ptr::read_unaligned(core::ptr::addr_of!(self.$field))
+                        },
+                    )
+                )*
+                .finish()
+        }
+    }
+    };
+    ($type:ty { $($field:ident),* $(,)? }) => {
+        unsafe_derive_debug_assume_copy!([] $type { $($field),* });
+    };
+}
+
+/// Implement `From<$type>` for `ManuallyDrop<$type>`.
+///
+/// This provides `Into<ManuallyDrop<$type>>` for `$type`, allowing a value to
+/// be wrapped in a [`core::mem::ManuallyDrop`] via [`Into::into`]. It is
+/// primarily useful when initializing union fields, which must be declared as
+/// `ManuallyDrop<$type>` whenever `$type` is not `Copy`. With this conversion,
+/// such fields can be initialized as `Foo { ... }.into()` rather than the more
+/// verbose `core::mem::ManuallyDrop::new(Foo { ... })`.
+///
+/// Since `ManuallyDrop` implements [`core::ops::Deref`], the wrapped value can
+/// be read without bringing `ManuallyDrop` into scope.
+macro_rules!
+    derive_into_manually_drop
+{ ($type:ty) => {
+    impl core::convert::From<$type> for core::mem::ManuallyDrop<$type> {
+        fn from(v: $type) -> Self {
+            core::mem::ManuallyDrop::new(v)
+        }
+    }
+}}
+
 /// Boolean Type
 ///
 /// This boolean type works very similar to the rust primitive type of [`bool`]. However, the rust
@@ -946,6 +1058,26 @@ mod tests {
         eficall! {fn _unused00() {}}
         eficall! {unsafe fn _unused01() {}}
         eficall! {pub unsafe fn _unused02() {}}
+    }
+
+    // Verify unsafe_derive_clone_assume_copy!()
+    //
+    // Test the macro and verify that it properly copies the content.
+    #[test]
+    fn derive_clone() {
+        struct Test {
+            a: u8,
+            b: u32,
+            c: u64,
+        }
+
+        unsafe_derive_clone_assume_copy!(Test);
+
+        let v = Test { a: 1, b: 71, c: 128 };
+
+        assert_eq!(v.a, v.clone().a);
+        assert_eq!(v.b, v.clone().b);
+        assert_eq!(v.c, v.clone().c);
     }
 
     // Verify Boolean ABI

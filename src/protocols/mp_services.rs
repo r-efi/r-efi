@@ -24,7 +24,7 @@ pub const PROCESSOR_HEALTH_STATUS_BIT: u32 = 0x00000004;
 pub const END_OF_CPU_LIST: usize = usize::MAX;
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct CpuPhysicalLocation {
     pub package: u32,
     pub core: u32,
@@ -32,7 +32,7 @@ pub struct CpuPhysicalLocation {
 }
 
 #[repr(C)]
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone)]
 pub struct CpuPhysicalLocation2 {
     pub package: u32,
     pub module: u32,
@@ -42,14 +42,17 @@ pub struct CpuPhysicalLocation2 {
     pub thread: u32,
 }
 
-#[repr(C)]
-#[derive(Clone, Copy)]
-pub union ExtendedProcessorInformation {
-    pub location2: CpuPhysicalLocation2,
-}
+derive_into_manually_drop!(CpuPhysicalLocation2);
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+pub union ExtendedProcessorInformation {
+    pub location2: core::mem::ManuallyDrop<CpuPhysicalLocation2>,
+}
+
+unsafe_derive_clone_assume_copy!(ExtendedProcessorInformation);
+
+#[repr(C)]
+#[derive(Clone)]
 pub struct ProcessorInformation {
     pub processor_id: u64,
     pub status_flag: u32,

@@ -22,7 +22,7 @@ pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::
 );
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ConfigData {
     pub default_protocol: u8,
     pub accept_any_protocol: crate::base::Boolean,
@@ -41,7 +41,7 @@ pub struct ConfigData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct RouteTable {
     pub subnet_address: crate::base::Ipv4Address,
     pub subnet_mask: crate::base::Ipv4Address,
@@ -49,14 +49,14 @@ pub struct RouteTable {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct IcmpType {
     pub r#type: u8,
     pub code: u8,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ModeData {
     pub is_started: crate::base::Boolean,
     pub max_packet_size: u32,
@@ -71,7 +71,7 @@ pub struct ModeData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct CompletionToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,
@@ -79,14 +79,15 @@ pub struct CompletionToken {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union CompletionTokenPacket {
     pub rx_data: *mut ReceiveData,
     pub tx_data: *mut TransmitData,
 }
 
+unsafe_derive_clone_assume_copy!(CompletionTokenPacket);
+
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ReceiveData<const N: usize = 0> {
     pub time_stamp: crate::system::Time,
     pub recycle_signal: crate::base::Event,
@@ -100,7 +101,7 @@ pub struct ReceiveData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct TransmitData<const N: usize = 0> {
     pub destination_address: crate::base::Ipv4Address,
     pub override_data: *mut OverrideData,
@@ -112,7 +113,7 @@ pub struct TransmitData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Header {
     pub header_length_and_version: u8,
     pub type_of_service: u8,
@@ -127,14 +128,14 @@ pub struct Header {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct FragmentData {
     pub fragment_length: u32,
     pub fragment_buffer: *mut core::ffi::c_void,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct OverrideData {
     pub source_address: crate::base::Ipv4Address,
     pub gateway_address: crate::base::Ipv4Address,

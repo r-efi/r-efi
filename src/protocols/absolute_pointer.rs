@@ -26,7 +26,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 pub const SUPPORTS_ALT_ACTIVE: u32 = 0x00000001;
 pub const SUPPORTS_PRESSURE_AS_Z: u32 = 0x00000002;
 
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Debug, Default)]
 #[repr(C)]
 pub struct Mode {
     pub absolute_min_x: u64,
@@ -41,7 +41,7 @@ pub struct Mode {
 pub const TOUCH_ACTIVE: u32 = 0x00000001;
 pub const ALT_ACTIVE: u32 = 0x00000002;
 
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Debug, Default)]
 #[repr(C)]
 pub struct State {
     pub current_x: u64,

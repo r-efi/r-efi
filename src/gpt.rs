@@ -8,7 +8,7 @@
 //     custom-aligned types in packed structures, even though we just want the
 //     behavior of embedding builtin aligned types. We can work around this by
 //     using a private generic and hiding the type.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 #[repr(C, packed(1))]
 pub struct PartitionEntry<__PrivateGuid = crate::base::Guid> {
     pub partition_type_guid: __PrivateGuid,
@@ -18,6 +18,8 @@ pub struct PartitionEntry<__PrivateGuid = crate::base::Guid> {
     pub attributes: u64,
     pub partition_name: [crate::base::Char16; 36],
 }
+
+derive_into_manually_drop!(PartitionEntry);
 
 #[cfg(test)]
 mod test {

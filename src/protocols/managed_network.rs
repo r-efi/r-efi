@@ -24,7 +24,7 @@ pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::
 );
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ConfigData {
     pub received_queue_timeout_value: u32,
     pub transmit_queue_timeout_value: u32,
@@ -39,7 +39,7 @@ pub struct ConfigData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct CompletionToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,
@@ -47,14 +47,15 @@ pub struct CompletionToken {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union CompletionTokenPacket {
     pub rx_data: *mut ReceiveData,
     pub tx_data: *mut TransmitData,
 }
 
+unsafe_derive_clone_assume_copy!(CompletionTokenPacket);
+
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ReceiveData {
     pub timestamp: crate::system::Time,
     pub recycle_event: crate::base::Event,
@@ -73,7 +74,7 @@ pub struct ReceiveData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct TransmitData<const N: usize = 0> {
     pub destination_address: *mut crate::base::MacAddress,
     pub source_address: *mut crate::base::MacAddress,
@@ -85,7 +86,7 @@ pub struct TransmitData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct FragmentData {
     pub fragment_length: u32,
     pub fragment_buffer: *mut core::ffi::c_void,

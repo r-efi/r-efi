@@ -14,7 +14,7 @@ pub const PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::from_fields(
 );
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct PixelBitmask {
     pub red_mask: u32,
     pub green_mask: u32,
@@ -31,7 +31,7 @@ pub const PIXEL_BLT_ONLY: GraphicsPixelFormat = 0x00000003;
 pub const PIXEL_FORMAT_MAX: GraphicsPixelFormat = 0x00000004;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ModeInformation {
     pub version: u32,
     pub horizontal_resolution: u32,
@@ -42,7 +42,7 @@ pub struct ModeInformation {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Mode {
     pub max_mode: u32,
     pub mode: u32,
@@ -53,7 +53,7 @@ pub struct Mode {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct BltPixel {
     pub blue: u8,
     pub green: u8,
