@@ -1064,16 +1064,28 @@ pub type BootLocateProtocol = unsafe extern "efiapi" fn(
     *mut *mut core::ffi::c_void,
 ) -> crate::base::Status;
 
+#[cfg(feature = "msrv-1-91")]
 pub type BootInstallMultipleProtocolInterfaces = unsafe extern "efiapi" fn(
     *mut crate::base::Handle,
-    // XXX: Actual definition is variadic. See eficall!{} for details.
+    ...,
+) -> crate::base::Status;
+
+#[cfg(not(feature = "msrv-1-91"))]
+pub type BootInstallMultipleProtocolInterfaces = unsafe extern "efiapi" fn(
+    *mut crate::base::Handle,
     *mut core::ffi::c_void,
     *mut core::ffi::c_void,
 ) -> crate::base::Status;
 
+#[cfg(feature = "msrv-1-91")]
 pub type BootUninstallMultipleProtocolInterfaces = unsafe extern "efiapi" fn(
     crate::base::Handle,
-    // XXX: Actual definition is variadic. See eficall!{} for details.
+    ...,
+) -> crate::base::Status;
+
+#[cfg(not(feature = "msrv-1-91"))]
+pub type BootUninstallMultipleProtocolInterfaces = unsafe extern "efiapi" fn(
+    crate::base::Handle,
     *mut core::ffi::c_void,
     *mut core::ffi::c_void,
 ) -> crate::base::Status;
