@@ -107,7 +107,7 @@ pub struct Protocol {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct KeyboardLayout<const N: usize = 0> {
     pub layout_length: u16,
     pub guid: crate::base::Guid,
@@ -117,7 +117,7 @@ pub struct KeyboardLayout<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct KeyDescriptor {
     pub key: Key,
     pub unicode: crate::base::Char16,

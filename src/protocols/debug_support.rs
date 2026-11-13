@@ -25,7 +25,6 @@ pub const ISA_RISCV64: InstructionSetArchitecture = 0x5064;
 pub const ISA_RISCV128: InstructionSetArchitecture = 0x5128;
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union SystemContext {
     pub system_context_ebc: *mut SystemContextEbc,
     pub system_context_ia32: *mut SystemContextIa32,
@@ -38,8 +37,10 @@ pub union SystemContext {
     pub system_context_riscv128: *mut SystemContextRiscV128,
 }
 
+unsafe_derive_clone_assume_copy!(SystemContext);
+
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextEbc {
     pub r0: u64,
     pub r1: u64,
@@ -55,7 +56,7 @@ pub struct SystemContextEbc {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextRiscV32 {
     // Integer registers
     pub zero: u32,
@@ -126,7 +127,7 @@ pub struct SystemContextRiscV32 {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextRiscV64 {
     // Integer registers
     pub zero: u64,
@@ -197,7 +198,7 @@ pub struct SystemContextRiscV64 {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextRiscV128 {
     // Integer registers
     pub zero: u128,
@@ -268,7 +269,7 @@ pub struct SystemContextRiscV128 {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextIa32 {
     // ExceptionData is additional data pushed on the stack by some types of IA-32 exceptions
     pub exception_data: u32,
@@ -309,7 +310,7 @@ pub struct SystemContextIa32 {
 
 // FXSAVE_STATE - FP / MMX / XMM registers
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct FxSaveStateIA32 {
     pub fcw: u16,
     pub fsw: u16,
@@ -349,7 +350,7 @@ pub struct FxSaveStateIA32 {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextX64 {
     // ExceptionData is additional data pushed on the stack by some types of x64 64-bit mode exceptions
     pub exception_data: u64,
@@ -399,7 +400,7 @@ pub struct SystemContextX64 {
 
 // FXSAVE_STATE – FP / MMX / XMM registers
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct FxSaveStateX64 {
     pub fcw: u16,
     pub fsw: u16,
@@ -436,7 +437,7 @@ pub struct FxSaveStateX64 {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextIpf {
     pub reserved: u64,
     pub r1: u64,
@@ -564,7 +565,7 @@ pub struct SystemContextIpf {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextArm {
     pub r0: u32,
     pub r1: u32,
@@ -589,7 +590,7 @@ pub struct SystemContextArm {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct SystemContextAArch64 {
     // General Purpose Registers
     pub x0: u64,

@@ -35,7 +35,7 @@ pub const STATE_CLOSE_WAIT: ConnectionState = 0x00000009;
 pub const STATE_LAST_ACK: ConnectionState = 0x0000000a;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ConfigData {
     pub type_of_service: u8,
     pub time_to_live: u8,
@@ -55,7 +55,7 @@ impl Default for ConfigData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Clone, Debug, Default)]
 pub struct AccessPoint {
     pub use_default_address: crate::base::Boolean,
     pub station_address: crate::base::Ipv4Address,
@@ -67,7 +67,7 @@ pub struct AccessPoint {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct r#Option {
     pub receive_buffer_size: u32,
     pub send_buffer_size: u32,
@@ -87,41 +87,42 @@ pub struct r#Option {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct CompletionToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ConnectionToken {
     pub completion_token: CompletionToken,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ListenToken {
     pub completion_token: CompletionToken,
     pub new_child_handle: crate::base::Handle,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct IoToken {
     pub completion_token: CompletionToken,
     pub packet: IoTokenPacket,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union IoTokenPacket {
     pub rx_data: *mut ReceiveData,
     pub tx_data: *mut TransmitData,
 }
 
+unsafe_derive_clone_assume_copy!(IoTokenPacket);
+
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ReceiveData<const N: usize = 0> {
     pub urgent_flag: crate::base::Boolean,
     pub data_length: u32,
@@ -130,14 +131,14 @@ pub struct ReceiveData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct FragmentData {
     pub fragment_length: u32,
     pub fragment_buffer: *mut core::ffi::c_void,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct TransmitData<const N: usize = 0> {
     pub push: crate::base::Boolean,
     pub urgent: crate::base::Boolean,
@@ -147,7 +148,7 @@ pub struct TransmitData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct CloseToken {
     pub completion_token: CompletionToken,
     pub abort_on_close: crate::base::Boolean,

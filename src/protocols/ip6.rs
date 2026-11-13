@@ -22,7 +22,7 @@ pub const SERVICE_BINDING_PROTOCOL_GUID: crate::base::Guid = crate::base::Guid::
 );
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ModeData {
     pub is_started: crate::base::Boolean,
     pub max_packet_size: u32,
@@ -43,7 +43,7 @@ pub struct ModeData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ConfigData {
     pub default_protocol: u8,
     pub accept_any_protocol: crate::base::Boolean,
@@ -59,14 +59,14 @@ pub struct ConfigData {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct AddressInfo {
     pub address: crate::base::Ipv6Address,
     pub prefix_length: u8,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct RouteTable {
     pub gateway: crate::base::Ipv6Address,
     pub destination: crate::base::Ipv6Address,
@@ -82,7 +82,7 @@ pub const NEIGHBOR_DELAY: NeighborState = 0x00000003;
 pub const NEIGHBOR_PROBE: NeighborState = 0x00000004;
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct NeighborCache {
     pub neighbor: crate::base::Ipv6Address,
     pub link_address: crate::base::MacAddress,
@@ -90,7 +90,7 @@ pub struct NeighborCache {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct IcmpType {
     pub r#type: u8,
     pub code: u8,
@@ -129,7 +129,7 @@ pub const ICMP_V6_UNRECOGNIZE_NEXT_HDR: u8 = 0x01;
 pub const ICMP_V6_UNRECOGNIZE_OPTION: u8 = 0x02;
 
 #[repr(C)]
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct CompletionToken {
     pub event: crate::base::Event,
     pub status: crate::base::Status,
@@ -137,14 +137,15 @@ pub struct CompletionToken {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy)]
 pub union CompletionTokenPacket {
     pub rx_data: *mut ReceiveData,
     pub tx_data: *mut TransmitData,
 }
 
+unsafe_derive_clone_assume_copy!(CompletionTokenPacket);
+
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct ReceiveData<const N: usize = 0> {
     pub time_stamp: crate::system::Time,
     pub recycle_signal: crate::base::Event,
@@ -156,7 +157,7 @@ pub struct ReceiveData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Header {
     pub traffic_class_h_version: u8,
     pub flow_label_h_traffic_class_l: u8,
@@ -169,14 +170,14 @@ pub struct Header {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct FragmentData {
     pub fragment_length: u32,
     pub fragment_buffer: *mut core::ffi::c_void,
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct TransmitData<const N: usize = 0> {
     pub destination_address: *mut crate::base::Ipv6Address,
     pub override_data: *mut OverrideData,
@@ -189,7 +190,7 @@ pub struct TransmitData<const N: usize = 0> {
 }
 
 #[repr(C)]
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct OverrideData {
     pub protocol: u8,
     pub hop_limit: u8,
