@@ -1,5 +1,14 @@
 # r-efi - UEFI Reference Specification Protocol Constants and Definitions
 
+## CHANGES WITH 7.2.0:
+
+        * New protocols: EFI_DRIVER_SUPPORTED_EFI_VERSION_PROTOCOL,
+          EFI_COMPONENT_NAME_PROTOCOL, EFI_COMPONENT_NAME2_PROTOCOL
+
+        Contributions from: David Rheinsberg, Michael Kubacki
+
+        - Dußlingen, 2026-11-13
+
 ## CHANGES WITH 7.1.0:
 
         * Add the UEFI USB IO protocol.
