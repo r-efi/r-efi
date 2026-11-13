@@ -65,7 +65,7 @@ pub type ProtocolSetState = unsafe extern "efiapi" fn(
 pub type ProtocolRegisterKeyNotify = unsafe extern "efiapi" fn(
     *mut Protocol,
     *mut KeyData,
-    KeyNotifyFunction,
+    Option<KeyNotifyFunction>,
     *mut *mut core::ffi::c_void,
 ) -> crate::base::Status;
 

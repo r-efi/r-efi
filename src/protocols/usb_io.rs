@@ -94,7 +94,7 @@ pub type ProtocolAsyncIsochronousTransfer = unsafe extern "efiapi" fn(
     u8,
     *mut core::ffi::c_void,
     usize,
-    AsyncUsbTransferCallback,
+    Option<AsyncUsbTransferCallback>,
     *mut core::ffi::c_void,
 ) -> crate::base::Status;
 

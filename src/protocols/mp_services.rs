@@ -73,7 +73,7 @@ pub type GetProcessorInfo = unsafe extern "efiapi" fn(
 
 pub type StartupAllAps = unsafe extern "efiapi" fn(
     *mut Protocol,
-    ApProcedure,
+    Option<ApProcedure>,
     crate::base::Boolean,
     crate::base::Event,
     usize,
@@ -83,7 +83,7 @@ pub type StartupAllAps = unsafe extern "efiapi" fn(
 
 pub type StartupThisAp = unsafe extern "efiapi" fn(
     *mut Protocol,
-    ApProcedure,
+    Option<ApProcedure>,
     usize,
     crate::base::Event,
     usize,

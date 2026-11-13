@@ -57,7 +57,7 @@ pub type ProtocolRegisterPackageNotify = unsafe extern "efiapi" fn(
     *const Protocol,
     u8,
     *const crate::base::Guid,
-    Notify,
+    Option<Notify>,
     NotifyType,
     *mut crate::base::Handle,
 ) -> crate::base::Status;
